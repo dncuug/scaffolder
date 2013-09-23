@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Microsoft.Web.Helpers;
+using System;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Microsoft.Web.Helpers;
-
 
 namespace X.Scaffolding
 {
+    /// <summary>
+    /// Extension methoda for Html helper
+    /// </summary>
     public static class Extensions
     {
         //
@@ -98,16 +100,24 @@ namespace X.Scaffolding
 
             var sb = new StringBuilder();
 
-            if (!String.IsNullOrEmpty(value))
-            {
-                sb.AppendFormat("<img src=\"{0}\" />", value);
-            }
+            var name = value.ToLower();
 
             sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
+
+            var isImage = name.Contains("jpg") ||
+                          name.Contains("jpeg") ||
+                          name.Contains("png") ||
+                          name.Contains("gif") ||
+                          name.Contains("bmp");
+
+            if (!String.IsNullOrEmpty(value) && isImage)
+            {
+                sb.AppendFormat("<img class=\"preview\" src=\"{0}\" />", value);
+            }
+            
             sb.AppendLine();
 
             return MvcHtmlString.Create(sb.ToString());
         }
-
     }
 }
