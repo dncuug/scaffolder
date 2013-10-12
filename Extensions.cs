@@ -1,10 +1,10 @@
-﻿using Microsoft.Web.Helpers;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Microsoft.Web.Helpers;
 
 namespace X.Scaffolding
 {
@@ -114,7 +114,7 @@ namespace X.Scaffolding
             {
                 sb.AppendFormat("<img class=\"preview\" src=\"{0}\" />", value);
             }
-            
+
             sb.AppendLine();
 
             return MvcHtmlString.Create(sb.ToString());
