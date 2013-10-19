@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Microsoft.Web.Helpers;
+//using Microsoft.Web.Helpers;
 
 namespace X.Scaffolding
 {
@@ -102,7 +102,9 @@ namespace X.Scaffolding
 
             var name = value.ToLower();
 
-            sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
+            //sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
+            sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null));
+
 
             var isImage = name.Contains("jpg") ||
                           name.Contains("jpeg") ||
@@ -118,6 +120,28 @@ namespace X.Scaffolding
             sb.AppendLine();
 
             return MvcHtmlString.Create(sb.ToString());
+        }
+
+
+        /// <summary>
+        /// Only for compatible, while WebHepers assembly not support MVC 5
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="initialNumberOfFiles"></param>
+        /// <param name="allowMoreFilesToBeAdded"></param>
+        /// <param name="includeFormTag"></param>
+        /// <param name="addText"></param>
+        /// <param name="uploadText"></param>
+        /// <returns></returns>
+        private static string GetFileUploadHtml(string name = null, int initialNumberOfFiles = 1, bool allowMoreFilesToBeAdded = true, bool includeFormTag = true, string addText = null, string uploadText = null)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendFormat(@"<div class=""file-upload"" id=""file-upload-0"">
+            <div><input name=""{0}"" type=""file"" /></div></div>", name);
+
+            return sb.ToString();
+
         }
     }
 }
