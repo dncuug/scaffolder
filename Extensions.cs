@@ -86,13 +86,11 @@ namespace X.Scaffolding
         public static MvcHtmlString DatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine(
-                html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString());
-            return MvcHtmlString.Create(sb.ToString());
+            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString();
+            return MvcHtmlString.Create(text);
         }
 
-        public static MvcHtmlString ImageUploadFor<TModel, TValue>(this HtmlHelper<TModel> html,
+        public static MvcHtmlString FileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression)
         {
             var id = html.IdFor(expression).ToString();
@@ -103,8 +101,7 @@ namespace X.Scaffolding
             var name = value.ToLower();
 
             //sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
-            sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null));
-
+            sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null, value));
 
             var isImage = name.Contains("jpg") ||
                           name.Contains("jpeg") ||
@@ -114,7 +111,8 @@ namespace X.Scaffolding
 
             if (!String.IsNullOrEmpty(value) && isImage)
             {
-                sb.AppendFormat("<img class=\"preview\" src=\"{0}\" />", value);
+                sb.AppendFormat(RenderThumbnail(value));
+                //sb.AppendFormat("<img class=\"preview\" src=\"{0}\" />", value);
             }
 
             sb.AppendLine();
@@ -122,6 +120,44 @@ namespace X.Scaffolding
             return MvcHtmlString.Create(sb.ToString());
         }
 
+        public static MvcHtmlString ThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var value = html.ValueFor(expression).ToString();
+            return MvcHtmlString.Create(RenderThumbnail(value));
+        }
+
+        private static string RenderThumbnail(string value)
+        {
+            return String.Format("<a href=\"#\" class=\"thumbnail\"><img src=\"{0}\" /\"></a>", value);
+        }
+
+        public static MvcHtmlString TextEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var text = html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString();
+            return MvcHtmlString.Create(text);
+        }
+
+        public static MvcHtmlString MultilineTextEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var text = html.TextAreaFor(expression, new { type = "text", @class = "form-control" }).ToString();
+            return MvcHtmlString.Create(text);
+        }
+
+        public static MvcHtmlString EmailEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
+            sb.AppendLine(html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString());
+            sb.AppendLine("</div>");
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
 
         /// <summary>
         /// Only for compatible, while WebHepers assembly not support MVC 5
@@ -132,13 +168,21 @@ namespace X.Scaffolding
         /// <param name="includeFormTag"></param>
         /// <param name="addText"></param>
         /// <param name="uploadText"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        private static string GetFileUploadHtml(string name = null, int initialNumberOfFiles = 1, bool allowMoreFilesToBeAdded = true, bool includeFormTag = true, string addText = null, string uploadText = null)
+        private static string GetFileUploadHtml(string name = null, int initialNumberOfFiles = 1, bool allowMoreFilesToBeAdded = true, bool includeFormTag = true, string addText = null, string uploadText = null, string value = null)
         {
             var sb = new StringBuilder();
 
-            sb.AppendFormat(@"<div class=""file-upload"" id=""file-upload-0"">
-            <div><input name=""{0}"" type=""file"" /></div></div>", name);
+            if (String.IsNullOrEmpty(value))
+            {
+                sb.AppendFormat(@"<div class=""file-upload"" id=""{0}""><div><input name=""{0}"" type=""file"" /></div></div>", name);
+            }
+            else
+            {
+                sb.AppendFormat(@"<div class=""file-upload"" id=""{0}""><div><input name=""{0}"" type=""file"" value=""{1}"" /></div></div>", name, value);
+                sb.AppendFormat(@"<input type=""hidden"" id=""{0}"" name=""{0}"" value=""{1}"" /> ", name, value);
+            }
 
             return sb.ToString();
 
