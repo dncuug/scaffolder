@@ -159,6 +159,26 @@ namespace X.Scaffolding
             return MvcHtmlString.Create(sb.ToString());
         }
 
+        public static MvcHtmlString VideoPlayerEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
+        {
+            string str = ValueExtensions.ValueFor<TModel, TValue>(html, expression).ToString();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(Extensions.TextEditorFor<TModel, TValue>(html, expression).ToHtmlString());
+            if (!string.IsNullOrEmpty(str))
+                stringBuilder.AppendLine(Extensions.VideoPlayerFor<TModel, TValue>(html, expression, width, height).ToHtmlString());
+            return MvcHtmlString.Create(((object)stringBuilder).ToString());
+        }
+
+        public static MvcHtmlString VideoPlayerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
+        {
+            string url = ValueExtensions.ValueFor<TModel, TValue>(html, expression).ToHtmlString();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<a class=\"thumbnail\" href=\"#\">");
+            stringBuilder.AppendLine(new VideoParser().GetPlayer(url, width, height));
+            stringBuilder.AppendLine("</a>");
+            return MvcHtmlString.Create(((object)stringBuilder).ToString());
+        }
+
         /// <summary>
         /// Only for compatible, while WebHepers assembly not support MVC 5
         /// </summary>
