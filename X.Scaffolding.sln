@@ -12,14 +12,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB34D5
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F21E8A45-8CF7-43ED-9FF9-046E9CDB6A4F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{903639BE-A35C-4003-B13D-F3CF25314F0D}"
 	ProjectSection(SolutionItems) = preProject
-		Web\_ViewStart.cshtml = Web\_ViewStart.cshtml
 		Web\favicon.ico = Web\favicon.ico
-		Web\global.css = Web\global.css
-		Web\scaffolding.css = Web\scaffolding.css
-		Web\scaffolding.js = Web\scaffolding.js
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{F2247688-FA47-4289-A966-76ABA1BDEEE4}"
+	ProjectSection(SolutionItems) = preProject
+		Web\Content\global.css = Web\Content\global.css
+		Web\Content\scaffolding.css = Web\Content\scaffolding.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{1660D318-2361-4719-95C8-3FCA9D07B669}"
+	ProjectSection(SolutionItems) = preProject
+		Web\Scripts\scaffolding.js = Web\Scripts\scaffolding.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{277C9F82-ECB9-4CF5-ABFD-3FC604DB9681}"
+	ProjectSection(SolutionItems) = preProject
+		Web\Views\_ViewStart.cshtml = Web\Views\_ViewStart.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{D616933C-E2F4-46BA-8F8F-15C99278B715}"
+	ProjectSection(SolutionItems) = preProject
+		Web\Views\System\Login.cshtml = Web\Views\System\Login.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{E2347AFB-6778-459F-B6BA-946A938B23FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +53,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F2247688-FA47-4289-A966-76ABA1BDEEE4} = {903639BE-A35C-4003-B13D-F3CF25314F0D}
+		{1660D318-2361-4719-95C8-3FCA9D07B669} = {903639BE-A35C-4003-B13D-F3CF25314F0D}
+		{277C9F82-ECB9-4CF5-ABFD-3FC604DB9681} = {903639BE-A35C-4003-B13D-F3CF25314F0D}
+		{E2347AFB-6778-459F-B6BA-946A938B23FC} = {903639BE-A35C-4003-B13D-F3CF25314F0D}
+		{D616933C-E2F4-46BA-8F8F-15C99278B715} = {277C9F82-ECB9-4CF5-ABFD-3FC604DB9681}
 	EndGlobalSection
 EndGlobal
