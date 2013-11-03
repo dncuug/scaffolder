@@ -11,40 +11,41 @@ namespace X.Scaffolding
         {
         }
 
-        private string GetVideoCode(string url, out VideoParser.Player player)
+        private static string GetVideoCode(string url, out Player player)
         {
-            Match match1 = VideoParser._youtubeVideoRegex.Match(url);
-            Match match2 = VideoParser._vimeoVideoRegex.Match(url);
-            string str = string.Empty;
-            player = VideoParser.Player.Unknown;
-            if (match1.Success)
+            var youtubeMatch = _youtubeVideoRegex.Match(url);
+            var vimeoMatch = _vimeoVideoRegex.Match(url);
+
+            var result = string.Empty;
+            player = Player.Unknown;
+
+            if (youtubeMatch.Success)
             {
-                str = match1.Groups[1].Value;
-                player = VideoParser.Player.Youtube;
+                result = youtubeMatch.Groups[1].Value;
+                player = Player.Youtube;
             }
-            if (match2.Success)
+
+            if (vimeoMatch.Success)
             {
-                str = match2.Groups[1].Value;
-                player = VideoParser.Player.Vimeo;
+                result = vimeoMatch.Groups[1].Value;
+                player = Player.Vimeo;
             }
-            return str;
+
+            return result;
         }
 
         public string GetPlayer(string url, int width = 0, int height = 315)
         {
-            string str = width == 0 ? "100%" : width.ToString();
-            VideoParser.Player player;
-            string videoCode = this.GetVideoCode(url, out player);
+            var strWidth = width == 0 ? "100%" : width.ToString();
+            Player player;
+            var videoCode = GetVideoCode(url, out player);
+
             switch (player)
             {
-                case VideoParser.Player.Unknown:
-                    return url;
-                case VideoParser.Player.Youtube:
-                    return string.Format("<iframe width=\"{0}\" height=\"{1}\" src=\"//www.youtube.com/embed/{2}\" frameborder=\"0\" allowfullscreen></iframe>", (object)str, (object)height, (object)videoCode);
-                case VideoParser.Player.Vimeo:
-                    return string.Format("<iframe src=\"//player.vimeo.com/video/{2}\" width=\"{0}\" height=\"{1}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>", (object)str, (object)height, (object)videoCode);
-                default:
-                    return url;
+                case Player.Unknown: return url;
+                case Player.Youtube: return string.Format("<iframe width=\"{0}\" height=\"{1}\" src=\"//www.youtube.com/embed/{2}\" frameborder=\"0\" allowfullscreen></iframe>", strWidth, height, videoCode);
+                case Player.Vimeo: return string.Format("<iframe src=\"//player.vimeo.com/video/{2}\" width=\"{0}\" height=\"{1}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>", strWidth, height, videoCode);
+                default: return url;
             }
         }
 

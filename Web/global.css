@@ -1,0 +1,420 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,700&subset=latin,cyrillic);
+
+html, body {
+    font-weight: 300;
+    font-family: 'Roboto',sans-serif;
+}
+
+html {
+    background-color: #F0F0F0;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #4A8BC2;
+    font-weight: 300;
+    font-family: 'Roboto',sans-serif;
+    text-align: left;
+}
+
+a {
+    color: #333333 !important;
+    text-decoration: none !important;
+}
+
+    a:hover {
+        color: #318FC1 !important;
+        text-decoration: none !important;
+    }
+
+.container {
+    max-width: 100%;
+}
+
+header {
+    border-top: 3px solid #3276B1 !important;
+    background-color: #4A8BC2 !important;
+    background: linear-gradient(to bottom, #4A8BC2, #4A8BC2) repeat scroll 0 0 #4A8BC2 !important;
+}
+
+    header a {
+        color: #FFF !Important;
+    }
+
+        header a:hover {
+            background: none repeat scroll 0 0 #000000 !important;
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.20) !important;
+            color: #FFFFFF !important;
+        }
+
+    header .navbar-toggle .icon-bar {
+        background-color: #FFF;
+    }
+
+    header.navbar {
+        background-image: none !important;
+        background-repeat: repeat-x;
+        -ms-border-radius: 0 !important;
+        border-radius: 0 !important;
+        -webkit-box-shadow: none;
+        -ms-box-shadow: none;
+        box-shadow: none;
+    }
+
+footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    background-color: #F0F0F0;
+    font-size: 9pt;
+}
+
+    footer div {
+        padding-right: 15px;
+        padding-bottom: 15px;
+        padding-left: 15px;
+    }
+
+    footer .wrapper {
+        padding: 15px;
+    }
+
+
+.menu {
+    margin: 0;
+    padding: 0;
+}
+
+    .menu.affix {
+        top: 40px;
+    }
+
+    .menu > li:first-child > a {
+    }
+
+    .menu > li > a {
+        display: block;
+        margin: 0;
+        padding: 8px 14px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #FDFDFD #CCCCCC #CCCCCC;
+        border-top: none;
+        color: #5F5F5F;
+        font-size: 10pt;
+    }
+
+        .menu > li > a:hover {
+            padding-left: 12px;
+            border-left: 3px solid;
+        }
+
+    .menu i {
+        display: inline-block;
+        margin-top: 1px !important;
+        margin-right: 8px !important;
+    }
+
+
+.panel-default > .panel-heading,
+.panel-heading {
+    background-color: #4A8BC2 !important;
+}
+
+    .panel-heading h3 {
+        color: #FFF;
+    }
+
+.sidebar-nav .logo {
+    display: block;
+    margin: auto;
+    padding-top: 45px;
+}
+
+.sidebar {
+    margin-bottom: 15px;
+    background-color: #FFF;
+}
+
+    .sidebar i {
+        margin-top: 1px;
+        font-size: 9pt;
+    }
+
+
+.top-space {
+    padding-top: 80px;
+}
+
+
+.logo-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    border: 1px solid #CCCCCC;
+    color: #777777;
+}
+
+.content {
+}
+
+.preview {
+    border: 1px solid #cccccc;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+
+
+
+
+.control-panel a {
+    color: #FFF !important;
+    width: 200px;
+}
+
+.datepicker table tr td span, .datepicker td, .datepicker th, select, .cke_toolgroup, .cke_combo_button, .alert, .table-bordered,
+.table-bordered thead:last-child tr:last-child > th:first-child, .table-bordered tbody:last-child tr:last-child > td:first-child,
+.table-bordered tbody:last-child tr:last-child > th:first-child, .table-bordered tfoot:last-child tr:last-child > td:first-child,
+.table-bordered tfoot:last-child tr:last-child > th:first-child, .table-bordered thead:first-child tr:first-child > th:first-child,
+.table-bordered tbody:first-child tr:first-child > td:first-child, .table-bordered tbody:first-child tr:first-child > th:first-child,
+.chzn-container-single .chzn-drop, .chzn-container-single .chzn-single, .chzn-container-multi .chzn-choices .search-choice,
+.chzn-container-active .chzn-single-with-drop, .cke_reset_all, .cke_reset_all *, .btn, textarea input[type="text"],
+input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"],
+input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"],
+input[type="tel"], input[type="color"], .uneditable-input, .cke_dialog_ui_button_ok, .panel, .form-control,
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"],
+input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"],
+input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input,
+a.cke_dialog_ui_button, a.cke_dialog_ui_button_ok, .cke_button_on, .cke_chrome, .panel-heading, .input-group-addon {
+    -ms-border-radius: 0 0 0 0 !important;
+    border-radius: 0 0 0 0 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    -ms-text-shadow: none !important;
+    -webkit-text-shadow: none !important;
+    text-shadow: none !important;
+}
+
+    .chzn-container-single .chzn-single span,
+    .chzn-container .chzn-results .active-result,
+    div.DDBottomHyperLink {
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+    }
+
+
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover,
+.chzn-container .chzn-results .highlighted {
+    background-color: #318FC1 !important;
+    background-image: none;
+}
+
+
+
+.break-word {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.chzn-drop,
+.chzn-container,
+.chzn-single-with-drop {
+    -moz-min-width: 250px;
+    -ms-min-width: 250px;
+    -o-min-width: 250px;
+    -webkit-min-width: 250px;
+    min-width: 250px;
+}
+
+
+.password,
+.phone,
+.email {
+    max-width: 300px;
+    -moz-min-width: 100px !important;
+    -ms-min-width: 100px !important;
+    -o-min-width: 100px !important;
+    -webkit-min-width: 100px !important;
+    min-width: 100px !important;
+}
+
+
+.cke_reset_all, .cke_reset_all *,
+.cke_combo_button {
+    background-color: #FFF;
+    background-image: none !important;
+}
+
+
+.cke_combo_off a.cke_combo_button:active, .cke_combo_on a.cke_combo_button {
+    border: 1px solid #777777;
+    background: #EBEBEB !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.cke_top {
+    background: #FFF !important;
+}
+
+.cke_bottom {
+    background: #FFF !important;
+}
+
+
+.cke_panel_grouptitle {
+    background: #FFF !important;
+}
+
+.cke_dialog_title {
+    background: #EEE !important;
+}
+
+.cke_dialog_body,
+.cke_dialog_title,
+.cke_dialog_footer,
+.cke_reset_all,
+.cke_combo_button,
+.cke_toolgroup {
+    background: #FFF !important;
+}
+
+input.cke_dialog_ui_input_text, input.cke_dialog_ui_input_password, textarea.cke_dialog_ui_input_textarea {
+    -ms-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.cke_button_on {
+    background: none repeat scroll 0 0 #DDDDDD;
+}
+
+a.cke_dialog_ui_button {
+    background: #FFF !important;
+    padding: 6px 15px 6px 12px !important;
+}
+
+    a.cke_dialog_ui_button:hover {
+        background: #EBEBEB !important;
+    }
+
+a.cke_dialog_ui_button_ok {
+    border-color: #357EBD !important;
+    background: #428BCA !important;
+    color: #FFFFFF;
+}
+
+    a.cke_dialog_ui_button_ok span {
+        font-weight: 400 !important;
+    }
+
+    a.cke_dialog_ui_button_ok:hover {
+        background-color: #3276B1 !important;
+        color: #FFFFFF !important;
+    }
+
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button span {
+    font-weight: 400 !important;
+    font-size: 14px !important;
+}
+
+.cke_dialog .ImagePreviewBox {
+    border: 1px solid #AAA !important;
+}
+
+.cke_chrome {
+    border: 1px solid #DDDDDD;
+    display: block;
+    padding: 0;
+}
+
+.panel-title i {
+    font-size: 10pt;
+    margin-right: 7px;
+}
+
+.chzn-container-single .chzn-single {
+    background: none !important;
+    background-image: none !important;
+    min-height: 30px !important;
+}
+
+
+.btn,
+.panel-default > .panel-heading {
+    background-image: none !important;
+}
+
+.form-signin {
+    margin: 50px auto 200px;
+    max-width: 330px;
+    padding: 15px;
+}
+
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+
+    .form-signin .checkbox {
+        font-weight: normal;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        -ms-border-bottom-left-radius: 0;
+        border-bottom-left-radius: 0;
+        -ms-border-bottom-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        -ms-border-top-left-radius: 0;
+        border-top-left-radius: 0;
+        -ms-border-top-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+
+
+@media (max-width: 767px) {
+
+    .sidebar {
+        margin: auto;
+    }
+
+    .sidebar-nav {
+        margin-top: 0 !important;
+    }
+
+    .page {
+        margin-top: 0 !important;
+    }
+
+    header {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 979px) {
+    .sidebar {
+        margin-top: -40px;
+    }
+}

@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 //using Microsoft.Web.Helpers;
@@ -13,6 +14,22 @@ namespace X.Scaffolding
     /// </summary>
     public static class Extensions
     {
+        private static string GetWebApplicationUrl()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+                var urlHelper = new UrlHelper(request.RequestContext);
+                var result = String.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority,
+                    urlHelper.Content("~"));
+                return result;
+            }
+            catch
+            {
+                return "/";
+            }
+        }
+
         //
         // Summary:
         //     Returns an CKEdiotr for element for each property in the object that is represented
@@ -45,7 +62,10 @@ namespace X.Scaffolding
             var sb = new StringBuilder();
 
             sb.AppendLine(html.TextAreaFor(expression).ToString());
-            sb.AppendFormat(@"<script src=""/Scripts/ckeditor/ckeditor.js""></script>
+
+            var ckeditorScriptLocation = String.Format("{0}Scripts/ckeditor/ckeditor.js", GetWebApplicationUrl());
+
+            sb.AppendFormat(@"<script src=""{2}""></script>
                                 <script>
                                     var editor = CKEDITOR.replace('{0}', {{
                                         language: '{1}',
@@ -78,7 +98,7 @@ namespace X.Scaffolding
                                         teaxtarea.val(html);
                                     }});
     
-                                </script>", id, lang);
+                                </script>", id, lang, ckeditorScriptLocation);
 
             return MvcHtmlString.Create(sb.ToString());
         }
@@ -161,18 +181,22 @@ namespace X.Scaffolding
 
         public static MvcHtmlString VideoPlayerEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
         {
-            string str = ValueExtensions.ValueFor<TModel, TValue>(html, expression).ToString();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(Extensions.TextEditorFor<TModel, TValue>(html, expression).ToHtmlString());
+            var str = html.ValueFor(expression).ToString();
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(html.TextEditorFor(expression).ToHtmlString());
+            
             if (!string.IsNullOrEmpty(str))
-                stringBuilder.AppendLine(Extensions.VideoPlayerFor<TModel, TValue>(html, expression, width, height).ToHtmlString());
-            return MvcHtmlString.Create(((object)stringBuilder).ToString());
+            {
+                stringBuilder.AppendLine(VideoPlayerFor(html, expression, width, height).ToHtmlString());
+            }
+
+            return MvcHtmlString.Create(stringBuilder.ToString());
         }
 
         public static MvcHtmlString VideoPlayerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
         {
-            string url = ValueExtensions.ValueFor<TModel, TValue>(html, expression).ToHtmlString();
-            StringBuilder stringBuilder = new StringBuilder();
+            var url = html.ValueFor(expression).ToHtmlString();
+            var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<a class=\"thumbnail\" href=\"#\">");
             stringBuilder.AppendLine(new VideoParser().GetPlayer(url, width, height));
             stringBuilder.AppendLine("</a>");

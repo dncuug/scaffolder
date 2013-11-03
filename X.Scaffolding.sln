@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Scaffolding", "X.Scaffolding.csproj", "{B02D73EE-8511-4E51-9A8B-0B7DDA3C04A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB34D5E8-D5D3-4343-B9ED-058F811AD986}"
@@ -10,9 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB34D5
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C443B82-4D6E-45C3-96A5-E2690E96165B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F21E8A45-8CF7-43ED-9FF9-046E9CDB6A4F}"
 	ProjectSection(SolutionItems) = preProject
-		favicon.ico = favicon.ico
+		Web\_ViewStart.cshtml = Web\_ViewStart.cshtml
+		Web\favicon.ico = Web\favicon.ico
+		Web\global.css = Web\global.css
+		Web\scaffolding.css = Web\scaffolding.css
+		Web\scaffolding.js = Web\scaffolding.js
 	EndProjectSection
 EndProject
 Global
