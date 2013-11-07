@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace X.Scaffolding
+namespace X.Scaffolding.Core
 {
     /// <summary>
     /// Extension methoda for Html helper

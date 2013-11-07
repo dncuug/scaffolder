@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace X.Scaffolding
+namespace X.Scaffolding.Core
 {
     internal class VideoParser
     {
