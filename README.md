@@ -17,3 +17,10 @@ X.Scaffolding is a part of X-Framework library.
 To install X.Scaffolding, run the following command in the Package Manager Console 
 
 PM> Install-Package xscaffolding
+
+
+###Importantn update!
+In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffolding.Core:<br />
+
+* <b>X.Scaffolding.Core</b> contains only core functionality of library<br />
+* <b>X.Scaffolding contains</b> dependency to X.Scaffolding.Core and styles for web-application, dependecy for Entity Framework 6.0, dependency for Windows Azure Storage
