@@ -122,11 +122,11 @@ namespace X.Scaffolding
             //sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
             sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null, value));
 
-            var isImage = name.Contains("jpg") ||
-                          name.Contains("jpeg") ||
-                          name.Contains("png") ||
-                          name.Contains("gif") ||
-                          name.Contains("bmp");
+            var isImage = name.EndsWith("jpg") ||
+                          name.EndsWith("jpeg") ||
+                          name.EndsWith("png") ||
+                          name.EndsWith("gif") ||
+                          name.EndsWith("bmp");
 
             if (!String.IsNullOrEmpty(value) && isImage)
             {
