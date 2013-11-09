@@ -1,0 +1,44 @@
+﻿@model String
+@{
+    var isImage = !String.IsNullOrEmpty(Model) && (Model.EndsWith("jpg") ||
+                                                   Model.EndsWith("jpeg") ||
+                                                   Model.EndsWith("png") ||
+                                                   Model.EndsWith("gif") ||
+                                                   Model.EndsWith("bmp"));
+}
+
+<h1>File uploading</h1>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <input type="file" name="file" />
+    <br />
+    <input type="submit" value="Upload" class="btn btn-primary" />
+    <br />
+    <br />
+}
+
+@if (Request.HttpMethod == "POST" && String.IsNullOrEmpty(Model))
+{
+    <div class="alert alert-danger">
+        Cannot upload file
+    </div>
+}
+
+@if (Request.HttpMethod == "POST" && !String.IsNullOrEmpty(Model))
+{
+    <div class="input-group">
+        <span class="input-group-addon">File url:</span>
+        <input type="text" class="form-control" value="@Model" placeholder="Username">
+    </div>
+    <br />
+    if (isImage)
+    {
+        <a href="#" class="thumbnail file-preview">
+            <img src="@Model">
+        </a>
+    }
+}
+

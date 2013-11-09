@@ -60,6 +60,10 @@ header {
         box-shadow: none;
     }
 
+.navbar-inverse {
+    border-color: #3276B1 !important;
+}
+
 footer {
     margin-top: 25px;
     padding-top: 15px;
@@ -392,6 +396,10 @@ a.cke_dialog_ui_button_ok {
     }
 
 
+.file-preview {
+    max-width: 300px;
+}
+
 
 @media (max-width: 767px) {
 
@@ -420,7 +428,9 @@ a.cke_dialog_ui_button_ok {
 }
 
 
-
+.body-content {
+    min-height: 700px;
+}
 
 /*Login Form*/
 
