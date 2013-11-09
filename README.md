@@ -24,3 +24,8 @@ In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffoldi
 
 * <b>X.Scaffolding.Core</b> contains only core functionality of library<br />
 * <b>X.Scaffolding contains</b> dependency to X.Scaffolding.Core and styles for web-application, dependecy for Entity Framework 6.0, dependency for Windows Azure Storage
+
+
+###NuGet
+You can install X.Scaffolding package from NuGet at https://www.nuget.org/packages/xscaffolding/
+ 
