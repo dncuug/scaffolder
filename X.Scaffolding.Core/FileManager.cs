@@ -30,23 +30,20 @@ namespace X.Scaffolding.Core
         /// 
         /// </summary>
         /// <param name="bytes"></param>
-        /// <param name="originalFileName"></param>
+        /// <param name="fileName"></param>
         /// <param name="storageUrl"></param>
         /// <param name="storageConnectionString"></param>
         /// <param name="blobContainerName"></param>
         /// <returns></returns>
-        public static string UploadFile(byte[] bytes, string originalFileName, string storageUrl, string storageConnectionString, string blobContainerName = "")
+        public static string UploadFile(byte[] bytes, string fileName, string storageUrl, string storageConnectionString, string blobContainerName = "")
         {
             if (String.IsNullOrEmpty(StorageUrl) || String.IsNullOrEmpty(StorageConnectionString))
             {
                 throw new Exception("Storage url or storage connection string not initialized. Please initilaize FileManager by using Initialize() method.");
             }
 
-            originalFileName = originalFileName.ToLower();
-            var extension = Path.GetExtension(originalFileName);
-            var name = Guid.NewGuid() + extension;
 
-            var url = String.Format("{0}{1}", storageUrl, name);
+            var url = String.Format("{0}{1}", storageUrl, fileName);
 
             var storageType = GetStorageType(storageConnectionString);
 
@@ -54,7 +51,7 @@ namespace X.Scaffolding.Core
             {
                 case Storage.FileSystem:
                     {
-                        var path = String.Format("{0}{1}", storageConnectionString, name);
+                        var path = String.Format("{0}{1}", storageConnectionString, fileName);
                         File.WriteAllBytes(path, bytes);
                         break;
                     }
@@ -70,7 +67,7 @@ namespace X.Scaffolding.Core
                         var container = blobClient.GetContainerReference(blobContainerName);
 
                         // Retrieve reference to a blob named "myblob".
-                        var blockBlob = container.GetBlockBlobReference(name);
+                        var blockBlob = container.GetBlockBlobReference(fileName);
 
                         // Create or overwrite the blob with contents from a file.
                         var stream = new MemoryStream(bytes);
@@ -82,7 +79,7 @@ namespace X.Scaffolding.Core
 
                 case Storage.Ftp:
                     {
-                        var path = storageConnectionString + name;
+                        var path = storageConnectionString + fileName;
                         var ftp = new Ftp();
                         ftp.UploadFile(bytes, path);
                         break;
