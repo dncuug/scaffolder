@@ -432,6 +432,10 @@ a.cke_dialog_ui_button_ok {
     min-height: 700px;
 }
 
+.table td:last-child {
+    text-align: right;
+}
+
 /*Login Form*/
 
 .form-signin {

@@ -1,4 +1,4 @@
-@model dynamic
+@model NetworkCredential
 
 @{
     ViewBag.Title = "Login";
@@ -9,11 +9,13 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <h1 class="text-center login-title">Sign in</h1>
             <div class="account-wall">
-                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                     alt="">
-                <form class="form-signin">
-                    <input type="text" class="form-control" placeholder="Email" required autofocus>
-                    <input type="password" class="form-control" placeholder="Password" required>
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-signin" }))
+                {
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Email" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
+
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
                         Sign in
                     </button>
@@ -21,8 +23,16 @@
                         <input type="checkbox" value="remember-me">
                         Remember me
                     </label>
-                    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
-                </form>
+                    <a href="#" class="pull-right need-help">Need help? </a>
+                    <span class="clearfix"></span>
+
+                    if (Request.HttpMethod == "POST")
+                    {
+                        <div class="alert alert-danger">
+                            Incorrect login or password
+                        </div>
+                    }
+                }
             </div>
             <a href="#" class="text-center new-account">Create an account </a>
         </div>
