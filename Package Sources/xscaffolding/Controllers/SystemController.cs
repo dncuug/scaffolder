@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -8,14 +8,14 @@ using System.Web.Mvc;
 using System.Web.Security;
 using X.Scaffolding.Core;
 
-namespace $rootNamespace$.Controllers
+namespace Manage.Controllers
 {
     public class SystemController : Controller
     {
         public ActionResult Login()
         {
             return View(new NetworkCredential());
-        }        
+        }
 
         [HttpPost]
         public ActionResult Login(NetworkCredential credentials)
@@ -25,7 +25,7 @@ namespace $rootNamespace$.Controllers
                 FormsAuthentication.RedirectFromLoginPage(credentials.UserName, true);
                 return Redirect("~/");
             }
-            
+
             return View(credentials);
         }
 
@@ -33,7 +33,7 @@ namespace $rootNamespace$.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult UploadFile(HttpPostedFileBase file)
         {
