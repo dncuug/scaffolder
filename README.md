@@ -1,3 +1,5 @@
+![logo](http://habr.habrastorage.org/post_images/cd1/e11/044/cd1e110448292251b0a55262ab63c46f.png)
+
 ##X.Scaffolding
 
 Library for extend ASP.NET Scaffolding functionality with next packages:
