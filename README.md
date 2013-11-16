@@ -19,7 +19,7 @@ To install X.Scaffolding, run the following command in the Package Manager Conso
 PM> Install-Package xscaffolding
 
 
-###Importantn update!
+###Important update!
 In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffolding.Core:<br />
 
 * <b>X.Scaffolding.Core</b> contains only core functionality of library<br />
