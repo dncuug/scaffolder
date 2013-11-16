@@ -4,8 +4,8 @@ namespace X.Scaffolding.Core
 {
     internal class VideoParser
     {
-        private static Regex _youtubeVideoRegex = new Regex("youtu(?:\\.be|be\\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)");
-        private static Regex _vimeoVideoRegex = new Regex("vimeo\\.com/(?:.*#|.*/videos/)?([0-9]+)");
+        private static readonly Regex _youtubeVideoRegex = new Regex("youtu(?:\\.be|be\\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)");
+        private static readonly Regex _vimeoVideoRegex = new Regex("vimeo\\.com/(?:.*#|.*/videos/)?([0-9]+)");
 
         static VideoParser()
         {

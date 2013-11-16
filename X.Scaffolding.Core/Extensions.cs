@@ -13,21 +13,97 @@ namespace X.Scaffolding.Core
     /// </summary>
     public static class Extensions
     {
-        private static string GetWebApplicationUrl()
+        #region Extension methods for Bootstrap
+
+        public static MvcHtmlString BootstrapDatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
         {
-            try
-            {
-                var request = HttpContext.Current.Request;
-                var urlHelper = new UrlHelper(request.RequestContext);
-                var result = String.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority,
-                    urlHelper.Content("~"));
-                return result;
-            }
-            catch
-            {
-                return "/";
-            }
+            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString();
+            return MvcHtmlString.Create(text);
         }
+
+        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var id = html.IdFor(expression).ToString();
+            var value = html.ValueFor(expression).ToString();
+
+            var sb = new StringBuilder();
+
+            var name = value.ToLower();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendLine("<span class=\"input-group-addon\">File</span>");
+            sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null, value));
+            sb.AppendLine("</div>");
+
+
+
+            var isImage = name.EndsWith("jpg") ||
+                          name.EndsWith("jpeg") ||
+                          name.EndsWith("png") ||
+                          name.EndsWith("gif") ||
+                          name.EndsWith("bmp");
+
+            if (!String.IsNullOrEmpty(value) && isImage)
+            {
+                //sb.AppendFormat(RenderThumbnail(value));
+            }
+
+            sb.AppendLine();
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
+
+        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var value = html.ValueFor(expression).ToString();
+            return MvcHtmlString.Create(RenderThumbnail(value));
+        }
+
+        public static MvcHtmlString BootstrapTextBoxFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var text = html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString();
+            return MvcHtmlString.Create(text);
+        }
+
+        public static MvcHtmlString BootstrapTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var text = html.TextAreaFor(expression, new { type = "text", @class = "form-control" }).ToString();
+            return MvcHtmlString.Create(text);
+        }
+
+        public static MvcHtmlString BootstrapEmailEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
+            sb.AppendLine(html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString());
+            sb.AppendLine("</div>");
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
+
+        public static MvcHtmlString BootstrapDropDownList<TModel, TValue>(this HtmlHelper html, string name, string optionLabel)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
+            sb.AppendLine(html.DropDownList(name, optionLabel).ToString());
+            sb.AppendLine("</div>");
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
+
+        #endregion
+
+        #region Extension methods for CKEditor
 
         //
         // Summary:
@@ -102,95 +178,9 @@ namespace X.Scaffolding.Core
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        public static MvcHtmlString DatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString();
-            return MvcHtmlString.Create(text);
-        }
+        #endregion
 
-        public static MvcHtmlString FileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var id = html.IdFor(expression).ToString();
-            var value = html.ValueFor(expression).ToString();
-
-            var sb = new StringBuilder();
-
-            var name = value.ToLower();
-
-            //sb.AppendLine(FileUpload.GetHtml(id, 1, false, false, null, null).ToString());
-            sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null, value));
-
-            var isImage = name.EndsWith("jpg") ||
-                          name.EndsWith("jpeg") ||
-                          name.EndsWith("png") ||
-                          name.EndsWith("gif") ||
-                          name.EndsWith("bmp");
-
-            if (!String.IsNullOrEmpty(value) && isImage)
-            {
-                sb.AppendFormat(RenderThumbnail(value));
-                //sb.AppendFormat("<img class=\"preview\" src=\"{0}\" />", value);
-            }
-
-            sb.AppendLine();
-
-            return MvcHtmlString.Create(sb.ToString());
-        }
-
-        public static MvcHtmlString ThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var value = html.ValueFor(expression).ToString();
-            return MvcHtmlString.Create(RenderThumbnail(value));
-        }
-
-        private static string RenderThumbnail(string value)
-        {
-            return String.Format("<a href=\"#\" class=\"thumbnail\"><img src=\"{0}\" /\"></a>", value);
-        }
-
-        public static MvcHtmlString TextEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var text = html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString();
-            return MvcHtmlString.Create(text);
-        }
-
-        public static MvcHtmlString MultilineTextEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var text = html.TextAreaFor(expression, new { type = "text", @class = "form-control" }).ToString();
-            return MvcHtmlString.Create(text);
-        }
-
-        public static MvcHtmlString EmailEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
-        {
-            var sb = new StringBuilder();
-
-            sb.AppendLine("<div class=\"input-group\">");
-            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
-            sb.AppendLine(html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString());
-            sb.AppendLine("</div>");
-
-            return MvcHtmlString.Create(sb.ToString());
-        }
-
-        public static MvcHtmlString VideoPlayerEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
-        {
-            var str = html.ValueFor(expression).ToString();
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(html.TextEditorFor(expression).ToHtmlString());
-            
-            if (!string.IsNullOrEmpty(str))
-            {
-                stringBuilder.AppendLine(VideoPlayerFor(html, expression, width, height).ToHtmlString());
-            }
-
-            return MvcHtmlString.Create(stringBuilder.ToString());
-        }
+        #region Extension methods for Video
 
         public static MvcHtmlString VideoPlayerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
         {
@@ -200,6 +190,43 @@ namespace X.Scaffolding.Core
             stringBuilder.AppendLine(new VideoParser().GetPlayer(url, width, height));
             stringBuilder.AppendLine("</a>");
             return MvcHtmlString.Create(((object)stringBuilder).ToString());
+        }
+
+        public static MvcHtmlString VideoPlayerEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
+        {
+            var str = html.ValueFor(expression).ToString();
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(html.BootstrapTextBoxFor(expression).ToHtmlString());
+
+            if (!String.IsNullOrEmpty(str))
+            {
+                stringBuilder.AppendLine(VideoPlayerFor(html, expression, width, height).ToHtmlString());
+            }
+
+            return MvcHtmlString.Create(stringBuilder.ToString());
+        }
+
+        #endregion
+
+        private static string GetWebApplicationUrl()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+                var urlHelper = new UrlHelper(request.RequestContext);
+                var result = String.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority,
+                    urlHelper.Content("~"));
+                return result;
+            }
+            catch
+            {
+                return "/";
+            }
+        }
+
+        private static string RenderThumbnail(string value)
+        {
+            return String.Format("<a href=\"#\" class=\"thumbnail\"><img src=\"{0}\" /></a>", value);
         }
 
         /// <summary>
@@ -228,7 +255,6 @@ namespace X.Scaffolding.Core
             }
 
             return sb.ToString();
-
         }
     }
 }
