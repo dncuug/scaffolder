@@ -103,7 +103,7 @@ namespace X.Scaffolding.Core
             var sb = new StringBuilder();
 
             sb.AppendLine("<div class=\"input-group\">");
-            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
+            sb.AppendLine("<span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-align-justify\"></span></span>");
             sb.Append(html.DropDownList(name, null, optionLabel, new Dictionary<string, object> { { "class", "form-control" } }).ToHtmlString());
             sb.AppendLine("</div>");
 
