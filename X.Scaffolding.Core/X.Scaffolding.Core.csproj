@@ -96,7 +96,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Storage.cs" />
-    <Compile Include="VideoExtensions.cs" />
     <Compile Include="VideoParser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
@@ -15,15 +16,13 @@ namespace X.Scaffolding.Core
     {
         #region Extension methods for Bootstrap
 
-        public static MvcHtmlString BootstrapDatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapDatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString();
             return MvcHtmlString.Create(text);
         }
 
-        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             var id = html.IdFor(expression).ToString();
             var value = html.ValueFor(expression).ToString();
@@ -55,47 +54,57 @@ namespace X.Scaffolding.Core
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             var value = html.ValueFor(expression).ToString();
             return MvcHtmlString.Create(RenderThumbnail(value));
         }
 
-        public static MvcHtmlString BootstrapTextBoxFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapTextBoxFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             var text = html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString();
             return MvcHtmlString.Create(text);
         }
 
-        public static MvcHtmlString BootstrapTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             var text = html.TextAreaFor(expression, new { type = "text", @class = "form-control" }).ToString();
             return MvcHtmlString.Create(text);
         }
 
-        public static MvcHtmlString BootstrapEmailEditorFor<TModel, TValue>(this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapEmailEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            var sb = new StringBuilder();
-
-            sb.AppendLine("<div class=\"input-group\">");
-            sb.AppendLine("<span class=\"input-group-addon\">@</span>");
-            sb.AppendLine(html.TextBoxFor(expression, new { type = "text", @class = "form-control" }).ToString());
-            sb.AppendLine("</div>");
-
-            return MvcHtmlString.Create(sb.ToString());
+            return BootstrapIconEditorFor(html, expression, "glyphicon-envelope", "email");
         }
 
-        public static MvcHtmlString BootstrapDropDownList<TModel, TValue>(this HtmlHelper html, string name, string optionLabel)
+        public static MvcHtmlString BootstrapPhoneEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            return BootstrapIconEditorFor(html, expression, "glyphicon-earphone", "tel");
+        }
+
+        public static MvcHtmlString BootstrapUrlEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            return BootstrapIconEditorFor(html, expression, "glyphicon-link", "url");
+        }
+
+        public static MvcHtmlString BootstrapNumberEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            return BootstrapIconEditorFor(html, expression, "glyphicon-sound-5-1", "number");
+        }
+
+        public static MvcHtmlString BootstrapSearchEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            return BootstrapIconEditorFor(html, expression, "glyphicon-search", "search");
+        }
+        
+        
+        public static MvcHtmlString BootstrapDropDownList(this HtmlHelper html, string name, string optionLabel)
         {
             var sb = new StringBuilder();
 
             sb.AppendLine("<div class=\"input-group\">");
             sb.AppendLine("<span class=\"input-group-addon\">@</span>");
-            sb.AppendLine(html.DropDownList(name, optionLabel).ToString());
+            sb.Append(html.DropDownList(name, null, optionLabel, new Dictionary<string, object> { { "class", "form-control" } }).ToHtmlString());
             sb.AppendLine("</div>");
 
             return MvcHtmlString.Create(sb.ToString());
@@ -207,6 +216,18 @@ namespace X.Scaffolding.Core
         }
 
         #endregion
+
+        private static MvcHtmlString BootstrapIconEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string @class, string type = "text")
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendFormat("<span class=\"input-group-addon\"><span class=\"glyphicon {0}\"></span></span>", @class);
+            sb.AppendLine(html.TextBoxFor(expression, new { type = type, @class = "form-control" }).ToString());
+            sb.AppendLine("</div>");
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
 
         private static string GetWebApplicationUrl()
         {
