@@ -20,12 +20,31 @@ PM> Install-Package xscaffolding
 
 
 ###Important update!
-In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffolding.Core:<br />
 
+With las relaese was added new editor extension functions, that render with glyphicons and native html input type:
+
+* BootstrapDatePickerFor  
+* BootstrapDropDownList   
+* BootstrapFileUploadFor  
+* BootstrapNumberEditorFor
+* BootstrapPhoneEditorFor 
+* BootstrapSearchEditorFor
+* BootstrapTextAreaFor    
+* BootstrapTextBoxFor     
+* BootstrapThumbnailFor   
+* BootstrapUrlEditorFor   
+
+WARNING!
+Some extension function was renamed. 
+
+Version available at https://www.nuget.org/packages/xscaffolding.core/1.4.0.1
+
+###Install
+In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffolding.Core:<br />
 * <b>X.Scaffolding.Core</b> contains only core functionality of library<br />
 * <b>X.Scaffolding contains</b> dependency to X.Scaffolding.Core and styles for web-application, dependecy for Entity Framework 6.0, dependency for Windows Azure Storage
 
 
-###NuGet
+####NuGet
 You can install X.Scaffolding package from NuGet at https://www.nuget.org/packages/xscaffolding/
  
