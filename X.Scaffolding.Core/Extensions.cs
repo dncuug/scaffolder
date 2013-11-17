@@ -22,9 +22,46 @@ namespace X.Scaffolding.Core
             return MvcHtmlString.Create(text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
+            return BootstrapFileUploadFor(html, expression, null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <param name="useStorageLocationForPreview"></param>
+        /// <returns></returns>
+        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, bool? useStorageLocationForPreview)
+        {
             var id = html.IdFor(expression).ToString();
+            return BootstrapFileUploadFor(html, expression, id, useStorageLocationForPreview);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <param name="id">Id of file upload element</param>
+        /// <param name="useStorageLocationForPreview">If false, than preview composed from FileManager.Storage url and field value, else only field value used for build preview</param>
+        /// <returns></returns>
+        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string id, bool? useStorageLocationForPreview = null)
+        {
             var value = html.ValueFor(expression).ToString();
 
             var sb = new StringBuilder();
@@ -36,17 +73,17 @@ namespace X.Scaffolding.Core
             sb.AppendLine(GetFileUploadHtml(id, 1, false, false, null, null, value));
             sb.AppendLine("</div>");
 
-
-
             var isImage = name.EndsWith("jpg") ||
                           name.EndsWith("jpeg") ||
                           name.EndsWith("png") ||
                           name.EndsWith("gif") ||
                           name.EndsWith("bmp");
 
-            if (!String.IsNullOrEmpty(value) && isImage)
+            if (!String.IsNullOrEmpty(value) && isImage && useStorageLocationForPreview.HasValue)
             {
-                //sb.AppendFormat(RenderThumbnail(value));
+                value = useStorageLocationForPreview.Value ? String.Format("{0}{1}", FileManager.StorageUrl, value) : value;
+                sb.AppendLine("<br />");
+                sb.AppendFormat(RenderThumbnail(value));
             }
 
             sb.AppendLine();
@@ -54,10 +91,15 @@ namespace X.Scaffolding.Core
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width)
         {
             var value = html.ValueFor(expression).ToString();
-            return MvcHtmlString.Create(RenderThumbnail(value));
+            return MvcHtmlString.Create(RenderThumbnail(value, width));
+        }
+
+        public static MvcHtmlString BootstrapThumbnailFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            return BootstrapThumbnailFor(html, expression, 0);
         }
 
         public static MvcHtmlString BootstrapTextBoxFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
@@ -96,8 +138,8 @@ namespace X.Scaffolding.Core
         {
             return BootstrapIconEditorFor(html, expression, "glyphicon-search", "search");
         }
-        
-        
+
+
         public static MvcHtmlString BootstrapDropDownList(this HtmlHelper html, string name, string optionLabel)
         {
             var sb = new StringBuilder();
@@ -203,16 +245,17 @@ namespace X.Scaffolding.Core
 
         public static MvcHtmlString VideoPlayerEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, int width = 0, int height = 315)
         {
-            var str = html.ValueFor(expression).ToString();
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(html.BootstrapTextBoxFor(expression).ToHtmlString());
+            var sb = new StringBuilder();
 
-            if (!String.IsNullOrEmpty(str))
+            sb.AppendLine(html.BootstrapTextBoxFor(expression).ToHtmlString());
+            sb.AppendLine("<br />");
+
+            if (!String.IsNullOrEmpty(html.ValueFor(expression).ToString()))
             {
-                stringBuilder.AppendLine(VideoPlayerFor(html, expression, width, height).ToHtmlString());
+                sb.AppendLine(VideoPlayerFor(html, expression, width, height).ToHtmlString());
             }
 
-            return MvcHtmlString.Create(stringBuilder.ToString());
+            return MvcHtmlString.Create(sb.ToString());
         }
 
         #endregion
@@ -245,8 +288,13 @@ namespace X.Scaffolding.Core
             }
         }
 
-        private static string RenderThumbnail(string value)
+        private static string RenderThumbnail(string value, int width = 0)
         {
+            if (width != 0)
+            {
+                return String.Format("<a href=\"#\" class=\"thumbnail\"><img width=\"{1}px\" src=\"{0}\" /></a>", value, width);
+            }
+
             return String.Format("<a href=\"#\" class=\"thumbnail\"><img src=\"{0}\" /></a>", value);
         }
 

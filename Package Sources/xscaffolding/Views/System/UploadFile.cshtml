@@ -1,10 +1,14 @@
-﻿@model String
+﻿@using Core
+@using X.Scaffolding.Core
+@model String
 @{
     var isImage = !String.IsNullOrEmpty(Model) && (Model.EndsWith("jpg") ||
                                                    Model.EndsWith("jpeg") ||
                                                    Model.EndsWith("png") ||
                                                    Model.EndsWith("gif") ||
                                                    Model.EndsWith("bmp"));
+
+    ViewBag.Title = "Upload File";
 }
 
 <h1>File uploading</h1>
@@ -13,7 +17,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <input type="file" name="file" />
+    @Html.BootstrapFileUploadFor(file => file, "file")
     <br />
     <input type="submit" value="Upload" class="btn btn-primary" />
     <br />

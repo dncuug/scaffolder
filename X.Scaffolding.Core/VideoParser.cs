@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace X.Scaffolding.Core
 {
@@ -31,6 +32,12 @@ namespace X.Scaffolding.Core
                 player = Player.Vimeo;
             }
 
+            if (url.ToLower().Contains("iframe"))
+            {
+                result = url;
+                player = Player.iFrame;
+            }
+
             return result;
         }
 
@@ -43,8 +50,9 @@ namespace X.Scaffolding.Core
             switch (player)
             {
                 case Player.Unknown: return url;
-                case Player.Youtube: return string.Format("<iframe width=\"{0}\" height=\"{1}\" src=\"//www.youtube.com/embed/{2}\" frameborder=\"0\" allowfullscreen></iframe>", strWidth, height, videoCode);
-                case Player.Vimeo: return string.Format("<iframe src=\"//player.vimeo.com/video/{2}\" width=\"{0}\" height=\"{1}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>", strWidth, height, videoCode);
+                case Player.iFrame: return System.Web.HttpUtility.HtmlDecode(url);
+                case Player.Youtube: return String.Format("<iframe width=\"{0}\" height=\"{1}\" src=\"//www.youtube.com/embed/{2}\" frameborder=\"0\" allowfullscreen></iframe>", strWidth, height, videoCode);
+                case Player.Vimeo: return String.Format("<iframe src=\"//player.vimeo.com/video/{2}\" width=\"{0}\" height=\"{1}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>", strWidth, height, videoCode);
                 default: return url;
             }
         }
@@ -54,6 +62,7 @@ namespace X.Scaffolding.Core
             Unknown,
             Youtube,
             Vimeo,
+            iFrame
         }
     }
 }

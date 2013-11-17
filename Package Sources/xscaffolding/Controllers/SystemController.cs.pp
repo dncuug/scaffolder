@@ -34,21 +34,15 @@ namespace $rootNamespace$.Controllers
             return View();
         }
         
-        [HttpPost]
+        [HttpPost]        
         public ActionResult UploadFile(HttpPostedFileBase file)
         {
             var url = String.Empty;
 
             if (file.ContentLength > 0)
             {
-                var memoryStream = new MemoryStream();
-                file.InputStream.CopyTo(memoryStream);
-                var bytes = memoryStream.ToArray();
-
-                var extension = Path.GetExtension(file.FileName);
-                var name = Guid.NewGuid() + extension;
-
-                url = FileManager.UploadFile(bytes, name);
+                var name = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                url = FileManager.UploadFile(file.InputStream, name);
             }
 
             return View((object)url);
