@@ -98,11 +98,26 @@ namespace X.Scaffolding.Core
         /// Save file to website
         /// </summary>
         /// <param name="bytes">File content</param>
-        /// <param name="originalFileName">Name for new file</param>
+        /// <param name="fileName">Name for new file</param>
         /// <returns>url to file</returns>
-        public static string UploadFile(byte[] bytes, string originalFileName)
+        public static string UploadFile(byte[] bytes, string fileName)
         {
-            return UploadFile(bytes, originalFileName, StorageUrl, StorageConnectionString, BlobContainerName);
+            return UploadFile(bytes, fileName, StorageUrl, StorageConnectionString, BlobContainerName);
+        }
+
+        /// <summary>
+        /// Save file to website
+        /// </summary>
+        /// <param name="stream">Stream with file content</param>
+        /// <param name="fileName">Name for new file</param>
+        /// <returns>url to file</returns>
+        public static string UploadFile(Stream stream, string fileName)
+        {
+            var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            var bytes = memoryStream.ToArray();
+
+            return UploadFile(bytes, fileName, StorageUrl, StorageConnectionString, BlobContainerName);
         }
 
         private static Storage GetStorageType(string path)

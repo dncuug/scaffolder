@@ -267,11 +267,11 @@ namespace X.Scaffolding.Core
 
             if (String.IsNullOrEmpty(value))
             {
-                sb.AppendFormat(@"<div class=""file-upload"" id=""{0}""><div><input name=""{0}"" type=""file"" /></div></div>", name);
+                sb.AppendFormat(@"<div class=""file-upload form-control""><div><input id=""{0}"" name=""{0}"" type=""file"" /></div></div>", name);
             }
             else
             {
-                sb.AppendFormat(@"<div class=""file-upload"" id=""{0}""><div><input name=""{0}"" type=""file"" value=""{1}"" /></div></div>", name, value);
+                sb.AppendFormat(@"<div class=""file-upload form-control""><div><input id=""{0}"" name=""{0}"" type=""file"" value=""{1}"" /></div></div>", name, value);
                 sb.AppendFormat(@"<input type=""hidden"" id=""{0}"" name=""{0}"" value=""{1}"" /> ", name, value);
             }
 
