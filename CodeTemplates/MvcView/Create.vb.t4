@@ -94,11 +94,11 @@ For Each modelProperty As PropertyMetadata In ModelMetadata.Properties
 <#
         If (modelProperty.IsForeignKey) Then
 #>
-                @Html.DropDownList("<#= modelProperty.PropertyName #>", String.Empty)
+                @Html.BootstrapDropDownList("<#= modelProperty.PropertyName #>", String.Empty)
 <#
         Else
 #>
-                @Html.EditorFor(Function(model) model.<#= modelProperty.PropertyName #>)
+                @Html.BootstrapTextBoxFor(Function(model) model.<#= modelProperty.PropertyName #>)
 <#
         End If
 #>
@@ -131,7 +131,7 @@ End Section
 <#
 ElseIf (IsLayoutPageSelected AndAlso ReferenceScriptLibraries)
 #>
-<script src="~/Scripts/jquery-<#= JQueryVersion #>.min.js"></script>
+
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <#

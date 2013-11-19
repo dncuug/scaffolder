@@ -104,11 +104,11 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 <#
             if (property.IsForeignKey) {
 #>
-                @Html.DropDownList("<#= property.PropertyName #>", String.Empty)
+                @Html.BootstrapDropDownList("<#= property.PropertyName #>", String.Empty)
 <#
             } else {
 #>
-                @Html.EditorFor(model => model.<#= property.PropertyName #>)
+                @Html.BootstrapTextBoxFor(model => model.<#= property.PropertyName #>)
 <#
             }
 #>
@@ -130,7 +130,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
 </div>
 <#
 if(IsLayoutPageSelected && ReferenceScriptLibraries && IsBundleConfigPresent) {
