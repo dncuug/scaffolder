@@ -64,7 +64,7 @@ foreach (PropertyMetadata property in properties) {
         }
 #>
         <th>
-            @Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+            <#= GetValueExpression(property) #>
         </th>
 <#
     }

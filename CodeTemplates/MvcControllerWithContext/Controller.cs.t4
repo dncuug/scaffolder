@@ -80,7 +80,7 @@ namespace <#= Namespace #>
 <# if (UseAsync) { #>
         public async Task<ActionResult> Index()
 <# } else { #>
-        public ActionResult Index(int page)
+        public ActionResult Index(int? page)
 <# } #>
         {
 <#  var includeExpressions = "";
@@ -88,19 +88,19 @@ namespace <#= Namespace #>
 #>
 <# if(!String.IsNullOrEmpty(includeExpressions)) { #>
             var <#= entitySetVariable #> = db.<#= entitySetName #><#= includeExpressions #>;
-<#		if (UseAsync) { #>
+<#      if (UseAsync) { #>
             return View(await <#= entitySetVariable #>.ToListAsync());
-<#		} else { #>
+<#      } else { #>
             return View(<#= entitySetVariable #>.ToList());
-            //return View(<#= entitySetVariable #>.ToPagedList((page ?? 1), PageSize));            
-<#		} #>
+            //return View(<#= entitySetVariable #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), PageSize));            
+<#      } #>
 <# } else { #>
-<#		if (UseAsync) { #>
+<#      if (UseAsync) { #>
             return View(await db.<#= entitySetName #><#= includeExpressions #>.ToListAsync());                        
-<#		} else { #>
+<#      } else { #>
             return View(db.<#= entitySetName #><#= includeExpressions #>.ToList());
-            //return View(db.<#= entitySetName #><#= includeExpressions #>.ToPagedList((page ?? 1), PageSize));
-<#		} #>
+            //return View(db.<#= entitySetName #><#= includeExpressions #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), PageSize));
+<#      } #>
 <# } #>
         }
 
