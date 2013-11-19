@@ -69,6 +69,7 @@ namespace <#= Namespace #>
         bindAttribute = String.Empty;
     }
 #>
+    [Authorize]
     public class <#= ControllerName #> : Controller
     {
         private <#= ContextTypeName #> db = new <#= ContextTypeName #>();
@@ -138,6 +139,7 @@ namespace <#= Namespace #>
         // <#= line #>
 <# } } #>
         [HttpPost]
+        //[ValidateInput(false)]
         [ValidateAntiForgeryToken]
 <# if (UseAsync) { #>
         public async Task<ActionResult> Create(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
@@ -198,6 +200,7 @@ namespace <#= Namespace #>
         // <#= line #>
 <# } } #>
         [HttpPost]
+        //[ValidateInput(false)]
         [ValidateAntiForgeryToken]
 <# if (UseAsync) { #>
         public async Task<ActionResult> Edit(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
@@ -246,6 +249,7 @@ namespace <#= Namespace #>
 
         // POST: <#= routePrefix #>Delete/5
         [HttpPost, ActionName("Delete")]
+        //[ValidateInput(false)]
         [ValidateAntiForgeryToken]
 <# if (UseAsync) { #>
         public async Task<ActionResult> DeleteConfirmed(<#= primaryKeyShortTypeName #> id)
