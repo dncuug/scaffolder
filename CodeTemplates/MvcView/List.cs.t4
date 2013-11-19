@@ -22,7 +22,7 @@ if (!String.IsNullOrEmpty(LayoutPageFile)) {
 #>
 }
 
-<h2>@ViewBag.Title</h2>
+<h2><#= ViewName#></h2>
 
 <#
 } else {
@@ -125,5 +125,3 @@ if(!IsPartialView && !IsLayoutPageSelected) {
 }
 #>
 <#@ include file="ModelMetadataFunctions.cs.include.t4" #>
-
-<!-- HTML TEST -->
