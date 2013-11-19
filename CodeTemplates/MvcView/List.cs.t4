@@ -93,17 +93,15 @@ string pkName = GetPrimaryKeyName();
 if (pkName != null) {
 #>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.<#= pkName #> }) |
-            @Html.ActionLink("Details", "Details", new { id=item.<#= pkName #> }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.<#= pkName #> })
+            @Html.ActionLink("Edit", "Edit", new { id=item.<#= pkName #>, @class = "btn btn-edit"  }) |            
+            @Html.ActionLink("Delete", "Delete", new { id=item.<#= pkName #>, @class = "btn btn-delete"  })
         </td>
 <#
 } else {
 #>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */  @class = "btn btn-edit"  }) |            
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ @class = "btn btn-delete"  })
         </td>
 <#
 }
