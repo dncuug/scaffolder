@@ -4,6 +4,7 @@
 @using X.Scaffolding.Core
 @using PagedList.Mvc;
 @model IEnumerable<#= "<" + ViewDataTypeName + ">" #>
+@*@model PagedList.IPagedList<#= "<" + ViewDataTypeName + ">" #>*@
 <#
 // The following chained if-statement outputs the file header code and markup for a partial view, a view using a layout page, or a regular view.
 if(IsPartialView) {
@@ -125,3 +126,7 @@ if(!IsPartialView && !IsLayoutPageSelected) {
 }
 #>
 <#@ include file="ModelMetadataFunctions.cs.include.t4" #>
+
+
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@

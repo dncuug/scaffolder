@@ -42,6 +42,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using X.Scaffolding.Core;
+using PagedList;
 <# foreach (var namespaceName in RequiredNamespaces) { #>
 using <#= namespaceName #>;
 <# } #>
@@ -79,7 +80,7 @@ namespace <#= Namespace #>
 <# if (UseAsync) { #>
         public async Task<ActionResult> Index()
 <# } else { #>
-        public ActionResult Index()
+        public ActionResult Index(int page)
 <# } #>
         {
 <#  var includeExpressions = "";
