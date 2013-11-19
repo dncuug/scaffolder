@@ -46,7 +46,7 @@ if (!String.IsNullOrEmpty(LayoutPageFile)) {
 }
 #>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table table-hover">
     <tr>
