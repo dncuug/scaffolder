@@ -70,7 +70,7 @@ if (ReferenceScriptLibraries) {
 <#
 }
 #>
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
