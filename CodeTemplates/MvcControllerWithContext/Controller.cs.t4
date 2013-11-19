@@ -91,12 +91,14 @@ namespace <#= Namespace #>
             return View(await <#= entitySetVariable #>.ToListAsync());
 <#		} else { #>
             return View(<#= entitySetVariable #>.ToList());
+            //return View(<#= entitySetVariable #>.ToPagedList((page ?? 1), PageSize));            
 <#		} #>
 <# } else { #>
 <#		if (UseAsync) { #>
-            return View(await db.<#= entitySetName #><#= includeExpressions #>.ToListAsync());
+            return View(await db.<#= entitySetName #><#= includeExpressions #>.ToListAsync());                        
 <#		} else { #>
             return View(db.<#= entitySetName #><#= includeExpressions #>.ToList());
+            //return View(db.<#= entitySetName #><#= includeExpressions #>.ToPagedList((page ?? 1), PageSize));
 <#		} #>
 <# } #>
         }
