@@ -133,7 +133,7 @@ End Section
 <#
 ElseIf (IsLayoutPageSelected AndAlso ReferenceScriptLibraries)
 #>
-<script src="~/Scripts/jquery-<#= JQueryVersion#>.min.js "></script>
+
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <#
