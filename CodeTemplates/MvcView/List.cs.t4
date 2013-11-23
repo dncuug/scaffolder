@@ -70,7 +70,7 @@ foreach (PropertyMetadata property in properties) {
     }
 }
 #>
-        <th></th>
+        <th class="controls-head"></th>
     </tr>
 
 @foreach (var item in Model) {
