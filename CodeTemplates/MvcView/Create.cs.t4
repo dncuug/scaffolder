@@ -71,7 +71,7 @@ if (ReferenceScriptLibraries) {
 <#
 }
 #>
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
@@ -152,15 +152,14 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 #>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
                 <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-</div>
+
 <#
 if(IsLayoutPageSelected && ReferenceScriptLibraries && IsBundleConfigPresent) {
 #>
