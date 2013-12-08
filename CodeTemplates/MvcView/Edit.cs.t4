@@ -75,9 +75,7 @@ if (ReferenceScriptLibraries) {
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4><#= ViewDataTypeShortName #></h4>
-        <hr />
+    <div class="form-horizontal">        
         @Html.ValidationSummary(true)
 <#
 foreach (PropertyMetadata property in ModelMetadata.Properties) {
@@ -90,29 +88,60 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
         } else if (!property.IsReadOnly) {
 #>
         <div class="form-group">
+			<label class="control-label col-md-2">
 <#
             if (property.IsForeignKey) {
 #>
-            @Html.LabelFor(model => model.<#= property.PropertyName #>, "<#= GetAssociationName(property) #>", new { @class = "control-label col-md-2" })
+            <#= property.PropertyName #> (<#= GetAssociationName(property) #>)
 <#
             } else {
 #>
-            @Html.LabelFor(model => model.<#= property.PropertyName #>, new { @class = "control-label col-md-2" })
+            <#= property.PropertyName #>
 <#
             }
 #>
-            <div class="col-md-10">
+            </label>
+			<div class="col-md-10">
 <#
             if (property.IsForeignKey) {
-#>
-                @Html.BootstrapDropDownList("<#= property.PropertyName #>", String.Empty)
-<#
-            } else {
-#>
-                @Html.BootstrapTextBoxFor(model => model.<#= property.PropertyName #>)
-<#
+                #>                @Html.BootstrapDropDownList("<#= property.PropertyName #>", String.Empty) <#
+            } else {                    
+                if (property.PropertyName.Contains("Content")) {
+                    #>                @Html.HtmlEditorFor(model => model.<#= property.PropertyName #>) <#
+                }                
+                else if (property.PropertyName.Contains("Date")) {
+                    #>                @Html.BootstrapDatePickerFor(model => model.<#= property.PropertyName #>) <#
+                }                
+                else if (property.PropertyName.Contains("File") || property.PropertyName.Contains("Image")) {
+                    #>                @Html.BootstrapFileUploadFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Thumbnail")) {
+                    #>                @Html.BootstrapThumbnailFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Description")) {
+                    #>                @Html.BootstrapTextAreaFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Email")) {
+                    #>                @Html.BootstrapEmailEditorFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Phone")) {
+                    #>                @Html.BootstrapPhoneEditorFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Url")) {
+                    #>                @Html.BootstrapUrlEditorFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Number")) {
+                    #>                @Html.BootstrapNumberEditorFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else if (property.PropertyName.Contains("Search")) {
+                    #>                @Html.BootstrapSearchEditorFor(model => model.<#= property.PropertyName #>) <#
+                }
+                else {
+                    #>                @Html.BootstrapTextBoxFor(model => model.<#= property.PropertyName #>) <#
+                }
             }
 #>
+                
                 @Html.ValidationMessageFor(model => model.<#= property.PropertyName #>)
             </div>
         </div>

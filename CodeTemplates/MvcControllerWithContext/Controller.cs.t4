@@ -92,14 +92,14 @@ namespace <#= Namespace #>
             return View(await <#= entitySetVariable #>.ToListAsync());
 <#      } else { #>
             return View(<#= entitySetVariable #>.ToList());
-            //return View(<#= entitySetVariable #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), PageSize));            
+            //return View(<#= entitySetVariable #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), Paging.PageSize));            
 <#      } #>
 <# } else { #>
 <#      if (UseAsync) { #>
             return View(await db.<#= entitySetName #><#= includeExpressions #>.ToListAsync());                        
 <#      } else { #>
             return View(db.<#= entitySetName #><#= includeExpressions #>.ToList());
-            //return View(db.<#= entitySetName #><#= includeExpressions #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), PageSize));
+            //return View(db.<#= entitySetName #><#= includeExpressions #>.OrderBy( o => o.<#= primaryKeyName #>).ToPagedList((page ?? 1), Paging.PageSize));
 <#      } #>
 <# } #>
         }
