@@ -18,7 +18,13 @@ namespace X.Scaffolding.Core
 
         public static MvcHtmlString BootstrapDatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist date form-control" }).ToString();
+            var text = html.TextBoxFor(expression, new { type = "date", @class = "droplist date form-control" }).ToString();
+            return MvcHtmlString.Create(text);
+        }
+
+        public static MvcHtmlString BootstrapDateTimePickerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist datetime form-control" }).ToString();
             return MvcHtmlString.Create(text);
         }
 
