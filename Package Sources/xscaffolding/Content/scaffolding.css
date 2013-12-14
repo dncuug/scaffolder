@@ -5,9 +5,18 @@
 }
 
 .display-label {
-    
 }
 
 .display-field {
-    
+}
+
+.create {
+}
+
+.edit {
+    width: 50px;
+}
+
+.delete {
+    width: 50px;
 }

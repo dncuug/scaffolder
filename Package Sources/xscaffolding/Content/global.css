@@ -17,13 +17,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 a {
-    color: #333333 !important;
-    text-decoration: none !important;
 }
 
     a:hover {
-        color: #318FC1 !important;
-        text-decoration: none !important;
     }
 
 .container {
@@ -31,19 +27,19 @@ a {
 }
 
 header {
-    border-top: 3px solid #3276B1 !important;
-    background-color: #4A8BC2 !important;
-    background: linear-gradient(to bottom, #4A8BC2, #4A8BC2) repeat scroll 0 0 #4A8BC2 !important;
+    border-top: 3px solid #3276B1;
+    background-color: #4A8BC2;
+    background: #4A8BC2;
 }
 
     header a {
-        color: #FFF !Important;
+        color: #FF;
     }
 
         header a:hover {
-            background: none repeat scroll 0 0 #000000 !important;
-            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.20) !important;
-            color: #FFFFFF !important;
+            background: none repeat scroll 0 0 #000000;
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.20);
+            color: #FFFFFF;
         }
 
     header .navbar-toggle .icon-bar {
@@ -53,15 +49,10 @@ header {
     header.navbar {
         background-image: none !important;
         background-repeat: repeat-x;
-        -ms-border-radius: 0 !important;
-        border-radius: 0 !important;
-        -webkit-box-shadow: none;
-        -ms-box-shadow: none;
-        box-shadow: none;
     }
 
 .navbar-inverse {
-    border-color: #3276B1 !important;
+    border-color: #3276B1;
 }
 
 footer {
@@ -188,7 +179,7 @@ input[type="tel"], input[type="color"], .uneditable-input, .cke_dialog_ui_button
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"],
 input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"],
 input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input,
-a.cke_dialog_ui_button, a.cke_dialog_ui_button_ok, .cke_button_on, .cke_chrome, .panel-heading, .input-group-addon {
+a.cke_dialog_ui_button, a.cke_dialog_ui_button_ok, .cke_button_on, .cke_chrome, .panel-heading, .input-group-addon, header.navbar {
     -ms-border-radius: 0 0 0 0 !important;
     border-radius: 0 0 0 0 !important;
     -webkit-box-shadow: none !important;
@@ -196,6 +187,11 @@ a.cke_dialog_ui_button, a.cke_dialog_ui_button_ok, .cke_button_on, .cke_chrome, 
     -ms-text-shadow: none !important;
     -webkit-text-shadow: none !important;
     text-shadow: none !important;
+    -ms-border-radius: 0 !important;
+    border-radius: 0 !important;
+    -webkit-box-shadow: none;
+    -ms-box-shadow: none;
+    box-shadow: none;
 }
 
     .chzn-container-single .chzn-single span,
@@ -206,10 +202,15 @@ a.cke_dialog_ui_button, a.cke_dialog_ui_button_ok, .cke_button_on, .cke_chrome, 
     }
 
 
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    color: #FFF;
+    border-bottom-color: #FFF;
+    border-top-color: #FFF;
+}
 
 .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover,
 .chzn-container .chzn-results .highlighted {
-    background-color: #318FC1 !important;
+    background-color: #318FC1;
     background-image: none;
 }
 

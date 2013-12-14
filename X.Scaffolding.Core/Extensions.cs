@@ -139,17 +139,14 @@ namespace X.Scaffolding.Core
             return BootstrapIconEditorFor(html, expression, "glyphicon-search", "search");
         }
 
-
         public static MvcHtmlString BootstrapDropDownList(this HtmlHelper html, string name, string optionLabel)
         {
-            var sb = new StringBuilder();
+            return RenderBootstrapDropDownList(html.DropDownList(name, null, optionLabel, new { @class = "form-control" }).ToHtmlString());
+        }
 
-            sb.AppendLine("<div class=\"input-group\">");
-            sb.AppendLine("<span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-align-justify\"></span></span>");
-            sb.Append(html.DropDownList(name, null, optionLabel, new Dictionary<string, object> { { "class", "form-control" } }).ToHtmlString());
-            sb.AppendLine("</div>");
-
-            return MvcHtmlString.Create(sb.ToString());
+        public static MvcHtmlString BootstrapDropDownList(this HtmlHelper html, string name, IEnumerable<SelectListItem> selectList)
+        {
+            return RenderBootstrapDropDownList(html.DropDownList(name, selectList, new { @class = "form-control" }).ToHtmlString());
         }
 
         #endregion
@@ -259,6 +256,18 @@ namespace X.Scaffolding.Core
         }
 
         #endregion
+
+        private static MvcHtmlString RenderBootstrapDropDownList(string html)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<div class=\"input-group\">");
+            sb.AppendLine("<span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-align-justify\"></span></span>");
+            sb.Append(html);
+            sb.AppendLine("</div>");
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
 
         private static MvcHtmlString BootstrapIconEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string @class, string type = "text")
         {
