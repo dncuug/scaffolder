@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<String>
 
-@{
-}
-
 <h1>Error detected</h1>
-
 
 @for (var i = 0; i < Model.Count(); i++)
 {
@@ -20,9 +16,5 @@
     }
 }
 
-
-
 <hr />
-<br />
-
-<a href="javascript:window.history.back();">Back</a>
+<a class="btn btn-primary btn-go-back" href="javascript:window.history.back();">Back</a>

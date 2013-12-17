@@ -18,14 +18,12 @@ namespace X.Scaffolding.Core
 
         public static MvcHtmlString BootstrapDatePickerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            var text = html.TextBoxFor(expression, new { type = "date", @class = "droplist date form-control" }).ToString();
-            return MvcHtmlString.Create(text);
+            return BootstrapIconEditorFor(html, expression, "glyphicon-calendar", "date", "droplist date");
         }
 
         public static MvcHtmlString BootstrapDateTimePickerFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            var text = html.TextBoxFor(expression, new { type = "datetime", @class = "droplist datetime form-control" }).ToString();
-            return MvcHtmlString.Create(text);
+            return BootstrapIconEditorFor(html, expression, "glyphicon-calendar", "datetime", "droplist datetime");
         }
 
         /// <summary>
@@ -275,13 +273,26 @@ namespace X.Scaffolding.Core
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        private static MvcHtmlString BootstrapIconEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string @class, string type = "text")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <param name="glyphIconClass"></param>
+        /// <param name="type"></param>
+        /// <param name="editorClass"></param>
+        /// <returns></returns>
+        private static MvcHtmlString BootstrapIconEditorFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string glyphIconClass, string type = "text", string editorClass = "")
         {
             var sb = new StringBuilder();
 
+            editorClass = String.IsNullOrEmpty(editorClass) ? "form-control" : "form-control " + editorClass;
+
             sb.AppendLine("<div class=\"input-group\">");
-            sb.AppendFormat("<span class=\"input-group-addon\"><span class=\"glyphicon {0}\"></span></span>", @class);
-            sb.AppendLine(html.TextBoxFor(expression, new { type = type, @class = "form-control" }).ToString());
+            sb.AppendFormat("<span class=\"input-group-addon\"><span class=\"glyphicon {0}\"></span></span>", glyphIconClass);
+            sb.AppendLine(html.TextBoxFor(expression, new { type = type, @class = editorClass }).ToString());
             sb.AppendLine("</div>");
 
             return MvcHtmlString.Create(sb.ToString());
