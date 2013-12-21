@@ -39,6 +39,11 @@ namespace X.Scaffolding.Core
             return BootstrapFileUploadFor(html, expression, null);
         }
 
+        public static MvcHtmlString BootstrapMassFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            throw new NotImplementedException();
+        }
+        
         /// <summary>
         /// 
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using System;
 using System.IO;
+using System.Web;
 
 namespace X.Scaffolding.Core
 {
@@ -41,8 +42,7 @@ namespace X.Scaffolding.Core
             {
                 throw new Exception("Storage url or storage connection string not initialized. Please initilaize FileManager by using Initialize() method.");
             }
-
-
+            
             var url = String.Format("{0}{1}", storageUrl, fileName);
 
             var storageType = GetStorageType(storageConnectionString);
@@ -120,6 +120,27 @@ namespace X.Scaffolding.Core
             return UploadFile(bytes, fileName, StorageUrl, StorageConnectionString, BlobContainerName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="currentFileName"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static string UploadPhoto(HttpPostedFileBase file, string currentFileName, Func<string, string> func)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                var name = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                UploadFile(file.InputStream, name);
+                func(name);
+                return name;
+            }
+
+            func(currentFileName);
+            return String.Empty;
+        }
+        
         private static Storage GetStorageType(string path)
         {
             if (String.IsNullOrEmpty(path))
