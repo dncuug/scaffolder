@@ -96,7 +96,6 @@
   <ItemGroup>
     <Compile Include="FileManager.cs" />
     <Compile Include="Ftp.cs" />
-    <Compile Include="Paging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Storage.cs" />
