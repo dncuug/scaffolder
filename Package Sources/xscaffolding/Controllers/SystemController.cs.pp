@@ -29,12 +29,14 @@ namespace $rootNamespace$.Controllers
             return View(credentials);
         }
 
+        [Authorize]
         public ActionResult UploadFile()
         {
             return View();
         }
         
-        [HttpPost]        
+        [HttpPost]
+        [Authorize]
         public ActionResult UploadFile(HttpPostedFileBase file)
         {
             var url = String.Empty;
@@ -49,6 +51,7 @@ namespace $rootNamespace$.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult CKEditorFileUpload()
         {
             var message = "The upload is complete";
@@ -74,6 +77,7 @@ namespace $rootNamespace$.Controllers
             return Content(sb.ToString());
         }
 
+        [Authorize]
         public ActionResult Exception()
         {
             var exception = Session["application_error"] as Exception;
@@ -88,7 +92,7 @@ namespace $rootNamespace$.Controllers
 
             return View(model);
         }
-
+        
         private static IEnumerable<String> GetExceptionDescription(Exception ex)
         {
             var list = new List<String> { ex.Message };

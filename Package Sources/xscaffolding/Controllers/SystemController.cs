@@ -36,6 +36,7 @@ namespace Manage.Controllers
         }
         
         [HttpPost]
+        [Authorize]
 		[ValidateInput(false)]
         public ActionResult UploadFile(HttpPostedFileBase file)
         {
@@ -51,6 +52,7 @@ namespace Manage.Controllers
         }
 
         [HttpPost]
+        [Authorize]
 		[ValidateInput(false)]
         public ActionResult CKEditorFileUpload()
         {
@@ -77,6 +79,7 @@ namespace Manage.Controllers
             return Content(sb.ToString());
         }
 
+        [Authorize]
         public ActionResult Exception()
         {
             var exception = Session["application_error"] as Exception;
