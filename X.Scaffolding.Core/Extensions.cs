@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using X.Storage;
 
+
 namespace X.Scaffolding.Core
 {
     /// <summary>
@@ -91,7 +92,7 @@ namespace X.Scaffolding.Core
 
             if (!String.IsNullOrEmpty(value) && isImage && useStorageLocationForPreview.HasValue)
             {
-                value = useStorageLocationForPreview.Value ? String.Format("{0}{1}", StorageManager.Instance.Location, value) : value;
+                value = useStorageLocationForPreview.Value ? StorageManager.Instance.GetPublicLocation(value) : value;
                 sb.AppendLine("<br />");
                 sb.AppendFormat(RenderThumbnail(value));
             }
