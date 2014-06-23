@@ -6,8 +6,6 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using X.Storage;
-
 
 namespace X.Scaffolding.Core
 {
@@ -38,29 +36,15 @@ namespace X.Scaffolding.Core
         /// <returns></returns>
         public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            return BootstrapFileUploadFor(html, expression, null);
+            var id = html.IdFor(expression).ToString();
+            return BootstrapFileUploadFor(html, expression, id, String.Empty);
         }
 
         public static MvcHtmlString BootstrapMassFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="expression"></param>
-        /// <param name="useStorageLocationForPreview"></param>
-        /// <returns></returns>
-        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, bool? useStorageLocationForPreview)
-        {
-            var id = html.IdFor(expression).ToString();
-            return BootstrapFileUploadFor(html, expression, id, useStorageLocationForPreview);
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -69,9 +53,9 @@ namespace X.Scaffolding.Core
         /// <param name="html"></param>
         /// <param name="expression"></param>
         /// <param name="id">Id of file upload element</param>
-        /// <param name="useStorageLocationForPreview">If false, than preview composed from FileManager.Storage url and field value, else only field value used for build preview</param>
+        /// <param name="previewUrl">Url for preview image</param>
         /// <returns></returns>
-        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string id, bool? useStorageLocationForPreview = null)
+        public static MvcHtmlString BootstrapFileUploadFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string id, string previewUrl)
         {
             var value = html.ValueFor(expression).ToString();
 
@@ -90,11 +74,10 @@ namespace X.Scaffolding.Core
                           name.EndsWith("gif") ||
                           name.EndsWith("bmp");
 
-            if (!String.IsNullOrEmpty(value) && isImage && useStorageLocationForPreview.HasValue)
+            if (!String.IsNullOrEmpty(previewUrl) && isImage)
             {
-                value = useStorageLocationForPreview.Value ? StorageManager.Instance.GetPublicLocation(value) : value;
                 sb.AppendLine("<br />");
-                sb.AppendFormat(RenderThumbnail(value));
+                sb.AppendFormat(RenderThumbnail(previewUrl));
             }
 
             sb.AppendLine();
@@ -323,12 +306,8 @@ namespace X.Scaffolding.Core
 
         private static string RenderThumbnail(string value, int width = 0)
         {
-            if (width != 0)
-            {
-                return String.Format("<a href=\"#\" class=\"thumbnail\"><img width=\"{1}px\" src=\"{0}\" /></a>", value, width);
-            }
-
-            return String.Format("<a href=\"#\" class=\"thumbnail\"><img src=\"{0}\" /></a>", value);
+            var str = width == 0 ? "" : String.Format("width=\"{0}px\"", width);
+            return String.Format("<a href=\"#\" class=\"thumbnail\"><img {1} src=\"{0}\" /></a>", value, str);
         }
 
         /// <summary>

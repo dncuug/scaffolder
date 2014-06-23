@@ -45,7 +45,7 @@ namespace Manage.Controllers
             if (file.ContentLength > 0)
             {
                 var name = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                url = X.Storage.StorageManager.Instance.Upload(file.InputStream, name);
+                url = Upload(file.InputStream, name);
             }
 
             return View((object)url);
@@ -65,7 +65,7 @@ namespace Manage.Controllers
             var bytes = new byte[file.InputStream.Length];
             file.InputStream.Read(bytes, 0, bytes.Length);
             
-            var url = X.Storage.StorageManager.Instance.Upload(bytes, fileName);
+            var url = Upload(bytes, fileName);
 
             var callback = String.Format("{0}, '{1}', '{2}'", id, url, message);
 
@@ -98,22 +98,17 @@ namespace Manage.Controllers
         [Authorize]
         public ActionResult RestartWebApplication()
         {
-            X.Storage.IStorage storage = new X.Storage.StorageManager("", "");
+            throw new NotImplementedException();
+        }
 
-            try
-            {
-                var bytes = storage.Download("web.config");
-                var localPath = Path.GetTempFileName();
-                System.IO.File.WriteAllBytes(localPath, bytes);
-                System.IO.File.SetLastAccessTime(localPath, DateTime.Now);
-                storage.Upload(System.IO.File.ReadAllBytes(localPath), "web.config");
+        private string Upload(Stream stream, string name)
+        {
+            throw new NotImplementedException();
+        }
 
-                return Content("OK");
-            }
-            catch (Exception ex)
-            {
-                return Content(ex.Message);
-            }
+        private string Upload(byte[] bytes, string fileName)
+        {
+           return Upload(new MemoryStream(bytes), fileName);
         }
 
         private static IEnumerable<String> GetExceptionDescription(Exception ex)

@@ -515,3 +515,52 @@ a.cke_dialog_ui_button_ok {
 }
 
 /*End of Login Form*/
+
+.chosen-container-single .chosen-single {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+    display: block;
+    height: 30px;
+    line-height: 24px;
+    overflow: hidden;
+    padding: 0 0 0 8px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.chosen-container-single .chosen-drop {
+    border-radius: 0;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single {
+    background: none;
+}
+
+/**/
+.editor-label {
+}
+
+.editor-field {
+}
+
+.display-label {
+}
+
+.display-field {
+}
+
+.create {
+}
+
+.edit {
+    width: 50px;
+}
+
+.delete {
+    width: 50px;
+}
+
+/**/

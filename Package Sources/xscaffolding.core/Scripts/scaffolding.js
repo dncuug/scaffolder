@@ -2,4 +2,6 @@
     if (!Modernizr.inputtypes.date) {
         $('.date').datepicker();
     }
+
+    $('select').chosen();
 });
