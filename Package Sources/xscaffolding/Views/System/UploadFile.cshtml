@@ -1,4 +1,3 @@
-﻿@using Core
 @using X.Scaffolding.Core
 @model String
 @{
@@ -11,13 +10,13 @@
     ViewBag.Title = "Upload File";
 }
 
-<h1>File uploading</h1>
+<h1>@ViewBag.Title</h1>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.BootstrapFileUploadFor(file => file, "file")
+    @Html.BootstrapFileUploadFor(file => file, "file", null)
     <br />
     <input type="submit" value="Upload" class="btn btn-primary" />
     <br />
@@ -45,4 +44,3 @@
         </a>
     }
 }
-

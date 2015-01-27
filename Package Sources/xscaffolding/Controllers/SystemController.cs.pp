@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using X.Scaffolding.Core;
+using System.Web.Configuration;
 
 namespace $rootNamespace$.Controllers
 {
@@ -20,7 +20,7 @@ namespace $rootNamespace$.Controllers
         [HttpPost]
         public ActionResult Login(NetworkCredential credentials)
         {
-            if (credentials.UserName == "test" && credentials.Password == "test")
+            if (FormsAuthentication.Authenticate(credentials.UserName, credentials.Password))
             {
                 FormsAuthentication.RedirectFromLoginPage(credentials.UserName, true);
                 return Redirect("~/");
@@ -101,7 +101,14 @@ namespace $rootNamespace$.Controllers
 
         private string Upload(Stream stream, string name)
         {
-            throw new NotImplementedException();
+            var path = String.Format("{0}{1}", WebConfigurationManager.AppSettings["storageLocation"], name);
+
+            using (var fileStream = System.IO.File.Create(path))
+            {
+                stream.CopyTo(fileStream);
+            }
+
+            return String.Format("{0}{1}", WebConfigurationManager.AppSettings["storageUrl"], name);
         }
 
         private string Upload(byte[] bytes, string fileName)
