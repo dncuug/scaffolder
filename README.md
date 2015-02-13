@@ -50,3 +50,7 @@ In NuGet.org I divided the project into two parts: X.Scaffolding and X.Scaffoldi
 ####NuGet
 You can install X.Scaffolding package from NuGet at https://www.nuget.org/packages/xscaffolding/
  
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ernado-x/x.scaffolding/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
