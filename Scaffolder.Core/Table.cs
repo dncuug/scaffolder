@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace Scaffolder.Core
 {
-    public class Table
+    public class Table : BaseObject
     {
-        public List<Column> Columns { get; set; }
-        public String Name { get; set; }
-        public String Title { get; set; }
-        public String Description { get; set; }
-    }
 
+        public List<Column> Columns { get; set; }
+    }
 }

@@ -2,16 +2,10 @@ using System;
 
 namespace Scaffolder.Core
 {
-    public class Column
+    public class Column : BaseObject
     {
         public virtual ColumnType Type { get; set; }
-        public String Name { get; set; }
-        public String Title { get; set; }
-
-        public String Description { get; set; }
-
         public bool AllowNullValue { get; set; }
-
         public Reference Reference { get; set; }
     }
 
