@@ -3,12 +3,21 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
-    "Scaffolder.App": "1.0.0-*"
+    "System.Data.Common": "4.1.0",
+    "System.Data.SqlClient": "4.1.0",
+    "Scaffolder.Core": "1.0.0-*"
+  },
+
+  "tools": {
+    "BundlerMinifier.Core": "2.0.238"
   },
 
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+        "netcoreapp1.0": {
+          "imports": [
+            "dotnet5.6",
+            "portable-net45+win8"
+          ]
+        }
     }
-  }
 }
