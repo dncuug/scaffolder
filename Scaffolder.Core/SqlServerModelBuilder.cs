@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core
 {
     public class SqlServerModelBuild
     {
-        private SqlServerDatabase _db;
+        private readonly SqlServerDatabase _db;
 
         public SqlServerModelBuild(String connectrionString)
         {
             _db = new SqlServerDatabase(connectrionString);
         }
 
-        public IEnumerable<Table> Build()
+        public Database Build()
         {
-            var result = new List<Table>();
+            var database = new Database();
 
             var tableList = GetDatabaseTables();
 
             foreach (var name in tableList)
             {
                 var table = GetDataTable(name);
-
-                result.Add(table);
+                database.Tables.Add(table);
             }
 
-            return result;
+            return database;
         }
 
         private Table GetDataTable(string name)
         {
             var sql = @"
-                        SELECT COLUMN_NAME
+                        SELECT COLUMN_NAME,
 	                           IS_NULLABLE,
                                DATA_TYPE,
                                CHARACTER_MAXIMUM_LENGTH

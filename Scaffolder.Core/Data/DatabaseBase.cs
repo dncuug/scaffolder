@@ -74,6 +74,4 @@ namespace Scaffolder.Core.Data
 
         protected abstract TCommandType CreateCommand(TConnectoinType connection, String sql, Dictionary<String, Object> parameters = null);
     }
-
-   
 }

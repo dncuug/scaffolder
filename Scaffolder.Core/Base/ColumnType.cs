@@ -1,6 +1,4 @@
-using System;
-
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Base
 {
     public enum ColumnType
     {

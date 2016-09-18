@@ -8,15 +8,13 @@ namespace Scaffolder.App
     {
         public static void Main(string[] args)
         {
-            var connectionString = File.ReadAllText("/Users/andrew/pub/connection.conf");
-            var db = new Scaffolder.Core.Data.SqlServerDatabase(connectionString);
-
+            var connectionString = File.ReadAllText("c:/pub/connection.conf");
+            
             var builder = new SqlServerModelBuild(connectionString);
             
+            var database = builder.Build();
 
-            var tables = builder.Build();
-
-            foreach (var t in tables)
+            foreach (var t in database.Tables)
             {
                 Console.WriteLine(t.Name);
             }

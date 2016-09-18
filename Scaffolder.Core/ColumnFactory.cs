@@ -1,10 +1,6 @@
+using Scaffolder.Core.Base;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
-using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core
 {
@@ -12,7 +8,7 @@ namespace Scaffolder.Core
     {
         public Column CreateColumn(IDataReader r)
         {
-            var type = ParseColumnType(r["COLUMN_NAME"].ToString());
+            var type = ParseColumnType(r["DATA_TYPE"].ToString());
 
             switch (type)
             {
@@ -85,7 +81,7 @@ namespace Scaffolder.Core
             column.Name = r["COLUMN_NAME"].ToString();
             column.AllowNullValue = r["IS_NULLABLE"].ToString() == "YES";
 
-            column.Type = ParseColumnType(r["COLUMN_NAME"].ToString());
+            column.Type = ParseColumnType(r["DATA_TYPE"].ToString());
         }
 
         private ColumnType ParseColumnType(string type)
@@ -101,6 +97,10 @@ namespace Scaffolder.Core
             else if (type.ToLower() == "datetime")
             {
                 return ColumnType.DateTime;
+            }
+            else if (type.ToLower() == "float")
+            {
+                return ColumnType.Double;
             }
             else
             {

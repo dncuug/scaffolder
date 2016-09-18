@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Base
 {
     public abstract class BaseObject
     {

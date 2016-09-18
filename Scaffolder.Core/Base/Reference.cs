@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Base
 {
     public class Reference
     {
