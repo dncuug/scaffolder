@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Scaffolder.API.Application;
 using Scaffolder.Core.Base;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Options;
-using Scaffolder.API.Application;
 
 namespace Scaffolder.API.Controllers
 {
     [Route("[controller]")]
     public class TableController : Scaffolder.API.Application.ControllerBase
     {
+        public TableController(IOptions<AppSettings> settings)
+            : base(settings)
+        {
+        }
 
         [HttpGet]
         public IEnumerable<BaseObject> Get()
         {
-            return Database.Tables.Select(o => new BaseObject
+            return DatabaseModel.Tables.Select(o => new BaseObject
             {
                 Name = o.Name,
                 Title = o.Title,
@@ -26,11 +29,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet("{name}")]
         public Table Get(string name)
         {
-            return Database.Tables.SingleOrDefault(o => o.Name.ToLower() == name.ToLower());
-        }
-
-        public TableController(IOptions<AppSettings> settings) : base(settings)
-        {
+            return DatabaseModel.GetTable(name);
         }
     }
 }

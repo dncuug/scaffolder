@@ -1,52 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
+using Scaffolder.Core;
+using System.Collections.Generic;
 
 namespace Scaffolder.API.Controllers
 {
     [Route("[controller]")]
     public class DataController : Scaffolder.API.Application.ControllerBase
     {
+        private Repository _repository;
 
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        public DataController(IOptions<AppSettings> settings)
+            : base(settings)
         {
-            throw new NotImplementedException();
         }
 
-        // GET api/values/5
+        [HttpGet]
+        public IEnumerable<dynamic> Get(Filter filter = null)
+        {
+            filter.TableName = "Pages";
+
+            var table = DatabaseModel.GetTable(filter.TableName);
+            _repository = new Repository(_db, table);
+
+            return _repository.Select(filter);
+        }
+
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            //SELECT by ID
             return "value";
         }
 
-        // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            //INSERT
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+            //UPDATE
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
-
-        public DataController(IOptions<AppSettings> settings) : base(settings)
-        {
+            //DELETE
         }
     }
 }

@@ -4,10 +4,16 @@ namespace Scaffolder.Core.Base
 {
     public class Column : BaseObject
     {
+        public Column()
+        {
+            ShowInGrid = true;
+        }
+
         public bool IsKey { get; set; }
         public virtual ColumnType Type { get; set; }
         public bool AllowNullValue { get; set; }
         public Reference Reference { get; set; }
+        public bool ShowInGrid { get; set; }
     }
 
     public class TextColumn : Column

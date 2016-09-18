@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
 using Scaffolder.Core.Base;
 
 namespace Scaffolder.Core
@@ -20,16 +20,33 @@ namespace Scaffolder.Core
             _queryBuilder = new QueryBuilder();
         }
 
-        public dynamic Select(Filter filter)
+        public IEnumerable<dynamic> Select(Filter filter)
         {
-            throw new NotImplementedException();
-            //var query = _queryBuilder.Build(filter);
-            //_db.Execute(query, Map, filter.Parameters);
+            var query = _queryBuilder.Build(_table, filter);
+            var result = _db.Execute(query, Map, filter.Parameters).ToList();
+            return result;
         }
 
         private dynamic Map(IDataReader r)
         {
-            throw new NotImplementedException();
+            var obj = new ExpandoObject();
+
+            foreach (var c in _table.Columns)
+            {
+                AddProperty(obj, c.Name, r[c.Name]);
+            }
+
+            return obj;
+        }
+
+        public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        {
+            // ExpandoObject supports IDictionary so we can extend it like this
+            var expandoDict = expando as IDictionary<string, object>;
+            if (expandoDict.ContainsKey(propertyName))
+                expandoDict[propertyName] = propertyValue;
+            else
+                expandoDict.Add(propertyName, propertyValue);
         }
 
         public dynamic Insert(dynamic obj)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scaffolder.Core
 {
@@ -14,7 +12,12 @@ namespace Scaffolder.Core
             SortOrder = SortOrder.Ascending;
             CurrentPage = 1;
             Parameters = new Dictionary<string, object>();
+            TableName = "";
         }
+
+        public string TableName { get; set; }
+
+        public bool DetailMode { get; set; }
 
         public System.Data.SqlClient.SortOrder SortOrder { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Scaffolder.Core.Base
@@ -56,6 +57,11 @@ namespace Scaffolder.Core.Base
             var database = JsonConvert.DeserializeObject<Database>(json);
             database.LoadextendedConfiguration(extendedConfigurationFilePath);
             return database;
+        }
+
+        public Table GetTable(string name)
+        {
+            return Tables.SingleOrDefault(o => o.Name.ToLower() == name.ToLower());
         }
     }
 }
