@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core
 {
     public class QueryBuilder
     {
-        public String Build(Table table, Filter filter)
+        private String BuildSelect(Table table, Filter filter)
         {
             var sb = new StringBuilder();
 
@@ -21,8 +22,65 @@ namespace Scaffolder.Core
             sb.AppendFormat(" FROM {0} ", filter.TableName);
 
             var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).ToList();
-            
+
             sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
+
+            return sb.ToString();
+        }
+
+        public String Build(Query query, Table table, Filter filter = null)
+        {
+            switch (query)
+            {
+                case Query.Select:
+                    return BuildSelect(table, filter);
+                case Query.Insert:
+                    return BuildInsert(table);
+                case Query.Update:
+                    return BuildUpdate(table);
+                case Query.Delete:
+                    return BuildDelete(table);
+            }
+
+            throw new NotSupportedException("Unknown query type");
+        }
+
+        private string BuildInsert(Table table)
+        {
+            var sb = new StringBuilder();
+
+            var fields = table.Columns.Where(o => !o.AutoIncrement).ToList();
+
+            sb.AppendFormat("INSERT INTO {0} ({1})", table.Name, String.Join(", ", fields));
+            sb.AppendFormat(" VALUES({0})", String.Join(", ", fields));
+
+            return sb.ToString();
+        }
+
+        private string BuildUpdate(Table table)
+        {
+            var sb = new StringBuilder();
+
+            var fields = table.Columns.Where(o => !o.AutoIncrement).ToList();
+            var keyFields = table.Columns.Where(o => o.IsKey).ToList();
+
+            sb.AppendFormat("UPDATE {0} SET {1}", table.Name, String.Join(", ", fields));
+            sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("{0} = @{0}", o.Name))));
+            sb.AppendFormat(" WHERE");
+            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("{0} = @{0}", o.Name))));
+
+            return sb.ToString();
+        }
+
+        private string BuildDelete(Table table)
+        {
+            var sb = new StringBuilder();
+
+            var keyFields = table.Columns.Where(o => o.IsKey).ToList();
+
+            sb.AppendFormat("DELETE FROM {0} ", table.Name);
+            sb.AppendFormat(" WHERE");
+            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("{0} = @{0}", o.Name))));
 
             return sb.ToString();
         }

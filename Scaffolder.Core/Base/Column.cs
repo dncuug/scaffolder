@@ -14,6 +14,7 @@ namespace Scaffolder.Core.Base
         public bool AllowNullValue { get; set; }
         public Reference Reference { get; set; }
         public bool ShowInGrid { get; set; }
+        public bool AutoIncrement { get; set; }
     }
 
     public class TextColumn : Column
