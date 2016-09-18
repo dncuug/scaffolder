@@ -1,44 +1,35 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Scaffolder.Core.Base;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Scaffolder.API.Application;
 
 namespace Scaffolder.API.Controllers
 {
     [Route("[controller]")]
-    public class TableController : Controller
+    public class TableController : Scaffolder.API.Application.ControllerBase
     {
-        // GET api/values
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<BaseObject> Get()
         {
-
-            return new string[] { "value1", "value2" };
+            return Database.Tables.Select(o => new BaseObject
+            {
+                Name = o.Name,
+                Title = o.Title,
+                Description = o.Description
+            }).ToList();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{name}")]
+        public Table Get(string name)
         {
-            return "value";
+            return Database.Tables.SingleOrDefault(o => o.Name.ToLower() == name.ToLower());
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        public TableController(IOptions<AppSettings> settings) : base(settings)
         {
         }
     }
