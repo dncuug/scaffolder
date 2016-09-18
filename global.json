@@ -1,6 +1,6 @@
 {
-  "projects": [
-    "Scaffolder.Core",
-    "Scaffolder.App"
+  "projects": [ 
+  	"Scaffolder.Core",
+  	"Scaffolder.App"
   ]
 }

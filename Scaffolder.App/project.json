@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0",
+      "type": "platform"
+    },
+    "Scaffolder.Core": "1.0.0-*",
+    "System.Data.Common": "4.1.0",
+    "System.Data.SqlClient": "4.1.0"
+  },
+
+  "frameworks": {
+        "netcoreapp1.0": {
+          "imports": [
+            "dotnet5.6",
+            "portable-net45+win8"
+          ]
+        }
+    }
+}
