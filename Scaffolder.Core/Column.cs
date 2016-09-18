@@ -48,6 +48,8 @@ namespace Scaffolder.Core
             set { }
         }
 
+        public bool IsImage { get; set; }
+
         public String StorageConnectoinString { get; set; }
         public String StorageUrl { get; set; }
     }

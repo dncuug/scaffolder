@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
 using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core
@@ -45,13 +42,23 @@ namespace Scaffolder.Core
 
 
             var table = new Table(name);
-             _db.Execute(sql, r => MapTable(r, table), new Dictionary<string, object> { { "@TableName", name } });
 
+            var parameters = new Dictionary<string, object>
+            {
+                 { "@TableName", name }
+            };
+
+            _db.Execute(sql, r => MapTableColumns(r, table), parameters);
+
+            return table;
         }
 
-        private Table MapTable(IDataReader arg, Table t)
+        private Table MapTableColumns(IDataReader r, Table t)
         {
-            throw new NotImplementedException();
+            var factory = new ColumnFactory();
+            var column = factory.CreateColumn(r);
+            t.Columns.Add(column);
+            return t;
         }
 
         private IEnumerable<String> GetDatabaseTables()
@@ -60,7 +67,6 @@ namespace Scaffolder.Core
 
             var tables = _db.Execute(sql, r => r[0].ToString());
             return tables;
-
         }
     }
 }

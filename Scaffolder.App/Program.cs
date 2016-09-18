@@ -8,7 +8,7 @@ namespace Scaffolder.App
     {
         public static void Main(string[] args)
         {
-            var connectionString = File.ReadAllText("d:/tmp/connection.conf");
+            var connectionString = File.ReadAllText("/Users/andrew/pub/connection.conf");
             var db = new Scaffolder.Core.Data.SqlServerDatabase(connectionString);
 
             var builder = new SqlServerModelBuild(connectionString);
