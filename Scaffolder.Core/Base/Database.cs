@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Scaffolder.Core.Base
 {
@@ -13,5 +15,24 @@ namespace Scaffolder.Core.Base
         }
 
         public List<Table> Tables { get; set; }
+
+        public bool Save(String path)
+        {
+            var json = AsJson();
+            System.IO.File.WriteAllText(path, json);
+            return true;
+        }
+
+        public string AsJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
+
+        public static Database Load(String path)
+        {
+            var json = System.IO.File.ReadAllText(path);
+            var obj = JsonConvert.DeserializeObject<Database>(json);
+            return obj;
+        }
     }
 }

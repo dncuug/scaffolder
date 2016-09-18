@@ -59,6 +59,7 @@ namespace Scaffolder.Core
         {
             var column = new DateColumn();
             MapBaseProperties(column, r);
+            column.MinValue = new DateTime(1753, 1, 1);
             return column;
         }
 

@@ -9,14 +9,16 @@ namespace Scaffolder.App
     {
         public static void Main(string[] args)
         {
-            var connectionString = File.ReadAllText("c:/pub/connection.conf");
+            const String workingDirectoryPath = "c:/pub/";
+            
+            var connectionString = File.ReadAllText(workingDirectoryPath + "connection.conf");
 
             var builder = new SqlServerModelBuild(connectionString);
 
             var database = builder.Build();
-            
-            var json = JsonConvert.SerializeObject(database, Formatting.Indented);
-            Console.WriteLine(json);
+            database.Save(workingDirectoryPath + "db.json");
+
+            Console.WriteLine(database.AsJson());
 
             Console.ReadLine();
         }
