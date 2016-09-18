@@ -21,6 +21,9 @@ namespace Scaffolder.API.Controllers
         {
             filter.TableName = "Pages";
 
+            filter.Parameters.Add("PageTypesId", 1);
+            filter.Parameters.Add("Title", "%ces%");
+
             var table = DatabaseModel.GetTable(filter.TableName);
             _repository = new Repository(_db, table);
 

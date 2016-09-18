@@ -61,7 +61,7 @@ namespace Scaffolder.Core.Base
 
         public Table GetTable(string name)
         {
-            return Tables.SingleOrDefault(o => o.Name.ToLower() == name.ToLower());
+            return Tables.SingleOrDefault(o => String.Equals(o.Name,name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

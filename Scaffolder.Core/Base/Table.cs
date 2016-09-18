@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scaffolder.Core.Base
 {
@@ -22,6 +23,11 @@ namespace Scaffolder.Core.Base
         public override string ToString()
         {
             return Name;
+        }
+
+        public Column GetColumn(string name)
+        {
+            return Columns.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

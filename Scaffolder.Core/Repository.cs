@@ -23,7 +23,9 @@ namespace Scaffolder.Core
         public IEnumerable<dynamic> Select(Filter filter)
         {
             var query = _queryBuilder.Build(_table, filter);
-            var result = _db.Execute(query, Map, filter.Parameters).ToList();
+
+            var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
+            var result = _db.Execute(query, Map, parameters).ToList();
             return result;
         }
 
