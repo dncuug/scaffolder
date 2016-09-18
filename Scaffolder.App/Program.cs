@@ -1,6 +1,7 @@
 ﻿using Scaffolder.Core;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Scaffolder.App
 {
@@ -9,15 +10,13 @@ namespace Scaffolder.App
         public static void Main(string[] args)
         {
             var connectionString = File.ReadAllText("c:/pub/connection.conf");
-            
-            var builder = new SqlServerModelBuild(connectionString);
-            
-            var database = builder.Build();
 
-            foreach (var t in database.Tables)
-            {
-                Console.WriteLine(t.Name);
-            }
+            var builder = new SqlServerModelBuild(connectionString);
+
+            var database = builder.Build();
+            
+            var json = JsonConvert.SerializeObject(database, Formatting.Indented);
+            Console.WriteLine(json);
 
             Console.ReadLine();
         }

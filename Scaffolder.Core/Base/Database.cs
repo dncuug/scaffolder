@@ -6,6 +6,9 @@ namespace Scaffolder.Core.Base
     {
         public Database()
         {
+            Name = "Database";
+            Title = "Database";
+            Description = "";
             Tables = new List<Table>();
         }
 
