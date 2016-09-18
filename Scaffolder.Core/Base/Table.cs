@@ -16,7 +16,7 @@ namespace Scaffolder.Core.Base
             Name = name;
             Title = name;
         }
-
+        
         public List<Column> Columns { get; set; }
     }
 }
