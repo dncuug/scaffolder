@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
 
 <head>
@@ -16,6 +12,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css">
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -31,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
-  -->
+    -->
     <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/skin-blue.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -278,6 +276,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <section class="content">
 
                 <!-- Your Page Content Here -->
+                <div ng-view=""></div>
 
             </section>
             <!-- /.content -->
@@ -385,7 +384,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/AdminLTE/dist/js/app.min.js"></script>
+    <script src="bower_components/AdminLTE/dist/js/app.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

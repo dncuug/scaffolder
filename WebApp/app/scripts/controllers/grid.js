@@ -8,10 +8,12 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-  .controller('GridCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+    .controller('GridCtrl', function() {
+
+        debugger;
+        this.awesomeThings = [
+            'HTML5 Boilerplate',
+            'AngularJS',
+            'Karma'
+        ];
+    });

@@ -26,5 +26,14 @@ angular.module('webAppApp')
             });
         };
 
+        /**
+         * 
+         */
+        this.getDatabase = function(url) {
+            return $http.get(Url(this, '/database')).then(function(response) {
+                return response.data;
+            });
+        };
+
 
     });

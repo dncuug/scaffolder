@@ -9,7 +9,7 @@ namespace Scaffolder.App
     {
         public static void Main(string[] args)
         {
-            const String workingDirectoryPath = "d:/tmp/";
+            const String workingDirectoryPath = "/Users/andrew/pub/";
             
             var connectionString = File.ReadAllText(workingDirectoryPath + "connection.conf");
 
