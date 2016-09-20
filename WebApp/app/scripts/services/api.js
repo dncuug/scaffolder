@@ -20,7 +20,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getTables = function(url) {
+        this.getTables = function() {
             return $http.get(Url(this, '/table')).then(function(response) {
                 return response.data;
             });
@@ -29,8 +29,17 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getDatabase = function(url) {
+        this.getDatabase = function() {
             return $http.get(Url(this, '/database')).then(function(response) {
+                return response.data;
+            });
+        };
+
+        /**
+         * 
+         */
+        this.getTable = function(name) {
+            return $http.get(Url(this, '/table/' + name)).then(function(response) {
                 return response.data;
             });
         };

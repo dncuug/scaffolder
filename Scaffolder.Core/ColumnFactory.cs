@@ -83,6 +83,8 @@ namespace Scaffolder.Core
             column.AllowNullValue = r["IS_NULLABLE"].ToString() == "YES";
 
             column.Type = ParseColumnType(r["DATA_TYPE"].ToString());
+
+            column.Title = column.Name;
         }
 
         private ColumnType ParseColumnType(string type)

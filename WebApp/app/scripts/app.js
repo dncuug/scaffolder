@@ -15,7 +15,10 @@ angular
         'ngResource',
         'ngRoute',
         'ngSanitize',
-        'ngTouch'
+        'ngTouch',
+        'ui.grid',
+        'ui.grid.edit',
+        'ui.grid.pagination'
     ])
     .config(function($routeProvider) {
         $routeProvider
