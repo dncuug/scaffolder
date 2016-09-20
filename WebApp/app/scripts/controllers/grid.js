@@ -23,6 +23,15 @@ angular.module('webAppApp')
             }]
         };
 
+        $scope.filter = {
+            pageSize: 10,
+            sortOrder: 1,
+            currentPage: 1,
+            parameters: [],
+            tableName: "",
+            detailMode: false,
+        };
+
         $scope.title = '';
 
         $scope.clickHandler = {
@@ -36,12 +45,14 @@ angular.module('webAppApp')
 
         function initializeGrid() {
 
-            var table = $routeParams.table;
+            var name = $routeParams.table;
 
-            api.getTable(table).then(function(response) {
+            api.getTable(name).then(function(table) {
 
-                $scope.title = response.title;
-                $scope.gridOptions.columnDefs = response.columns.map(function(c) {
+                $scope.filter.tableName = table.name;
+                $scope.title = table.title;
+
+                $scope.gridOptions.columnDefs = table.columns.map(function(c) {
                     return {
                         name: c.title,
                         field: c.name,
@@ -67,7 +78,9 @@ angular.module('webAppApp')
         }
 
         function loadData() {
-
+            api.getData($scope.filter).then(function(response) {
+                $scope.gridOptions.data = response;
+            });
         }
 
         initializeGrid();

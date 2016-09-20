@@ -19,11 +19,14 @@ namespace Scaffolder.Core
 
             sb.Append(String.Join(", ", columns));
 
-            sb.AppendFormat(" FROM {0} ", filter.TableName);
+            sb.AppendFormat(" FROM [{0}] ", filter.TableName);
 
             var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).ToList();
 
-            sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
+            if (whereCaluses.Any())
+            {
+                sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
+            }
 
             return sb.ToString();
         }
@@ -51,7 +54,7 @@ namespace Scaffolder.Core
 
             var fields = table.Columns.Where(o => !o.AutoIncrement).ToList();
 
-            sb.AppendFormat("INSERT INTO {0} ({1})", table.Name, String.Join(", ", fields));
+            sb.AppendFormat("INSERT INTO [{0}] ({1})", table.Name, String.Join(", ", fields));
             sb.AppendFormat(" VALUES({0})", String.Join(", ", fields));
 
             return sb.ToString();
@@ -64,10 +67,10 @@ namespace Scaffolder.Core
             var fields = table.Columns.Where(o => !o.AutoIncrement).ToList();
             var keyFields = table.Columns.Where(o => o.IsKey).ToList();
 
-            sb.AppendFormat("UPDATE {0} SET {1}", table.Name, String.Join(", ", fields));
-            sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("{0} = @{0}", o.Name))));
+            sb.AppendFormat("UPDATE [{0}] SET {1}", table.Name, String.Join(", ", fields));
+            sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
             sb.AppendFormat(" WHERE");
-            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("{0} = @{0}", o.Name))));
+            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
 
             return sb.ToString();
         }
@@ -78,9 +81,9 @@ namespace Scaffolder.Core
 
             var keyFields = table.Columns.Where(o => o.IsKey).ToList();
 
-            sb.AppendFormat("DELETE FROM {0} ", table.Name);
+            sb.AppendFormat("DELETE FROM [{0}] ", table.Name);
             sb.AppendFormat(" WHERE");
-            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("{0} = @{0}", o.Name))));
+            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
 
             return sb.ToString();
         }
@@ -91,10 +94,10 @@ namespace Scaffolder.Core
 
             if (column.Type == ColumnType.Text)
             {
-                return String.Format("{0} LIKE @{0}", p.Key);
+                return String.Format("[{0}] LIKE @{0}", p.Key);
             }
 
-            return String.Format("{0} = @{0}", p.Key);
+            return String.Format("[{0}] = @{0}", p.Key);
         }
     }
 }

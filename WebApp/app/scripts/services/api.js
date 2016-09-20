@@ -21,28 +21,56 @@ angular.module('webAppApp')
          * 
          */
         this.getTables = function() {
-            return $http.get(Url(this, '/table')).then(function(response) {
+
+            return $http({
+                method: 'GET',
+                url: Url(this, '/table')
+            }).then(function(response) {
                 return response.data;
             });
+
         };
 
         /**
          * 
          */
         this.getDatabase = function() {
-            return $http.get(Url(this, '/database')).then(function(response) {
+
+            return $http({
+                method: 'GET',
+                url: Url(this, '/database')
+            }).then(function(response) {
                 return response.data;
             });
+
         };
 
         /**
          * 
          */
         this.getTable = function(name) {
-            return $http.get(Url(this, '/table/' + name)).then(function(response) {
+
+            return $http({
+                method: 'GET',
+                url: Url(this, '/table/' + name)
+            }).then(function(response) {
                 return response.data;
             });
+
         };
 
 
+        /**
+         * 
+         */
+        this.getData = function(filter) {
+
+            return $http({
+                method: 'GET',
+                url: Url(this, '/data/' + name),
+                params: filter
+            }).then(function(response) {
+                return response.data;
+            });
+        };
     });

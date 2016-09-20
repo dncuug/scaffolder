@@ -13,6 +13,7 @@ namespace Scaffolder.Core
             CurrentPage = 1;
             Parameters = new Dictionary<string, object>();
             TableName = "";
+            DetailMode = false;
         }
 
         public string TableName { get; set; }

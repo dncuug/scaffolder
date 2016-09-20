@@ -19,10 +19,10 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get(Filter filter = null)
         {
-            filter.TableName = "Pages";
+            // filter.TableName = "Pages";
 
-            filter.Parameters.Add("PageTypesId", 1);
-            filter.Parameters.Add("Title", "%ces%");
+            // filter.Parameters.Add("PageTypesId", 1);
+            // filter.Parameters.Add("Title", "%ces%");
 
             var table = DatabaseModel.GetTable(filter.TableName);
             _repository = new Repository(_db, table);
