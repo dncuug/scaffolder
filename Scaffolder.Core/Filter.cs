@@ -10,6 +10,7 @@ namespace Scaffolder.Core
         {
             PageSize = 10;
             SortOrder = SortOrder.Ascending;
+            SortColumn = String.Empty;
             CurrentPage = 1;
             Parameters = new Dictionary<string, object>();
             TableName = "";
@@ -21,6 +22,8 @@ namespace Scaffolder.Core
         public bool DetailMode { get; set; }
 
         public System.Data.SqlClient.SortOrder SortOrder { get; set; }
+
+        public String SortColumn { get; set; }
 
         public Dictionary<String, Object> Parameters { get; set; }
 
