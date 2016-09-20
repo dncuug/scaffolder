@@ -37,7 +37,7 @@ angular
                 controller: 'GridCtrl',
                 controllerAs: 'grid'
             })
-            .when('/detail/:table?', {
+            .when('/detail/:table?/:id', {
                 templateUrl: 'views/detail.html',
                 controller: 'DetailCtrl',
                 controllerAs: 'detail'
