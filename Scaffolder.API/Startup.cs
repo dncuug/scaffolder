@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,20 @@ namespace Scaffolder.API
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddCors();
+
+            //Add Cors support to the service
+
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                }));
+
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -43,7 +58,13 @@ namespace Scaffolder.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+
+            //Add CORS middleware before MVC
+            app.UseCors("CorsPolicy");
+
             app.UseMvc();
+
+
         }
     }
 }

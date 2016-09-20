@@ -8,24 +8,23 @@
  * Service in the webAppApp.
  */
 angular.module('webAppApp')
-  .service('api', function ($scope, $http) {
+    .service('api', function($http) {
 
-    this.Endpoint = '';
+        this.Endpoint = 'http://localhost:5000';
 
-    function Url(relativeUrl) {
-      return thid.Endpoint + relativeUrl;
-    }
-
-
-    /**
-    * 
-    */
-    this.getTables = function (url) {
-      $http.get(Url('/Tables'))
-        .then(function (response) {
-          return response.data;
-        });
-    };
+        function Url(self, relativeUrl) {
+            return self.Endpoint + relativeUrl;
+        }
 
 
-  });
+        /**
+         * 
+         */
+        this.getTables = function(url) {
+            return $http.get(Url(this, '/table')).then(function(response) {
+                return response.data;
+            });
+        };
+
+
+    });
