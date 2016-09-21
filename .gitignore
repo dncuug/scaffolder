@@ -251,4 +251,4 @@ paket-files/
 .idea/
 *.sln.iml
 
-.bower_components/
+bower_components/
