@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('GridCtrl', function($scope, $routeParams, $location, api) {
+    .controller('GridCtrl', function ($scope, $routeParams, $location, api) {
 
         $scope.gridOptions = {
             enableSorting: true,
@@ -30,28 +30,32 @@ angular.module('webAppApp')
 
         $scope.title = '';
 
-        $scope.delete = function(e, row) {
+        $scope.delete = function (e, row) {
             debugger;
             alert('Name: ' + value);
         };
 
-        $scope.edit = function(e, row) {
-            
+        $scope.edit = function (e, row) {
+
             //TODO: implement Primary key selection
             var url = "/detail/" + $routeParams.table + "/" + row.entity.Id;
             $location.path(url);
         };
 
+        function filterGridColumns(column) {
+            return !!column.showInGrid;
+        }
+
         function initializeGrid() {
 
             var name = $routeParams.table;
 
-            api.getTable(name).then(function(table) {
+            api.getTable(name).then(function (table) {
 
                 $scope.filter.tableName = table.name;
                 $scope.title = table.title;
 
-                $scope.gridOptions.columnDefs = table.columns.map(function(c) {
+                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
                     return {
                         name: c.title,
                         field: c.name,
@@ -82,7 +86,7 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-            api.getData($scope.filter).then(function(response) {
+            api.getData($scope.filter).then(function (response) {
                 $scope.gridOptions.data = response;
             });
         }
