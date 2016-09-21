@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Scaffolder.Core.Base;
+﻿using Scaffolder.Core.Base;
+using System;
 
 namespace Scaffolder.Core
 {
@@ -34,23 +30,58 @@ namespace Scaffolder.Core
 
         public static void MapExtendInformation(Column src, Column dst)
         {
-            if (src.Type != dst.Type)
+            MapExtendInformation((BaseObject)src, (BaseObject)dst);
+
+            if (src.Position != null)
             {
-                var copyOfDestenationColumnWithNewType = (Column) Activator.CreateInstance(src.GetType());
-
-                var srcColumnFields = src.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-                var dstColumnFields = dst.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-                foreach (var field in dstColumnFields)
-                {
-                    if (dstColumnFields.Any(f => f.Name == field.Name && f.FieldType == field.FieldType))
-                    {
-                        var value = field.GetValue(dst);
-                        field.SetValue(copyOfDestenationColumnWithNewType, value);
-                    }
-                }
-
+                dst.Position = src.Position;
             }
+
+            if (src.IsKey != null)
+            {
+                dst.IsKey = src.IsKey;
+            }
+
+            if (src.Type != null)
+            {
+                dst.Type = src.Type;
+            }
+
+            if (src.AllowNullValue != null)
+            {
+                dst.AllowNullValue = src.AllowNullValue;
+            }
+
+            if (src.Reference != null)
+            {
+                dst.Reference = src.Reference;
+            }
+
+            if (src.ShowInGrid != null)
+            {
+                dst.ShowInGrid = src.ShowInGrid;
+            }
+
+            if (src.AutoIncrement != null)
+            {
+                dst.AutoIncrement = src.AutoIncrement;
+            }
+
+            if (src.MaxValue != null)
+            {
+                dst.MaxValue = src.MaxValue;
+            }
+
+            if (src.MinValue != null)
+            {
+                dst.MinValue = src.MinValue;
+            }
+
+            if (src.MaxLength != null)
+            {
+                dst.MaxLength = src.MaxLength;
+            }
+
         }
     }
 }
