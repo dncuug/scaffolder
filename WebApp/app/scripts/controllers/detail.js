@@ -10,6 +10,7 @@
 angular.module('webAppApp')
     .controller('DetailCtrl', function($scope, $routeParams, $location, api) {
 
+        $scope.table = {};
 
         function initializeEditor() {
 
@@ -17,6 +18,7 @@ angular.module('webAppApp')
             var id = $routeParams.id;
 
             api.getTable(name).then(function(table) {
+                $scope.table = table;
                 $scope.title = table.title;
             });
 
