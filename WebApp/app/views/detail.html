@@ -1,2 +1,9 @@
 <h3>{{title}}</h3>
 
+<form class="form">
+    <div ng-repeat="c in table.columns" class="form-group">
+        <label>{{c.title}}</label>
+        <editor type="c.type" ng-model="record[c.name]"></editor>
+    </div>
+    <input type="button" ng-click="test()" value="Test" class="btn btn-default" />
+</form>

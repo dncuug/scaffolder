@@ -9,10 +9,13 @@
 angular.module('webAppApp')
   .directive('editor', function () {
     return {
-      template: '<div></div>',
+      templateUrl: 'views/directives/editor.html',
       restrict: 'E',
+      scope: {
+        ngModel: '='
+      },
       link: function postLink(scope, element, attrs) {
-        element.text('this is the Editor directive');
+
       }
     };
   });
