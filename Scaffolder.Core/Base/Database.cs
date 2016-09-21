@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace Scaffolder.Core.Base
@@ -42,25 +43,19 @@ namespace Scaffolder.Core.Base
 
                 foreach (var t in database.Tables)
                 {
-                    var table = this.Tables.SingleOrDefault(o => o.Name == t.Name);
+                    var table = this.GetTable(Name);
 
                     if (table != null)
                     {
-
-                        table.LoadExtendInformation(t);
+                        ObjectExtender.MapExtendInformation(t, table);
 
                         foreach (var c in t.Columns)
                         {
-                            var column = table.Columns.SingleOrDefault(o => o.Name == c.Name);
+                            var column = table.GetColumn(c.Name);
 
                             if (column != null)
                             {
-                                if (column.Type != c.Type)
-                                {
-                                    table.Columns.Remove(column);
-                                }
-
-                                column.LoadExtendInformation(c);
+                                ObjectExtender.MapExtendInformation(c, column);
                             }
                         }
                     }

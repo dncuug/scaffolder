@@ -56,9 +56,24 @@ namespace Scaffolder.Core
 
         private Table MapTableColumns(IDataReader r, Table t)
         {
-            var factory = new ColumnFactory();
-            var column = factory.CreateColumn(r);
-            
+
+            var column = new Column
+            {
+                Type = ParseColumnType(r["DATA_TYPE"].ToString()),
+                Position = 1,
+                Name = r["COLUMN_NAME"].ToString(),
+                Title = r["COLUMN_NAME"].ToString(),
+                AllowNullValue = r["IS_NULLABLE"].ToString() == "YES",
+                ShowInGrid = true,
+                IsKey = false,
+                Description = ""
+            };
+
+            if (column.Type == ColumnType.DateTime)
+            {
+                column.MinValue = new DateTime(1753, 1, 1);
+            }
+
             if (t.Columns.Count > 0)
             {
                 column.Position = t.Columns.Max(o => o.Position) + 1;
@@ -66,6 +81,30 @@ namespace Scaffolder.Core
 
             t.Columns.Add(column);
             return t;
+        }
+
+        private ColumnType ParseColumnType(string type)
+        {
+            if (type.ToLower() == "nvarchar")
+            {
+                return ColumnType.Text;
+            }
+            else if (type.ToLower() == "int")
+            {
+                return ColumnType.Integer;
+            }
+            else if (type.ToLower() == "datetime")
+            {
+                return ColumnType.DateTime;
+            }
+            else if (type.ToLower() == "float")
+            {
+                return ColumnType.Double;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         private IEnumerable<String> GetDatabaseTables()

@@ -28,23 +28,7 @@ namespace Scaffolder.Core.Base
             return Name;
         }
 
-        public virtual void LoadExtendInformation(Table obj)
-        {
-            if (!String.IsNullOrEmpty(obj.Title))
-            {
-                this.Title = obj.Title;
-            }
-
-            if (!String.IsNullOrEmpty(obj.Description))
-            {
-                this.Description = obj.Description;
-            }
-
-            if (obj.Position != 0)
-            {
-                this.Position = obj.Position;
-            }            
-        }
+        
 
         public Column GetColumn(string name)
         {
