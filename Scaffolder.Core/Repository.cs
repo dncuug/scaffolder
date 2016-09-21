@@ -21,14 +21,17 @@ namespace Scaffolder.Core
             _table = table;
             _queryBuilder = new QueryBuilder();
         }
-        
-        private dynamic Map(IDataReader r)
+
+        private dynamic Map(IDataReader r, bool loadAllColumns)
         {
             var obj = new ExpandoObject();
 
             foreach (var c in _table.Columns)
             {
-                AddProperty(obj, c.Name, r[c.Name]);
+                if (c.ShowInGrid == true || loadAllColumns)
+                {
+                    AddProperty(obj, c.Name, r[c.Name]);
+                }
             }
 
             return obj;
@@ -69,7 +72,7 @@ namespace Scaffolder.Core
             var query = _queryBuilder.Build(Query.Select, _table, filter);
 
             var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
-            var result = _db.Execute(query, Map, parameters).ToList();
+            var result = _db.Execute(query, r => Map(r, filter.DetailMode), parameters).ToList();
             return result;
         }
 
@@ -77,15 +80,15 @@ namespace Scaffolder.Core
         {
             var query = _queryBuilder.Build(Query.Insert, _table);
             var parameters = GetParameters(obj);
-            var result = _db.Execute(query, Map, parameters).FirstOrDefault();
+            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
             return result;
         }
-        
+
         public dynamic Update(Object obj)
         {
             var query = _queryBuilder.Build(Query.Update, _table);
             var parameters = GetParameters(obj);
-            var result = _db.Execute(query, Map, parameters).FirstOrDefault();
+            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
             return result;
         }
 

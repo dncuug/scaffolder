@@ -43,7 +43,7 @@ namespace Scaffolder.Core.Base
 
                 foreach (var t in database.Tables)
                 {
-                    var table = this.GetTable(Name);
+                    var table = this.GetTable(t.Name);
 
                     if (table != null)
                     {
