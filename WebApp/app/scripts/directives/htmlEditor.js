@@ -7,7 +7,7 @@
  * # HtmlEditor
  */
 angular.module('webAppApp')
-  .directive('HtmlEditor', function () {
+  .directive('htmlEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

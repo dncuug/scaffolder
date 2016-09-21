@@ -7,7 +7,7 @@
  * # IntegerEditor
  */
 angular.module('webAppApp')
-  .directive('IntegerEditor', function () {
+  .directive('integerEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

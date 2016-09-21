@@ -7,7 +7,7 @@
  * # PhoneEditor
  */
 angular.module('webAppApp')
-  .directive('PhoneEditor', function () {
+  .directive('phoneEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

@@ -7,7 +7,7 @@
  * # ImageEditor
  */
 angular.module('webAppApp')
-  .directive('ImageEditor', function () {
+  .directive('imageEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

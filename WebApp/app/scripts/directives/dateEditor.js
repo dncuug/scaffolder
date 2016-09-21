@@ -7,7 +7,7 @@
  * # DateEditor
  */
 angular.module('webAppApp')
-  .directive('DateEditor', function () {
+  .directive('dateEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

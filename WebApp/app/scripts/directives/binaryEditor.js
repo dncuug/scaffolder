@@ -7,7 +7,7 @@
  * # BinaryEditor
  */
 angular.module('webAppApp')
-  .directive('BinaryEditor', function () {
+  .directive('binaryEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

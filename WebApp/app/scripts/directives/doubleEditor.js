@@ -7,7 +7,7 @@
  * # DoubleEditor
  */
 angular.module('webAppApp')
-  .directive('DoubleEditor', function () {
+  .directive('doubleEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

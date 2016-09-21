@@ -7,7 +7,7 @@
  * # EmailEditor
  */
 angular.module('webAppApp')
-  .directive('EmailEditor', function () {
+  .directive('emailEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

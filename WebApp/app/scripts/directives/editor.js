@@ -7,7 +7,7 @@
  * # Editor
  */
 angular.module('webAppApp')
-  .directive('Editor', function () {
+  .directive('editor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',

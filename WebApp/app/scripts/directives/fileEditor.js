@@ -7,7 +7,7 @@
  * # FileEditor
  */
 angular.module('webAppApp')
-  .directive('FileEditor', function () {
+  .directive('fileEditor', function () {
     return {
       template: '<div></div>',
       restrict: 'E',
