@@ -42,7 +42,28 @@ namespace Scaffolder.Core.Base
 
                 foreach (var t in database.Tables)
                 {
+                    var table = this.Tables.SingleOrDefault(o => o.Name == t.Name);
 
+                    if (table != null)
+                    {
+
+                        table.LoadExtendInformation(t);
+
+                        foreach (var c in t.Columns)
+                        {
+                            var column = table.Columns.SingleOrDefault(o => o.Name == c.Name);
+
+                            if (column != null)
+                            {
+                                if (column.Type != c.Type)
+                                {
+                                    table.Columns.Remove(column);
+                                }
+
+                                column.LoadExtendInformation(c);
+                            }
+                        }
+                    }
                 }
 
                 ExtendedConfigurationLoaded = true;
@@ -61,7 +82,7 @@ namespace Scaffolder.Core.Base
 
         public Table GetTable(string name)
         {
-            return Tables.SingleOrDefault(o => String.Equals(o.Name,name, StringComparison.OrdinalIgnoreCase));
+            return Tables.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

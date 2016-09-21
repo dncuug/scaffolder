@@ -15,7 +15,7 @@ namespace Scaffolder.Core
 
             sb.AppendFormat("SElECT ");
 
-            var columns = table.Columns.Where(o => o.ShowInGrid || filter.DetailMode).Select(o => o.Name);
+            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode).Select(o => o.Name);
 
             sb.Append(String.Join(", ", columns));
 

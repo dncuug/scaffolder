@@ -79,6 +79,7 @@ namespace Scaffolder.Core
 
         public void MapBaseProperties(Column column, IDataReader r)
         {
+            column.Position = 1;
             column.Name = r["COLUMN_NAME"].ToString();
             column.AllowNullValue = r["IS_NULLABLE"].ToString() == "YES";
 

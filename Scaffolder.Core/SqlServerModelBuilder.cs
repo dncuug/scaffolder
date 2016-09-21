@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using Scaffolder.Core.Base;
@@ -57,6 +58,12 @@ namespace Scaffolder.Core
         {
             var factory = new ColumnFactory();
             var column = factory.CreateColumn(r);
+            
+            if (t.Columns.Count > 0)
+            {
+                column.Position = t.Columns.Max(o => o.Position) + 1;
+            }
+
             t.Columns.Add(column);
             return t;
         }
