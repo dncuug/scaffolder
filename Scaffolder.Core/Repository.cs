@@ -21,6 +21,48 @@ namespace Scaffolder.Core
             _table = table;
             _queryBuilder = new QueryBuilder();
         }
+        
+        public IEnumerable<dynamic> Select(Filter filter)
+        {
+            var query = _queryBuilder.Build(Query.Select, _table, filter);
+
+            var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
+            var result = _db.Execute(query, r => Map(r, filter.DetailMode), parameters).ToList();
+            return result;
+        }
+
+        public dynamic Insert(Object obj)
+        {
+            var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true).ToList();
+            var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
+            
+            var query = _queryBuilder.Build(Query.Insert, _table);
+            
+            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
+            return result;
+        }
+
+        public dynamic Update(Object obj)
+        {
+            var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true).ToList();
+            var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
+
+            var query = _queryBuilder.Build(Query.Update, _table);
+
+            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
+            return result;
+        }
+
+        public dynamic Delete(Object obj)
+        {
+            var keyColumns = _table.Columns.Where(c => c.IsKey == true).ToList();
+            var parameters = GetParameters(obj).Where(p => keyColumns.Any(k => k.Name == p.Key)).ToDictionary(x => x.Key, x => x.Value); ;
+
+            var query = _queryBuilder.Build(Query.Delete, _table);
+
+            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
+            return result;
+        }
 
         private dynamic Map(IDataRecord r, bool loadAllColumns)
         {
@@ -52,7 +94,7 @@ namespace Scaffolder.Core
             }
         }
 
-        private Dictionary<string, object> GetParameters(Object obj)
+        private static Dictionary<string, object> GetParameters(Object obj)
         {
             var type = obj.GetType();
 
@@ -71,45 +113,6 @@ namespace Scaffolder.Core
             }
 
             return result;
-        }
-
-        public IEnumerable<dynamic> Select(Filter filter)
-        {
-            var query = _queryBuilder.Build(Query.Select, _table, filter);
-
-            var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
-            var result = _db.Execute(query, r => Map(r, filter.DetailMode), parameters).ToList();
-            return result;
-        }
-
-        public dynamic Insert(Object obj)
-        {
-            var query = _queryBuilder.Build(Query.Insert, _table);
-            var parameters = GetParameters(obj);
-
-            var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true);
-
-            parameters = parameters.Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
-
-            //var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            _db.ExecuteNonQuery(query, parameters);
-            return true;
-        }
-
-        public dynamic Update(Object obj)
-        {
-            var query = _queryBuilder.Build(Query.Update, _table);
-            var parameters = GetParameters(obj);
-            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            return result;
-        }
-
-        public bool Delete(Object obj)
-        {
-            var query = _queryBuilder.Build(Query.Delete, _table);
-            var parameters = GetParameters(obj);
-            _db.ExecuteScalar(query, parameters);
-            return true;
         }
     }
 }

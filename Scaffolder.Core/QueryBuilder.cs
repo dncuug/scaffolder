@@ -59,6 +59,7 @@ namespace Scaffolder.Core
             var fields = table.Columns.Where(o => o.AutoIncrement != true).ToList();
 
             sb.AppendFormat("INSERT INTO [{0}] ({1})", table.Name, String.Join(", ", fields.Select(o => o.Name)));
+            sb.AppendFormat(" OUTPUT INSERTED.* ");
             sb.AppendFormat(" VALUES({0})", String.Join(", ", fields.Select(o => "@" + o.Name)));
 
             return sb.ToString();
@@ -73,6 +74,7 @@ namespace Scaffolder.Core
 
             sb.AppendFormat("UPDATE [{0}] SET {1}", table.Name, String.Join(", ", fields));
             sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
+            sb.AppendFormat(" OUTPUT INSERTED.* ");
             sb.AppendFormat(" WHERE");
             sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
 
@@ -86,6 +88,7 @@ namespace Scaffolder.Core
             var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
 
             sb.AppendFormat("DELETE FROM [{0}] ", table.Name);
+            sb.AppendFormat(" OUTPUT DELETED.* ");
             sb.AppendFormat(" WHERE");
             sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
 

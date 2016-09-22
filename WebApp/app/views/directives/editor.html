@@ -1,1 +1,16 @@
-<text-editor ng-model="ngModel"></text-editor>
+<div ng-switch on="type">
+    <binary-editor ng-model="ngModel" ng-switch-when="columnType.Binary"></binary-editor>
+    <date-editor ng-model="ngModel" ng-switch-when="columnType.Date"></date-editor>
+    <time-editor ng-model="ngModel" ng-switch-when="columnType.Time"></time-editor>
+    <date-time-editor ng-model="ngModel" ng-switch-when="columnType.DateTime"></date-time-editor>
+    <double-editor ng-model="ngModel" ng-switch-when="columnType.Double"></double-editor>
+    <email-editor ng-model="ngModel" ng-switch-when="columnType.Email"></email-editor>
+    <file-editor ng-model="ngModel" ng-switch-when="columnType.File"></file-editor>
+    <html-editor ng-model="ngModel" ng-switch-when="columnType.HTML"></html-editor>
+    <image-editor ng-model="ngModel" ng-switch-when="columnType.Image"></image-editor>
+    <integer-editor ng-model="ngModel" ng-switch-when="columnType.Integer"></integer-editor>
+    <phone-editor ng-model="ngModel" ng-switch-when="columnType.Phone"></phone-editor>
+    <url-editor ng-model="ngModel" ng-switch-when="columnType.Url"></url-editor>
+    <text-editor ng-model="ngModel" ng-switch-when="columnType.Text"></text-editor>
+    <text-editor ng-model="ngModel" ng-switch-default></text-editor>
+</div>
