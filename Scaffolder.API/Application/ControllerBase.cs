@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Meta;
 using System;
+using Scaffolder.Core.Engine.Sql;
 
 namespace Scaffolder.API.Application
 {

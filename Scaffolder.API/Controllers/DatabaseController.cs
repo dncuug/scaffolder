@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
-using Scaffolder.Core;
-using Scaffolder.Core.Sql;
+using Scaffolder.Core.Base;
+using Scaffolder.Core.Engine.Sql;
 
 namespace Scaffolder.API.Controllers
 {
@@ -30,14 +30,19 @@ namespace Scaffolder.API.Controllers
         [HttpPost]
         public bool Post()
         {
-            var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
+            var builder = GetSchemaBuilder();
+            var schema = builder.Build();
 
-            var builder = new SqlSchemaBuilder(connectionString);
-            var database = builder.Build();
-            
-            database.Save(_settings.WorkingDirectory + "db.json");
+            schema.Save(_settings.WorkingDirectory + "db.json");
 
             return true;
+        }
+
+        private ISchemaBuilder GetSchemaBuilder()
+        {
+            var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
+            var db = new SqlDatabase(connectionString);
+            return new SqlSchemaBuilder(db);
         }
     }
 }

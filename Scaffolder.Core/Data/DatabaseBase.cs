@@ -5,14 +5,8 @@ using System.Data.Common;
 
 namespace Scaffolder.Core.Data
 {
-    public interface IDatabase
-    {
-        Object ExecuteScalar(string sql, Dictionary<String, Object> parameters = null);
-        void ExecuteNonQuery(string sql, Dictionary<String, Object> parameters = null);
-        IEnumerable<T> Execute<T>(string sql, Func<IDataReader, T> map, Dictionary<String, Object> parameters = null);
-    }
-
-    public abstract class DatabaseBase<TConnectoinType, TCommandType> : IDatabase where TCommandType : DbCommand
+    public abstract class DatabaseBase<TConnectoinType, TCommandType> : IDatabase
+        where TCommandType : DbCommand
         where TConnectoinType : DbConnection, new()
     {
         protected String ConnectionString { get; private set; }

@@ -6,16 +6,15 @@ using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Meta;
 
-namespace Scaffolder.Core.Sql
+namespace Scaffolder.Core.Engine.Sql
 {
-   
     public class SqlSchemaBuilder : ISchemaBuilder
     {
         private readonly IDatabase _db;
 
-        public SqlSchemaBuilder(String connectrionString)
+        public SqlSchemaBuilder(SqlDatabase db)
         {
-            _db = new SqlDatabase(connectrionString);
+            _db = db;
         }
 
         public Schema Build()

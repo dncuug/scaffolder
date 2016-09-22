@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Meta;
-using Scaffolder.Core.Sql;
 
 namespace Scaffolder.Core.Data
 {
@@ -16,11 +15,11 @@ namespace Scaffolder.Core.Data
         private readonly IQueryBuilder _queryBuilder;
         private readonly Table _table;
 
-        public Repository(Data.IDatabase db, Table table)
+        public Repository(Data.IDatabase db, IQueryBuilder queryBuilder, Table table)
         {
             _db = db;
             _table = table;
-            _queryBuilder = new SqlQueryBuilder();
+            _queryBuilder = queryBuilder;
         }
         
         public IEnumerable<dynamic> Select(Filter filter)

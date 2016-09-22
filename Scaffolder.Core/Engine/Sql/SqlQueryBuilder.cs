@@ -6,7 +6,7 @@ using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Meta;
 
-namespace Scaffolder.Core.Sql
+namespace Scaffolder.Core.Engine.Sql
 {
     public class SqlQueryBuilder : IQueryBuilder
     {

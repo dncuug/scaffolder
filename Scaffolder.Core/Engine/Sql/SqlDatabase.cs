@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Scaffolder.Core.Data;
 
-namespace Scaffolder.Core.Data
+namespace Scaffolder.Core.Engine.Sql
 {
     /// <summary>
     /// 
