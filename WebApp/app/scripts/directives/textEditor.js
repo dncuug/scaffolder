@@ -7,11 +7,12 @@
  * # TextEditor
  */
 angular.module('webAppApp')
-    .directive('textEditor', function () {
+    .directive('textEditor', function() {
         return {
-            template: '<input type="text" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-disabled="ngDisabled" type="text" class="form-control" ng-model="ngModel" />',
             scope: {
-                ngModel: '='
+                ngModel: '=',
+                ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {

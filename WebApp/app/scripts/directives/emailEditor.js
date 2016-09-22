@@ -9,9 +9,10 @@
 angular.module('webAppApp')
     .directive('emailEditor', function() {
         return {
-            template: '<input type="email" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-disabled="ngDisabled" type="email" class="form-control" ng-model="ngModel" />',
             scope: {
-                ngModel: '='
+                ngModel: '=',
+                ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {

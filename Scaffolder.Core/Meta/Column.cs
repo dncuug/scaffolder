@@ -19,6 +19,6 @@ namespace Scaffolder.Core.Meta
         public dynamic MaxValue { get; set; }
         public dynamic MinValue { get; set; }
         public int? MaxLength { get; set; }
-        public bool ReadOnly { get; set; }
+        public bool? Readonly { get; set; }
     }
 }

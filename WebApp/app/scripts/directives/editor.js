@@ -33,9 +33,14 @@ angular.module('webAppApp')
                 ngModel: '=',
                 type: '=',
                 minValue: '=',
+                ngDisabled: '=',
             },
+
             link: function postLink(scope, element, attrs) {
-                sope.columnType = ColumnType;
-            }
+
+            },
+            controller: ['$scope', 'api', function($scope, api) {
+                $scope.columnType = ColumnType;
+            }]
         };
     });

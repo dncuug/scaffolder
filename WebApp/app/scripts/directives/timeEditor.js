@@ -9,9 +9,10 @@
 angular.module('webAppApp')
     .directive('timeEditor', function() {
         return {
-            template: '<input type="time" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-disabled="ngDisabled" type="time" class="form-control" ng-model="ngModel" />',
             scope: {
-                ngModel: '='
+                ngModel: '=',
+                ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {

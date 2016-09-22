@@ -9,9 +9,10 @@
 angular.module('webAppApp')
     .directive('phoneEditor', function() {
         return {
-            template: '<input type="tel" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-disabled="ngDisabled" type="tel" class="form-control" ng-model="ngModel" />',
             scope: {
-                ngModel: '='
+                ngModel: '=',
+                ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {

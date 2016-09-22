@@ -37,6 +37,11 @@ namespace Scaffolder.Core.Meta
             {
                 dst.IsNullable = src.IsNullable;
             }
+           
+            if (src.Readonly != null)
+            {
+                dst.Readonly = src.Readonly;
+            }
 
             if (src.Reference != null)
             {

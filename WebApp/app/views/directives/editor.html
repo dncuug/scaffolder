@@ -1,17 +1,16 @@
 <div ng-switch on="type">
-    <binary-editor ng-model="ngModel" ng-switch-when="type.Binary"></binary-editor>
-    <date-editor ng-model="ngModel" ng-switch-when="type.Date"></date-editor>
-    <time-editor ng-model="ngModel" ng-switch-when="type.Time"></time-editor>
-    <date-time-editor ng-model="ngModel" ng-switch-when="type.DateTime"></date-time-editor>
-    <double-editor ng-model="ngModel" ng-switch-when="type.Double"></double-editor>
-    <email-editor ng-model="ngModel" ng-switch-when="type.Email"></email-editor>
-    <file-editor ng-model="ngModel" ng-switch-when="type.File"></file-editor>
-    <html-editor ng-model="ngModel" ng-switch-when="type.HTML"></html-editor>
-    <image-editor ng-model="ngModel" ng-switch-when="type.Image"></image-editor>
-    <integer-editor ng-model="ngModel" ng-switch-when="type.Integer"></integer-editor>
-    <phone-editor ng-model="ngModel" ng-switch-when="type.Phone"></phone-editor>
-    <url-editor ng-model="ngModel" ng-switch-when="type.Url"></url-editor>
-    <text-editor ng-model="ngModel" ng-switch-when="type.Text"></text-editor>
-    <lookup-editor ng-model="ngModel" ng-switch-when="type.Lookup"></lookup-editor>
-    <text-editor ng-model="ngModel" ng-switch-default></text-editor>
+    <binary-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Binary"></binary-editor>
+    <date-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Date"></date-editor>
+    <time-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Time"></time-editor>
+    <date-time-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.DateTime"></date-time-editor>
+    <double-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Double"></double-editor>
+    <email-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Email"></email-editor>
+    <file-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.File"></file-editor>
+    <html-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.HTML"></html-editor>
+    <image-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Image"></image-editor>
+    <integer-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Integer"></integer-editor>
+    <phone-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Phone"></phone-editor>
+    <url-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Url"></url-editor>
+    <text-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Text"></text-editor>
+    <lookup-editor ng-disabled="ngDisabled" ng-model="ngModel" ng-if="type == columnType.Lookup"></lookup-editor>
 </div>
