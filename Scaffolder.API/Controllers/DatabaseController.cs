@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using Scaffolder.Core;
+using Scaffolder.Core.Sql;
 
 namespace Scaffolder.API.Controllers
 {
@@ -18,11 +19,11 @@ namespace Scaffolder.API.Controllers
         {
             return new
             {
-                DatabaseModel.Name,
-                DatabaseModel.Title,
-                DatabaseModel.Description,
-                DatabaseModel.Generated,
-                DatabaseModel.ExtendedConfigurationLoaded
+                Schema.Name,
+                Schema.Title,
+                Schema.Description,
+                Schema.Generated,
+                Schema.ExtendedConfigurationLoaded
             };
         }
 
@@ -31,7 +32,7 @@ namespace Scaffolder.API.Controllers
         {
             var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
 
-            var builder = new SqlServerModelBuild(connectionString);
+            var builder = new SqlSchemaBuilder(connectionString);
             var database = builder.Build();
             
             database.Save(_settings.WorkingDirectory + "db.json");

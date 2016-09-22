@@ -1,23 +1,9 @@
-﻿using Scaffolder.Core.Base;
-using System;
+﻿using System;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Meta
 {
     public static class ObjectExtender
     {
-        public static void MapExtendInformation(BaseObject src, BaseObject dst)
-        {
-            if (!String.IsNullOrEmpty(src.Title))
-            {
-                dst.Title = src.Title;
-            }
-
-            if (!String.IsNullOrEmpty(src.Description))
-            {
-                dst.Description = src.Description;
-            }
-        }
-
         public static void MapExtendInformation(Table src, Table dst)
         {
             MapExtendInformation((BaseObject)src, (BaseObject)dst);
@@ -47,9 +33,9 @@ namespace Scaffolder.Core
                 dst.Type = src.Type;
             }
 
-            if (src.AllowNullValue != null)
+            if (src.IsNullable != null)
             {
-                dst.AllowNullValue = src.AllowNullValue;
+                dst.IsNullable = src.IsNullable;
             }
 
             if (src.Reference != null)
@@ -82,6 +68,18 @@ namespace Scaffolder.Core
                 dst.MaxLength = src.MaxLength;
             }
 
+        }
+        private static void MapExtendInformation(BaseObject src, BaseObject dst)
+        {
+            if (!String.IsNullOrEmpty(src.Title))
+            {
+                dst.Title = src.Title;
+            }
+
+            if (!String.IsNullOrEmpty(src.Description))
+            {
+                dst.Description = src.Description;
+            }
         }
     }
 }

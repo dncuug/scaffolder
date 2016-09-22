@@ -5,21 +5,22 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using Scaffolder.Core.Base;
-using Scaffolder.Core.Data;
+using Scaffolder.Core.Meta;
+using Scaffolder.Core.Sql;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Data
 {
     public class Repository
     {
-        private readonly Data.SqlServerDatabase _db;
+        private readonly IDatabase _db;
+        private readonly IQueryBuilder _queryBuilder;
         private readonly Table _table;
-        private readonly QueryBuilder _queryBuilder;
 
-        public Repository(Data.SqlServerDatabase db, Table table)
+        public Repository(Data.IDatabase db, Table table)
         {
             _db = db;
             _table = table;
-            _queryBuilder = new QueryBuilder();
+            _queryBuilder = new SqlQueryBuilder();
         }
         
         public IEnumerable<dynamic> Select(Filter filter)

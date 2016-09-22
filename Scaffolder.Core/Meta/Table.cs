@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
     public class Table : BaseObject
     {
@@ -23,12 +23,12 @@ namespace Scaffolder.Core.Base
 
         public int Position { get; set; }
 
+        public bool ShowInList { get; set; }
+
         public override string ToString()
         {
             return Name;
         }
-
-        
 
         public Column GetColumn(string name)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
     public class BaseObject
     {
@@ -13,6 +13,5 @@ namespace Scaffolder.Core.Base
 
         public String Name { get; set; }
         public String Title { get; set; }
-        public String Description { get; set; }        
-    }
+        public String Description { get; set; }}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Meta
 {
     public class Filter
     {

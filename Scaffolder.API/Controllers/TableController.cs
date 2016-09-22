@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
-using Scaffolder.Core.Base;
+using Scaffolder.Core.Meta;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +18,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public IEnumerable<BaseObject> Get()
         {
-            return DatabaseModel.Tables.Select(o => new BaseObject
+            return Schema.Tables.Select(o => new BaseObject
             {
                 Name = o.Name,
                 Title = o.Title,
@@ -29,7 +29,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet("{name}")]
         public Table Get(string name)
         {
-            return DatabaseModel.GetTable(name);
+            return Schema.GetTable(name);
         }
     }
 }

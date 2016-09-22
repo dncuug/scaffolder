@@ -1,24 +1,26 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
+using Scaffolder.Core.Meta;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Sql
 {
-    public class SqlServerModelBuild
+   
+    public class SqlSchemaBuilder : ISchemaBuilder
     {
-        private readonly SqlServerDatabase _db;
+        private readonly IDatabase _db;
 
-        public SqlServerModelBuild(String connectrionString)
+        public SqlSchemaBuilder(String connectrionString)
         {
-            _db = new SqlServerDatabase(connectrionString);
+            _db = new SqlDatabase(connectrionString);
         }
 
-        public Database Build()
+        public Schema Build()
         {
-            var database = new Database();
+            var database = new Schema();
 
             var tableList = GetDatabaseTables();
 
@@ -54,7 +56,15 @@ namespace Scaffolder.Core
             return table;
         }
 
-        private Table MapTableColumns(IDataReader r, Table t)
+        private IEnumerable<String> GetDatabaseTables()
+        {
+            var sql = "SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME != 'sysdiagrams'";
+
+            var tables = _db.Execute(sql, r => r[0].ToString());
+            return tables;
+        }
+
+        private static Table MapTableColumns(IDataRecord r, Table t)
         {
 
             var column = new Column
@@ -63,7 +73,7 @@ namespace Scaffolder.Core
                 Position = 1,
                 Name = r["COLUMN_NAME"].ToString(),
                 Title = r["COLUMN_NAME"].ToString(),
-                AllowNullValue = r["IS_NULLABLE"].ToString() == "YES",
+                IsNullable = r["IS_NULLABLE"].ToString() == "YES",
                 ShowInGrid = true,
                 IsKey = false,
                 Description = ""
@@ -82,8 +92,8 @@ namespace Scaffolder.Core
             t.Columns.Add(column);
             return t;
         }
-
-        private ColumnType ParseColumnType(string type)
+        
+        private static ColumnType ParseColumnType(string type)
         {
             if (type.ToLower() == "nvarchar")
             {
@@ -105,14 +115,6 @@ namespace Scaffolder.Core
             {
                 throw new NotSupportedException();
             }
-        }
-
-        private IEnumerable<String> GetDatabaseTables()
-        {
-            var sql = "SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME != 'sysdiagrams'";
-
-            var tables = _db.Execute(sql, r => r[0].ToString());
-            return tables;
         }
     }
 }

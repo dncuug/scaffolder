@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
+using Scaffolder.Core.Meta;
 using System;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
-        protected Database DatabaseModel { get; private set; }
+        protected Schema Schema { get; private set; }
 
-        protected readonly SqlServerDatabase _db;
+        protected readonly SqlDatabase _db;
         protected readonly AppSettings _settings;
 
         public ControllerBase(IOptions<AppSettings> settings)
@@ -22,11 +22,11 @@ namespace Scaffolder.API.Application
 
             if (System.IO.File.Exists(configurationFilePath))
             {
-                DatabaseModel = Database.Load(configurationFilePath, extendedConfigurationFilePath);
+                Schema = Schema.Load(configurationFilePath, extendedConfigurationFilePath);
             }
             else
             {
-                DatabaseModel = new Database
+                Schema = new Schema
                 {
                     Description = "",
                     Name = "EmptyModel",
@@ -38,7 +38,7 @@ namespace Scaffolder.API.Application
             
 
             var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
-            _db = new SqlServerDatabase(connectionString);
+            _db = new SqlDatabase(connectionString);
         }
     }
 }

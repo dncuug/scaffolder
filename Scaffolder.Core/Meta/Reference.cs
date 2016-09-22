@@ -1,6 +1,6 @@
 using System;
 
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
     public class Reference
     {

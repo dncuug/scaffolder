@@ -1,6 +1,6 @@
 using System;
 
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
     public class Column : BaseObject
     {
@@ -11,8 +11,8 @@ namespace Scaffolder.Core.Base
 
         public int? Position { get; set; }
         public bool? IsKey { get; set; }
+        public bool? IsNullable { get; set; }
         public ColumnType? Type { get; set; }
-        public bool? AllowNullValue { get; set; }
         public Reference Reference { get; set; }
         public bool? ShowInGrid { get; set; }
         public bool? AutoIncrement { get; set; }

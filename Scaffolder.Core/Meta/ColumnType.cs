@@ -1,4 +1,4 @@
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
     public enum ColumnType
     {

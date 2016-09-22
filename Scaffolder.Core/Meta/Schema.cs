@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Newtonsoft.Json;
 
-namespace Scaffolder.Core.Base
+namespace Scaffolder.Core.Meta
 {
-    public class Database : BaseObject
+    public class Schema : BaseObject
     {
-        public Database()
+        public Schema()
         {
             Name = "Database";
             Title = "Database";
@@ -24,22 +23,30 @@ namespace Scaffolder.Core.Base
 
         public bool Save(String path)
         {
-            var json = AsJson();
-            System.IO.File.WriteAllText(path, json);
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(path, json);
             return true;
         }
 
-        public string AsJson()
+        public static Schema Load(String configurationFilePath, String extendedConfigurationFilePath = "")
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            var json = File.ReadAllText(configurationFilePath);
+            var schema = JsonConvert.DeserializeObject<Schema>(json);
+            schema.LoadextendedConfiguration(extendedConfigurationFilePath);
+            return schema;
+        }
+
+        public Table GetTable(string name)
+        {
+            return Tables.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
 
         private bool LoadextendedConfiguration(string extendedConfigurationFilePath)
         {
             if (File.Exists(extendedConfigurationFilePath))
             {
-                var json = System.IO.File.ReadAllText(extendedConfigurationFilePath);
-                var database = JsonConvert.DeserializeObject<Database>(json);
+                var json = File.ReadAllText(extendedConfigurationFilePath);
+                var database = JsonConvert.DeserializeObject<Schema>(json);
 
                 foreach (var t in database.Tables)
                 {
@@ -65,19 +72,6 @@ namespace Scaffolder.Core.Base
             }
 
             return ExtendedConfigurationLoaded;
-        }
-
-        public static Database Load(String configurationFilePath, String extendedConfigurationFilePath = "")
-        {
-            var json = System.IO.File.ReadAllText(configurationFilePath);
-            var database = JsonConvert.DeserializeObject<Database>(json);
-            database.LoadextendedConfiguration(extendedConfigurationFilePath);
-            return database;
-        }
-
-        public Table GetTable(string name)
-        {
-            return Tables.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -1,13 +1,14 @@
-﻿using Scaffolder.Core.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
+using Scaffolder.Core.Meta;
 
-namespace Scaffolder.Core
+namespace Scaffolder.Core.Sql
 {
-    public class QueryBuilder
+    public class SqlQueryBuilder : IQueryBuilder
     {
         private String BuildSelect(Table table, Filter filter)
         {

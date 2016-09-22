@@ -7,9 +7,9 @@ namespace Scaffolder.Core.Data
     /// <summary>
     /// 
     /// </summary>
-    public class SqlServerDatabase : DatabaseBase<SqlConnection, SqlCommand>
+    public class SqlDatabase : DatabaseBase<SqlConnection, SqlCommand>
     {
-        public SqlServerDatabase(string connectionString)
+        public SqlDatabase(string connectionString)
             : base(connectionString)
         {
         }
