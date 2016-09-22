@@ -8,35 +8,65 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('DetailCtrl', function($scope, $routeParams, $location, api) {
+    .controller('DetailCtrl', function ($scope, $routeParams, $location, api) {
 
         $scope.table = {};
         $scope.record = {};
 
-        $scope.test = function() {
-            console.log($scope.record);
+        $scope.save = function () {
+            var exist = false;
+
+            if (exist) {
+                api.update($scope.table, $scope.record).then(function () {
+                    var url = "/grid/" + $scope.table.name;
+                    $location.path(url);
+                });
+            }
+            else {
+                api.insert($scope.table, $scope.record).then(function () {
+                    var url = "/grid/" + $scope.table.name;
+                    $location.path(url);
+                });
+            }
         }
 
-        $scope.save = function() {
-            api.saveEntity($scope.table, $scope.record).then(function() {
-                var url = "/detail/";
-                $location.path(url);
-            });
-        }
-
-        $scope.cancel = function() {
+        $scope.cancel = function () {
             var url = "/detail/";
             $location.path(url);
+        }
+
+        function toArray(obj) {
+            var keys = Object.keys(obj);
+
+            var result = [];
+
+            keys.forEach(function (value) {
+
+            });
         }
 
         function initializeEditor() {
 
             var name = $routeParams.table;
-            var id = $routeParams.id;
+            debugger;
+            //var id = $routeParams.id;
 
-            api.getTable(name).then(function(table) {
+            api.getTable(name).then(function (table) {
                 $scope.table = table;
                 $scope.title = table.title;
+
+
+                var filter = {
+                    TableName: table.name,
+                    DetailMode: true,
+                    Parameters: $routeParams
+                };
+
+                api.select(filter).then(function (response) {
+                    debugger;
+                    $scope.record = response;
+                });
+
             });
 
         }

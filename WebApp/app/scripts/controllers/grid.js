@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('GridCtrl', function($scope, $routeParams, $location, api) {
+    .controller('GridCtrl', function ($scope, $routeParams, $location, api) {
 
         $scope.gridOptions = {
             enableSorting: true,
@@ -27,19 +27,35 @@ angular.module('webAppApp')
             tableName: '',
             detailMode: false,
         };
-        $scope.delete = function(e, row) {
+        $scope.delete = function (e, row) {
             debugger;
             alert('Name: ' + value);
         };
 
-        $scope.edit = function(e, row) {
+        $scope.edit = function (e, row) {
+
+            var keys = $scope.table.columns.filter(function (value, index) {
+                return value.isKey == true;
+            });
+
+            var params = {};
+
+            keys.forEach(function (key) {
+                //params += key.name + '=' + row.entity[key.name] + '&'
+                params[key.name] = row.entity[key.name];
+            }, this);
 
             //TODO: implement Primary key selection
-            var url = "/detail/" + $routeParams.table + "/" + row.entity.Id;
-            $location.path(url);
+            //var url = "/detail/" + $routeParams.table + "?" + params;
+            var url = "/detail/" + $routeParams.table;
+            $location.path(url).search(params);
         };
 
-        $scope.createNew = function() {
+        function lowercaseFirstLetter(string) {
+            return string.charAt(0).toLowerCase() + string.slice(1);
+        }
+
+        $scope.createNew = function () {
             var url = "/detail/" + $routeParams.table + "/-1";
             $location.path(url);
         }
@@ -52,13 +68,13 @@ angular.module('webAppApp')
 
             var name = $routeParams.table;
 
-            api.getTable(name).then(function(table) {
+            api.getTable(name).then(function (table) {
 
                 $scope.table = table;
 
                 $scope.filter.tableName = table.name;
 
-                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function(c) {
+                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
                     return {
                         name: c.title,
                         field: c.name,
@@ -89,7 +105,7 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-            api.getData($scope.filter).then(function(response) {
+            api.select($scope.filter).then(function (response) {
                 $scope.gridOptions.data = response;
             });
         }

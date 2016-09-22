@@ -73,7 +73,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getData = function(filter) {
+        this.select = function(filter) {
 
             return $http({
                 method: 'GET',
@@ -87,7 +87,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.saveEntity = function(table, entity) {
+        this.insert = function(table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -96,6 +96,44 @@ angular.module('webAppApp')
 
             return $http({
                 method: 'POST',
+                url: Url(this, '/data'),
+                data: payload
+            }).then(function(response) {
+                return response.data;
+            });
+        };
+
+        /**
+         * 
+         */
+        this.update = function(table, entity) {
+
+            var payload = {
+                tableName: table.name,
+                entity: entity
+            };
+
+            return $http({
+                method: 'PUT',
+                url: Url(this, '/data'),
+                data: payload
+            }).then(function(response) {
+                return response.data;
+            });
+        };
+
+        /**
+         * 
+         */
+        this.delete = function(table, entity) {
+
+            var payload = {
+                tableName: table.name,
+                entity: entity
+            };
+
+            return $http({
+                method: 'DELETE',
                 url: Url(this, '/data'),
                 data: payload
             }).then(function(response) {

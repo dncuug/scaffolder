@@ -15,6 +15,7 @@ namespace Scaffolder.API.Controllers
         }
 
         [HttpGet]
+        //public IEnumerable<dynamic> Get([ModelBinder(BinderType = typeof(FilterModelBinder))]Filter filter)
         public IEnumerable<dynamic> Get(Filter filter)
         {
             var table = Schema.GetTable(filter.TableName);

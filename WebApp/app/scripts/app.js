@@ -33,12 +33,12 @@ angular
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
             })
-            .when('/grid/:table?', {
+            .when('/grid/:table', {
                 templateUrl: 'views/grid.html',
                 controller: 'GridCtrl',
                 controllerAs: 'grid'
             })
-            .when('/detail/:table?/:id', {
+            .when('/detail/:table', {
                 templateUrl: 'views/detail.html',
                 controller: 'DetailCtrl',
                 controllerAs: 'detail'
