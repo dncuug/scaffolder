@@ -9,14 +9,14 @@ namespace Scaffolder.API.Application
         protected Scaffolder.Core.Base.Database DatabaseModel { get; private set; }
         protected Scaffolder.Core.Data.SqlServerDatabase _db;
 
-        private readonly AppSettings _settings;
+        protected readonly AppSettings _settings;
 
         public ControllerBase(IOptions<AppSettings> settings)
         {
             _settings = settings.Value;
 
-            var configurationFilePath = _settings.ConfigurationFilePath;
-            var extendedConfigurationFilePath = _settings.ExtendedConfigurationFilePath;
+            var configurationFilePath = _settings.WorkingDirectory + "db.json";
+            var extendedConfigurationFilePath = _settings.WorkingDirectory  + "db_ex.json";;
 
             DatabaseModel = Scaffolder.Core.Base.Database.Load(configurationFilePath, extendedConfigurationFilePath);
 

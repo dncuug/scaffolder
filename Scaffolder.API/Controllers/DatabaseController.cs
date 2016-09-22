@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
+using Scaffolder.Core;
 
 namespace Scaffolder.API.Controllers
 {
@@ -23,6 +24,19 @@ namespace Scaffolder.API.Controllers
                 DatabaseModel.Generated,
                 DatabaseModel.ExtendedConfigurationLoaded
             };
+        }
+
+        [HttpPost]
+        public bool Post()
+        {
+            var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
+
+            var builder = new SqlServerModelBuild(connectionString);
+            var database = builder.Build();
+            
+            database.Save(_settings.WorkingDirectory + "db.json");
+
+            return true;
         }
     }
 }
