@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Scaffolder.Core.Data;
+using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
 using System;
-using Scaffolder.Core.Engine.Sql;
+using Scaffolder.Core.Base;
+using Scaffolder.Core.Data;
 
 namespace Scaffolder.API.Application
 {
@@ -11,15 +12,14 @@ namespace Scaffolder.API.Application
     {
         protected Schema Schema { get; private set; }
 
-        protected readonly SqlDatabase _db;
-        protected readonly AppSettings _settings;
+        protected readonly AppSettings Settings;
 
         public ControllerBase(IOptions<AppSettings> settings)
         {
-            _settings = settings.Value;
+            Settings = settings.Value;
 
-            var configurationFilePath = _settings.WorkingDirectory + "db.json";
-            var extendedConfigurationFilePath = _settings.WorkingDirectory  + "db_ex.json";
+            var configurationFilePath = Settings.WorkingDirectory + "db.json";
+            var extendedConfigurationFilePath = Settings.WorkingDirectory + "db_ex.json";
 
             if (System.IO.File.Exists(configurationFilePath))
             {
@@ -30,16 +30,19 @@ namespace Scaffolder.API.Application
                 Schema = new Schema
                 {
                     Description = "",
-                    Name = "EmptyModel",
+                    Name = "EmptySchema",
                     Generated = DateTime.Now,
-                    Title = "Empty Model"
+                    Title = "Empty Schema"
                 };
             }
+        }
 
-            
-
-            var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
-            _db = new SqlDatabase(connectionString);
+        protected IRepository CreateRepository(Table table)
+        {
+            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
+            var db = new SqlDatabase(connectionString);
+            var queryBuilder = new SqlQueryBuilder();
+            return new Repository(db, queryBuilder, table);
         }
     }
 }

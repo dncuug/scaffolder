@@ -9,7 +9,15 @@ using Scaffolder.Core.Meta;
 
 namespace Scaffolder.Core.Data
 {
-    public class Repository
+    public interface IRepository
+    {
+        IEnumerable<object> Select(Filter filter);
+        dynamic Insert(Object obj);
+        dynamic Update(Object obj);
+        dynamic Delete(Object obj);
+    }
+
+    public class Repository : IRepository
     {
         private readonly IDatabase _db;
         private readonly IQueryBuilder _queryBuilder;

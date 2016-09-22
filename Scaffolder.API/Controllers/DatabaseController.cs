@@ -33,14 +33,14 @@ namespace Scaffolder.API.Controllers
             var builder = GetSchemaBuilder();
             var schema = builder.Build();
 
-            schema.Save(_settings.WorkingDirectory + "db.json");
+            schema.Save(Settings.WorkingDirectory + "db.json");
 
             return true;
         }
 
         private ISchemaBuilder GetSchemaBuilder()
         {
-            var connectionString = System.IO.File.ReadAllText(_settings.WorkingDirectory + "connection.conf");
+            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
             var db = new SqlDatabase(connectionString);
             return new SqlSchemaBuilder(db);
         }
