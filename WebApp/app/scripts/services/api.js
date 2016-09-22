@@ -35,15 +35,25 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getDatabase = function() {
+        this.initizlizeDatrabaseScheme = function() {
+            return $http({
+                method: 'POST',
+                url: Url(this, '/database')
+            }).then(function(response) {
+                return response.data;
+            });
+        };
 
+        /**
+         * 
+         */
+        this.getDatabase = function() {
             return $http({
                 method: 'GET',
                 url: Url(this, '/database')
             }).then(function(response) {
                 return response.data;
             });
-
         };
 
         /**
@@ -60,7 +70,6 @@ angular.module('webAppApp')
 
         };
 
-
         /**
          * 
          */
@@ -70,6 +79,25 @@ angular.module('webAppApp')
                 method: 'GET',
                 url: Url(this, '/data/' + name),
                 params: filter
+            }).then(function(response) {
+                return response.data;
+            });
+        };
+
+        /**
+         * 
+         */
+        this.saveEntity = function(table, entity) {
+
+            var payload = {
+                tableName: table.name,
+                entity: entity
+            };
+
+            return $http({
+                method: 'POST',
+                url: Url(this, '/data'),
+                data: payload
             }).then(function(response) {
                 return response.data;
             });

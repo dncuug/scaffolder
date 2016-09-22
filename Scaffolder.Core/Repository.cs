@@ -22,7 +22,7 @@ namespace Scaffolder.Core
             _queryBuilder = new QueryBuilder();
         }
 
-        private dynamic Map(IDataReader r, bool loadAllColumns)
+        private dynamic Map(IDataRecord r, bool loadAllColumns)
         {
             var obj = new ExpandoObject();
 
@@ -55,6 +55,12 @@ namespace Scaffolder.Core
         private Dictionary<string, object> GetParameters(Object obj)
         {
             var type = obj.GetType();
+
+            if (type == typeof(Newtonsoft.Json.Linq.JObject))
+            {
+                return ((Newtonsoft.Json.Linq.JObject)obj).ToObject<Dictionary<string, object>>();
+            }
+
             var properties = type.GetProperties();
 
             var result = new Dictionary<String, Object>();
@@ -80,8 +86,14 @@ namespace Scaffolder.Core
         {
             var query = _queryBuilder.Build(Query.Insert, _table);
             var parameters = GetParameters(obj);
-            var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            return result;
+
+            var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true);
+
+            parameters = parameters.Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
+
+            //var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
+            _db.ExecuteNonQuery(query, parameters);
+            return true;
         }
 
         public dynamic Update(Object obj)

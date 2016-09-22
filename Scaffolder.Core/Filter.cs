@@ -21,7 +21,7 @@ namespace Scaffolder.Core
 
         public bool DetailMode { get; set; }
 
-        public System.Data.SqlClient.SortOrder SortOrder { get; set; }
+        public SortOrder SortOrder { get; set; }
 
         public String SortColumn { get; set; }
 

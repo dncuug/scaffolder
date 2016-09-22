@@ -50,12 +50,16 @@ namespace Scaffolder.Core
 
         private string BuildInsert(Table table)
         {
+            //var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+            //var parameters = new Dictionary<string, object>();
+            //var select = BuildSelect(table, new Filter {TableName = table.Name , Parameters = parameters } );
+
             var sb = new StringBuilder();
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true).ToList();
 
-            sb.AppendFormat("INSERT INTO [{0}] ({1})", table.Name, String.Join(", ", fields));
-            sb.AppendFormat(" VALUES({0})", String.Join(", ", fields));
+            sb.AppendFormat("INSERT INTO [{0}] ({1})", table.Name, String.Join(", ", fields.Select(o => o.Name)));
+            sb.AppendFormat(" VALUES({0})", String.Join(", ", fields.Select(o => "@" + o.Name)));
 
             return sb.ToString();
         }

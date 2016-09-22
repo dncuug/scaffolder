@@ -47,8 +47,6 @@ namespace Scaffolder.API
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 }));
-
-
         }
 
 

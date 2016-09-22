@@ -5,5 +5,7 @@
         <label>{{c.title}}</label>
         <editor type="c.type" ng-model="record[c.name]"></editor>
     </div>
-    <input type="button" ng-click="test()" value="Test" class="btn btn-default" />
 </form>
+
+<input type="button" class="btn btn-success" ng-click="save()" value="Save" />
+<input type="button" class="btn btn-default" ng-click="cancel()" value="Cancel" />

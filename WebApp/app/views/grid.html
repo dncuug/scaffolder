@@ -1,10 +1,9 @@
-<h3>{{title}}</h3>
+<h3>{{table.title}}</h3>
 
-<div 
-    id="grid" 
-    ui-grid="gridOptions" 
-    external-scopes="clickHandler" 
-    ui-grid-resize-columns
-    ui-grid-pagination 
-    class="grid">
+<i>{{table.description}}</i>
+
+<input type="button" class="btn btn-success" ng-click="createNew()" value="Create New" />
+<br />
+<br />
+<div id="grid" ui-grid="gridOptions" external-scopes="clickHandler" ui-grid-resize-columns ui-grid-pagination class="grid">
 </div>

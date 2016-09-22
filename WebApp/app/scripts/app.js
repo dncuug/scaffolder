@@ -47,6 +47,11 @@ angular
                 controller: 'LoginCtrl',
                 controllerAs: 'login'
             })
+            .when('/administration', {
+                templateUrl: 'views/administration.html',
+                controller: 'AdministrationCtrl',
+                controllerAs: 'administration'
+            })
             .otherwise({
                 redirectTo: '/'
             });

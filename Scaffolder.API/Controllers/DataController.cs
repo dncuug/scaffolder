@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using Scaffolder.Core;
 using System.Collections.Generic;
+using System;
 
 namespace Scaffolder.API.Controllers
 {
@@ -19,41 +20,37 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get(Filter filter = null)
         {
-            // filter.TableName = "Pages";
-
-            // filter.Parameters.Add("PageTypesId", 1);
-            // filter.Parameters.Add("Title", "%ces%");
-
             var table = DatabaseModel.GetTable(filter.TableName);
             _repository = new Repository(_db, table);
 
             return _repository.Select(filter);
         }
-
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            //SELECT by ID
-            return "value";
-        }
-
+        
         [HttpPost]
-        public void Post([FromBody]string value)
+        public dynamic Post([FromBody]Payload payload)
         {
-            //INSERT
+            var table = DatabaseModel.GetTable(payload.TableName);
+            _repository = new Repository(_db, table);
+
+            return _repository.Insert(payload.Entity);
+        }
+        
+        [HttpPut]
+        public dynamic Put([FromBody]Payload payload)
+        {
+            var table = DatabaseModel.GetTable(payload.TableName);
+            _repository = new Repository(_db, table);
+
+            return _repository.Update(payload.Entity);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpDelete()]
+        public bool Delete([FromBody]Payload payload)
         {
-            //UPDATE
-        }
+            var table = DatabaseModel.GetTable(payload.TableName);
+            _repository = new Repository(_db, table);
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            //DELETE
+            return _repository.Delete(payload.Entity);
         }
     }
 }
