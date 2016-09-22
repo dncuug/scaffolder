@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: DateEditor', function () {
+describe('Directive: dateEditor', function () {
 
   // load the directive's module
   beforeEach(module('webAppApp'));
@@ -13,8 +13,8 @@ describe('Directive: DateEditor', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<-date-editor></-date-editor>');
+    element = angular.element('<date-editor></date-editor>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the DateEditor directive');
+    expect(element.text()).toBe('this is the dateEditor directive');
   }));
 });
