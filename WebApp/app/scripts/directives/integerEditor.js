@@ -7,12 +7,15 @@
  * # IntegerEditor
  */
 angular.module('webAppApp')
-  .directive('integerEditor', function () {
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the IntegerEditor directive');
-      }
-    };
-  });
+    .directive('integerEditor', function() {
+        return {
+            template: '<input type="number" class="form-control" ng-model="ngModel" />',
+            scope: {
+                ngModel: '='
+            },
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
+
+            }
+        };
+    });

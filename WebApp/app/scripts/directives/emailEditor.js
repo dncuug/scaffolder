@@ -7,12 +7,15 @@
  * # EmailEditor
  */
 angular.module('webAppApp')
-  .directive('emailEditor', function () {
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the EmailEditor directive');
-      }
-    };
-  });
+    .directive('emailEditor', function() {
+        return {
+            template: '<input type="email" class="form-control" ng-model="ngModel" />',
+            scope: {
+                ngModel: '='
+            },
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
+
+            }
+        };
+    });

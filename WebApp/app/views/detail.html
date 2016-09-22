@@ -3,7 +3,7 @@
 <form class="form">
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
-        <editor type="c.type" ng-model="record[c.name]"></editor>
+        <editor type="c.type" ng-model="record[c.name]" type="c.type"></editor>
     </div>
 </form>
 

@@ -21,7 +21,5 @@ namespace Scaffolder.Core.Meta
         /// </summary>
         /// <returns></returns>
         public String TextColumn { get; set; }
-        
     }
-
 }

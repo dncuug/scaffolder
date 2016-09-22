@@ -1,4 +1,6 @@
 <h3>Administration</h3>
 
 <input type="button" class="btn btn-default" value="Initizlize DB Scheme" ng-click="initizlizeDatrabaseScheme()" />
-<span>{{status}}</span>
+<br />
+<br />
+<div ng-show="!!status" class="alert alert-success" role="alert">{{status}}</div>

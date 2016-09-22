@@ -2,17 +2,20 @@
 
 /**
  * @ngdoc directive
- * @name webAppApp.directive:DateEditor
+ * @name webAppApp.directive:dateEditor
  * @description
- * # DateEditor
+ * # dateEditor
  */
 angular.module('webAppApp')
-  .directive('dateEditor', function () {
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the DateEditor directive');
-      }
-    };
-  });
+    .directive('dateEditor', function() {
+        return {
+            template: '<input type="date" class="form-control" ng-model="ngModel" />',
+            scope: {
+                ngModel: '='
+            },
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
+
+            }
+        };
+    });

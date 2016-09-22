@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name webAppApp.directive:DateTimeEditor
+ * @name webAppApp.directive:timeEditor
  * @description
- * # DateTimeEditor
+ * # timeEditor
  */
 angular.module('webAppApp')
-    .directive('dateTimeEditor', function() {
+    .directive('timeEditor', function() {
         return {
-            template: '<input type="datetime" class="form-control" ng-model="ngModel" />',
+            template: '<input type="time" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '='
             },

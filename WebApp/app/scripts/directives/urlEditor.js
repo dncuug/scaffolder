@@ -9,10 +9,13 @@
 angular.module('webAppApp')
     .directive('dateTimeEditor', function() {
         return {
-            template: '<div></div>',
+            template: '<input type="url" class="form-control" ng-model="ngModel" />',
+            scope: {
+                ngModel: '='
+            },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                element.text('this is the DateTimeEditor directive');
+
             }
         };
     });

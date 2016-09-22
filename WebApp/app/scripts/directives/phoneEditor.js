@@ -7,12 +7,15 @@
  * # PhoneEditor
  */
 angular.module('webAppApp')
-  .directive('phoneEditor', function () {
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the PhoneEditor directive');
-      }
-    };
-  });
+    .directive('phoneEditor', function() {
+        return {
+            template: '<input type="tel" class="form-control" ng-model="ngModel" />',
+            scope: {
+                ngModel: '='
+            },
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
+
+            }
+        };
+    });
