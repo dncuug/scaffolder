@@ -18,7 +18,8 @@ angular
         'ngTouch',
         'ui.grid',
         'ui.grid.edit',
-        'ui.grid.pagination'
+        'ui.grid.pagination',
+        'textAngular'
     ])
     .config(function($routeProvider) {
         $routeProvider
