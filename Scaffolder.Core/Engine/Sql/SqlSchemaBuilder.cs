@@ -101,16 +101,17 @@ namespace Scaffolder.Core.Engine.Sql
 
         private static Table MapTableColumns(IDataRecord r, Table t, IEnumerable<string> keyColumns, IEnumerable<string> identityColumns)
         {
-
             var columnName = r["COLUMN_NAME"].ToString();
+            var columnType = ParseColumnType(r["DATA_TYPE"].ToString(), r["COLUMN_NAME"].ToString());
+
             var column = new Column
             {
-                Type = ParseColumnType(r["DATA_TYPE"].ToString(), r["COLUMN_NAME"].ToString()),
+                Type = columnType,
                 Position = 1,
                 Name = columnName,
                 Title = columnName,
                 IsNullable = r["IS_NULLABLE"].ToString() == "YES",
-                ShowInGrid = true,
+                ShowInGrid = ShowInGrid(columnType, columnName),
                 IsKey = keyColumns.Contains(columnName),
                 Readonly = false,
                 AutoIncrement = identityColumns.Contains(columnName),
@@ -129,6 +130,27 @@ namespace Scaffolder.Core.Engine.Sql
 
             t.Columns.Add(column);
             return t;
+        }
+
+        private static bool ShowInGrid(ColumnType type, string name)
+        {
+            if (type == ColumnType.HTML ||
+            type == ColumnType.Image ||
+            type == ColumnType.File ||
+            type == ColumnType.Binary)
+            {
+                return false;
+            }
+
+            name = name.ToLower();
+
+            if (name == "id" || name == "description")
+            {
+                return false;
+            }
+
+
+            return true;
         }
 
         private static ColumnType ParseColumnType(string type, string name)

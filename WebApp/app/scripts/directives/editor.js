@@ -15,6 +15,7 @@ angular.module('webAppApp')
             Url: 12,
             Phone: 13,
             HTML: 14,
+            Password: 15,
             Date: 20,
             Time: 21,
             DateTime: 22,

@@ -30,8 +30,8 @@ angular.module('webAppApp')
         }
 
         $scope.cancel = function() {
-            var url = "/detail/";
-            $location.path(url);
+            var url = "/grid/" + $scope.table.name;
+            $location.path(url).search('');
         }
 
         function toArray(obj) {
@@ -47,13 +47,15 @@ angular.module('webAppApp')
         function initializeEditor() {
 
             var name = $routeParams.table;
-            debugger;
-            //var id = $routeParams.id;
 
             api.getTable(name).then(function(table) {
                 $scope.table = table;
                 $scope.title = table.title;
 
+                if ($routeParams.new) {
+                    $scope.record = {};
+                    return;
+                }
 
                 var filter = {
                     TableName: table.name,
@@ -64,7 +66,6 @@ angular.module('webAppApp')
                 api.select(filter).then(function(response) {
                     $scope.record = !!response ? response[0] : null;
                 });
-
             });
 
         }

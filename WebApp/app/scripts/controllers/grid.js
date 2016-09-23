@@ -27,6 +27,7 @@ angular.module('webAppApp')
             tableName: '',
             detailMode: false,
         };
+
         $scope.delete = function(e, row) {
             debugger;
             alert('Name: ' + value);
@@ -41,12 +42,10 @@ angular.module('webAppApp')
             var params = {};
 
             keys.forEach(function(key) {
-                //params += key.name + '=' + row.entity[key.name] + '&'
                 params[key.name] = row.entity[key.name];
             }, this);
 
-            //TODO: implement Primary key selection
-            //var url = "/detail/" + $routeParams.table + "?" + params;
+
             var url = "/detail/" + $routeParams.table;
             $location.path(url).search(params);
         };
@@ -56,8 +55,8 @@ angular.module('webAppApp')
         }
 
         $scope.createNew = function() {
-            var url = "/detail/" + $routeParams.table + "/-1";
-            $location.path(url);
+            var url = "/detail/" + $routeParams.table;
+            $location.path(url).search({ new: true });
         }
 
         function filterGridColumns(column) {
