@@ -11,5 +11,10 @@ namespace Scaffolder.Core.Engine.MySql
         {
             throw new NotImplementedException();
         }
+
+	    public string BuildRecordCountQuery(Table table, Filter filter)
+	    {
+		    throw new NotImplementedException();
+	    }
     }
 }

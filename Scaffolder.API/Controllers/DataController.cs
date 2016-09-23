@@ -15,13 +15,21 @@ namespace Scaffolder.API.Controllers
         }
 
         [HttpGet]
-        //public IEnumerable<dynamic> Get([ModelBinder(BinderType = typeof(FilterModelBinder))]Filter filter)
-        public IEnumerable<dynamic> Get([ModelBinder(BinderType = typeof(FilterModelBinder))]Filter filter)
+        public PagingInfo Get([ModelBinder(BinderType = typeof(FilterModelBinder))]Filter filter)
         {
             var table = Schema.GetTable(filter.TableName);
             var repository = CreateRepository(table);
 
-            return repository.Select(filter);
+	        var items = repository.Select(filter);
+	        var totalItemsCount = repository.GetRecordCount(filter);
+
+	        return new PagingInfo
+	        {
+				CurrentPage = filter.CurrentPage,
+		        PageSize = filter.PageSize,
+		        Items = items,
+		        TotalItemsCount = totalItemsCount
+	        };
         }
 
         [HttpPost]

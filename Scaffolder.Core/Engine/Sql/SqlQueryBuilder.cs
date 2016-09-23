@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Scaffolder.Core.Base;
@@ -29,6 +30,15 @@ namespace Scaffolder.Core.Engine.Sql
                 sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
             }
 
+	        var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true);
+	        var orderByColumn = String.IsNullOrEmpty(filter.SortColumn)? keyColumn.Name: filter.SortColumn;
+	        var offset = filter.PageSize * (filter.CurrentPage - 1);
+	        var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
+
+	        sb.AppendFormat(@"ORDER BY [{0}] {1}
+  							  OFFSET {2} ROWS
+  							  FETCH NEXT {3} ROWS ONLY;", orderByColumn, order, offset, filter.PageSize);
+
             return sb.ToString();
         }
 
@@ -49,7 +59,23 @@ namespace Scaffolder.Core.Engine.Sql
             throw new NotSupportedException("Unknown query type");
         }
 
-        private string BuildInsert(Table table)
+	    public string BuildRecordCountQuery(Table table, Filter filter)
+	    {
+		    var sb = new StringBuilder();
+
+		    sb.AppendFormat("SElECT COUNT(*) FROM [{0}] ", filter.TableName);
+
+		    var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).Where(o => !String.IsNullOrEmpty(o)).ToList();
+
+		    if (whereCaluses.Any())
+		    {
+			    sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
+		    }
+
+		    return sb.ToString();
+	    }
+
+	    private string BuildInsert(Table table)
         {
             var sb = new StringBuilder();
 

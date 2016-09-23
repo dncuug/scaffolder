@@ -108,7 +108,7 @@ angular.module('webAppApp')
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
             api.select($scope.filter).then(function(response) {
-                $scope.gridOptions.data = response;
+                $scope.gridOptions.data = response.items;
             });
         }
 
