@@ -6,7 +6,7 @@ namespace Scaffolder.Core.Meta
     {
         public static void MapExtendInformation(Table src, Table dst)
         {
-            MapExtendInformation((BaseObject)src, (BaseObject)dst);
+            MapExtendInformation(src, (BaseObject)dst);
 
             if (src.Position != 0)
             {
@@ -16,7 +16,7 @@ namespace Scaffolder.Core.Meta
 
         public static void MapExtendInformation(Column src, Column dst)
         {
-            MapExtendInformation((BaseObject)src, (BaseObject)dst);
+            MapExtendInformation(src, (BaseObject)dst);
 
             if (src.Position != null)
             {
