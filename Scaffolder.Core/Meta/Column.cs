@@ -19,7 +19,25 @@ namespace Scaffolder.Core.Meta
         public dynamic MaxValue { get; set; }
         public dynamic MinValue { get; set; }
         public int? MaxLength { get; set; }
-        public bool? Readonly { get; set; }
+
+        private bool? _readonly;
+
+        public bool? Readonly
+        {
+            get
+            {
+                if (AutoIncrement == true)
+                {
+                    _readonly = true;
+                }
+
+                return _readonly;
+            }
+            set
+            {
+                _readonly = value;
+            }
+        }
 
         public override string ToString()
         {

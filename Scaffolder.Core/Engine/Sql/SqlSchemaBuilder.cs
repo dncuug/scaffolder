@@ -50,9 +50,45 @@ namespace Scaffolder.Core.Engine.Sql
                  { "@TableName", name }
             };
 
-            _db.Execute(sql, r => MapTableColumns(r, table), parameters);
+            IEnumerable<string> keyColumns = GetTablePrimaryKeys(name);
+            IEnumerable<string> identityColumns = GetTableIdentityColumns(name);
+
+            _db.Execute(sql, r => MapTableColumns(r, table, keyColumns, identityColumns), parameters);
 
             return table;
+        }
+
+        private IEnumerable<string> GetTablePrimaryKeys(string name)
+        {
+            var sql = @"SELECT COLUMN_NAME
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+                JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu ON tc.CONSTRAINT_NAME = ccu.Constraint_name
+            WHERE tc.CONSTRAINT_TYPE = 'Primary Key'
+            AND tc.TABLE_NAME = @TableName";
+
+            var parameters = new Dictionary<string, object>
+            {
+                 { "@TableName", name }
+            };
+
+            return _db.Execute(sql, r => r["COLUMN_NAME"].ToString(), parameters).ToList();
+        }
+
+        private IEnumerable<string> GetTableIdentityColumns(string name)
+        {
+            var sql = @"select COLUMN_NAME
+                from INFORMATION_SCHEMA.COLUMNS
+                where TABLE_SCHEMA = 'dbo'
+                and COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, 'IsIdentity') = 1
+                AND TABLE_NAME = @TableName
+                order by TABLE_NAME";
+
+            var parameters = new Dictionary<string, object>
+            {
+                 { "@TableName", name }
+            };
+
+            return _db.Execute(sql, r => r["COLUMN_NAME"].ToString(), parameters).ToList();
         }
 
         private IEnumerable<String> GetDatabaseTables()
@@ -63,18 +99,21 @@ namespace Scaffolder.Core.Engine.Sql
             return tables;
         }
 
-        private static Table MapTableColumns(IDataRecord r, Table t)
+        private static Table MapTableColumns(IDataRecord r, Table t, IEnumerable<string> keyColumns, IEnumerable<string> identityColumns)
         {
 
+            var columnName = r["COLUMN_NAME"].ToString();
             var column = new Column
             {
-                Type = ParseColumnType(r["DATA_TYPE"].ToString()),
+                Type = ParseColumnType(r["DATA_TYPE"].ToString(), r["COLUMN_NAME"].ToString()),
                 Position = 1,
-                Name = r["COLUMN_NAME"].ToString(),
-                Title = r["COLUMN_NAME"].ToString(),
+                Name = columnName,
+                Title = columnName,
                 IsNullable = r["IS_NULLABLE"].ToString() == "YES",
                 ShowInGrid = true,
-                IsKey = false,
+                IsKey = keyColumns.Contains(columnName),
+                Readonly = false,
+                AutoIncrement = identityColumns.Contains(columnName),
                 Description = ""
             };
 
@@ -91,22 +130,44 @@ namespace Scaffolder.Core.Engine.Sql
             t.Columns.Add(column);
             return t;
         }
-        
-        private static ColumnType ParseColumnType(string type)
+
+        private static ColumnType ParseColumnType(string type, string name)
         {
+            name = name.ToLower();
+            type = type.ToLower();
+
             if (type.ToLower() == "nvarchar")
             {
+                if (name.Contains("password"))
+                    return ColumnType.Password;
+
+                if (name.Contains("content") || name.Contains("html"))
+                    return ColumnType.HTML;
+
+                if (name.Contains("image") || name.Contains("picture")
+                || name.Contains("logo") || name.Contains("background"))
+                    return ColumnType.Image;
+
+                if (name.Contains("phone"))
+                    return ColumnType.Phone;
+
+                if (name.Contains("email"))
+                    return ColumnType.Email;
+
+                if (name.Contains("link") || name.Contains("url"))
+                    return ColumnType.Url;
+
                 return ColumnType.Text;
             }
-            else if (type.ToLower() == "int")
+            else if (type == "int")
             {
                 return ColumnType.Integer;
             }
-            else if (type.ToLower() == "datetime")
+            else if (type == "datetime")
             {
                 return ColumnType.DateTime;
             }
-            else if (type.ToLower() == "float")
+            else if (type == "float")
             {
                 return ColumnType.Double;
             }
