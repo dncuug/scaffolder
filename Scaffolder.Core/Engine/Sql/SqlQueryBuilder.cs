@@ -35,7 +35,7 @@ namespace Scaffolder.Core.Engine.Sql
 	        var offset = filter.PageSize * (filter.CurrentPage - 1);
 	        var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
 
-	        sb.AppendFormat(@"ORDER BY [{0}] {1}
+	        sb.AppendFormat(@" ORDER BY [{0}] {1}
   							  OFFSET {2} ROWS
   							  FETCH NEXT {3} ROWS ONLY;", orderByColumn, order, offset, filter.PageSize);
 

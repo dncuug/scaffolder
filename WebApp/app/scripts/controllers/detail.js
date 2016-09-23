@@ -64,7 +64,7 @@ angular.module('webAppApp')
                 };
 
                 api.select(filter).then(function(response) {
-                    $scope.record = !!response ? response[0] : null;
+                    $scope.record = !!response ? response.items[0] : null;
                 });
             });
 
