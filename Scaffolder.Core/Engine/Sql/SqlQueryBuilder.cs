@@ -17,7 +17,7 @@ namespace Scaffolder.Core.Engine.Sql
 
             sb.AppendFormat("SElECT ");
 
-            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => o.Name).ToList();
+            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => $"[{o.Name}]").ToList();
 
             sb.Append(String.Join(", ", columns));
 
@@ -129,10 +129,10 @@ namespace Scaffolder.Core.Engine.Sql
 
             if (column.Type == ColumnType.Text)
             {
-                return String.Format("[{0}] LIKE @{0}", p.Key);
+                return String.Format("[{0}] LIKE @{0}", column.Name);
             }
 
-            return String.Format("[{0}] = @{0}", p.Key);
+            return String.Format("[{0}] = @{0}", column.Name);
         }
     }
 }
