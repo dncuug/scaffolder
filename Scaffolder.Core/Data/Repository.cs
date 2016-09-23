@@ -29,7 +29,7 @@ namespace Scaffolder.Core.Data
             _table = table;
             _queryBuilder = queryBuilder;
         }
-        
+
         public IEnumerable<dynamic> Select(Filter filter)
         {
             var query = _queryBuilder.Build(Query.Select, _table, filter);
@@ -43,9 +43,9 @@ namespace Scaffolder.Core.Data
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true).ToList();
             var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
-            
+
             var query = _queryBuilder.Build(Query.Insert, _table);
-            
+
             var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
             return result;
         }
@@ -78,7 +78,7 @@ namespace Scaffolder.Core.Data
 
             foreach (var c in _table.Columns)
             {
-                if (c.ShowInGrid == true || loadAllColumns)
+                if (c.ShowInGrid == true || c.IsKey == true || loadAllColumns)
                 {
                     AddProperty(obj, c.Name, r[c.Name]);
                 }

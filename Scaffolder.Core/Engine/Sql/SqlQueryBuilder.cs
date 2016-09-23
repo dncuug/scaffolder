@@ -16,13 +16,13 @@ namespace Scaffolder.Core.Engine.Sql
 
             sb.AppendFormat("SElECT ");
 
-            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode).Select(o => o.Name);
+            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => o.Name).ToList();
 
             sb.Append(String.Join(", ", columns));
 
             sb.AppendFormat(" FROM [{0}] ", filter.TableName);
 
-            var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).ToList();
+            var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).Where(o => !String.IsNullOrEmpty(o)).ToList();
 
             if (whereCaluses.Any())
             {
@@ -99,6 +99,11 @@ namespace Scaffolder.Core.Engine.Sql
         private string BuildClause(Table table, KeyValuePair<string, object> p)
         {
             var column = table.GetColumn(p.Key);
+
+            if (column == null)
+            {
+                return String.Empty;
+            }
 
             if (column.Type == ColumnType.Text)
             {

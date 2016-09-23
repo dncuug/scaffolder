@@ -8,29 +8,28 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('DetailCtrl', function ($scope, $routeParams, $location, api) {
+    .controller('DetailCtrl', function($scope, $routeParams, $location, api) {
 
         $scope.table = {};
         $scope.record = {};
 
-        $scope.save = function () {
+        $scope.save = function() {
             var exist = false;
 
             if (exist) {
-                api.update($scope.table, $scope.record).then(function () {
+                api.update($scope.table, $scope.record).then(function() {
                     var url = "/grid/" + $scope.table.name;
                     $location.path(url);
                 });
-            }
-            else {
-                api.insert($scope.table, $scope.record).then(function () {
+            } else {
+                api.insert($scope.table, $scope.record).then(function() {
                     var url = "/grid/" + $scope.table.name;
                     $location.path(url);
                 });
             }
         }
 
-        $scope.cancel = function () {
+        $scope.cancel = function() {
             var url = "/detail/";
             $location.path(url);
         }
@@ -40,7 +39,7 @@ angular.module('webAppApp')
 
             var result = [];
 
-            keys.forEach(function (value) {
+            keys.forEach(function(value) {
 
             });
         }
@@ -51,7 +50,7 @@ angular.module('webAppApp')
             debugger;
             //var id = $routeParams.id;
 
-            api.getTable(name).then(function (table) {
+            api.getTable(name).then(function(table) {
                 $scope.table = table;
                 $scope.title = table.title;
 
@@ -62,9 +61,8 @@ angular.module('webAppApp')
                     Parameters: $routeParams
                 };
 
-                api.select(filter).then(function (response) {
-                    debugger;
-                    $scope.record = response;
+                api.select(filter).then(function(response) {
+                    $scope.record = !!response ? response[0] : null;
                 });
 
             });

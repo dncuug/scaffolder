@@ -20,5 +20,10 @@ namespace Scaffolder.Core.Meta
         public dynamic MinValue { get; set; }
         public int? MaxLength { get; set; }
         public bool? Readonly { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name} Key: {IsKey} IsNullable: {IsNullable} ShowInGrid: {ShowInGrid}";
+        }
     }
 }
