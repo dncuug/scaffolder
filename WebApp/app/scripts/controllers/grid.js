@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('GridCtrl', function ($scope, $routeParams, $location, api) {
+    .controller('GridCtrl', function($scope, $routeParams, $location, api) {
 
         $scope.gridOptions = {
             enableSorting: true,
@@ -27,20 +27,20 @@ angular.module('webAppApp')
             tableName: '',
             detailMode: false,
         };
-        $scope.delete = function (e, row) {
+        $scope.delete = function(e, row) {
             debugger;
             alert('Name: ' + value);
         };
 
-        $scope.edit = function (e, row) {
+        $scope.edit = function(e, row) {
 
-            var keys = $scope.table.columns.filter(function (value, index) {
+            var keys = $scope.table.columns.filter(function(value, index) {
                 return value.isKey == true;
             });
 
             var params = {};
 
-            keys.forEach(function (key) {
+            keys.forEach(function(key) {
                 //params += key.name + '=' + row.entity[key.name] + '&'
                 params[key.name] = row.entity[key.name];
             }, this);
@@ -55,7 +55,7 @@ angular.module('webAppApp')
             return string.charAt(0).toLowerCase() + string.slice(1);
         }
 
-        $scope.createNew = function () {
+        $scope.createNew = function() {
             var url = "/detail/" + $routeParams.table + "/-1";
             $location.path(url);
         }
@@ -68,13 +68,13 @@ angular.module('webAppApp')
 
             var name = $routeParams.table;
 
-            api.getTable(name).then(function (table) {
+            api.getTable(name).then(function(table) {
 
                 $scope.table = table;
 
                 $scope.filter.tableName = table.name;
 
-                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
+                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function(c) {
                     return {
                         name: c.title,
                         field: c.name,
@@ -86,10 +86,13 @@ angular.module('webAppApp')
                     field: 'buttons',
                     cellEditableCondition: false,
                     enableSorting: false,
+                    enableHiding: false,
+                    enableColumnMenu: false,
+                    width: 65,
                     cellTemplate: '\
                       <div class="ui-grid-cell-contents ng-binding ng-scope">\
-                        <button class="btn btn-danger btn-xs" ng-click="grid.appScope.delete($event, row)"><span class="glyphicon glyphicon-trash"></span></button>\
                         <button class="btn btn-info btn-xs" ng-click="grid.appScope.edit($event, row)"><span class="glyphicon glyphicon-pencil"></span></button>\
+                        <button class="btn btn-danger btn-xs" ng-click="grid.appScope.delete($event, row)"><span class="glyphicon glyphicon-trash"></span></button>\
                       </div>'
                 };
 
@@ -105,7 +108,7 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-            api.select($scope.filter).then(function (response) {
+            api.select($scope.filter).then(function(response) {
                 $scope.gridOptions.data = response;
             });
         }

@@ -11,7 +11,7 @@ angular.module('webAppApp')
     .service('api', function($http) {
 
         //this.Endpoint = 'http://localhost:5000';
-        this.Endpoint = 'http://localhost:53402';
+        this.Endpoint = 'http://localhost:5000';
 
         function Url(self, relativeUrl) {
             return self.Endpoint + relativeUrl;
