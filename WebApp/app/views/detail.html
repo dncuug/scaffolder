@@ -1,11 +1,11 @@
 <h3>{{title}}</h3>
 
-<form class="form">
+<form class="form" name="editorForm">
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
-        <editor ng-required="c.isNullable" type="c.type" max-xenght="c.maxLength" ng-disabled="!!c.readonly" ng-model="record[c.name]"></editor>
+        <editor ng-required="c.isNullable" type="c.type" max-lenght="c.maxLength" ng-disabled="!!c.readonly" ng-model="record[c.name]"></editor>
     </div>
-</form>
 
-<input type="button" class="btn btn-success" ng-click="save()" value="Save" />
-<input type="button" class="btn btn-default" ng-click="cancel()" value="Cancel" />
+    <input type="button" class="btn btn-success" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
+    <input type="button" class="btn btn-default" ng-click="cancel()" value="Cancel" />
+</form>

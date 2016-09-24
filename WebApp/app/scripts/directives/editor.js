@@ -37,7 +37,8 @@ angular.module('webAppApp')
                 maxValue: '=',
                 maxLenght: '=',
                 ngDisabled: '=',
-                ngRequired: '='
+                ngRequired: '=',
+                validatorRules: '='
             },
 
             link: function postLink(scope, element, attrs) {

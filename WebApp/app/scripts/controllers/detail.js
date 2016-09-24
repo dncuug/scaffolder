@@ -13,10 +13,10 @@ angular.module('webAppApp')
         $scope.table = {};
         $scope.record = {};
 
-        $scope.tmp = { test: 111 };
+        $scope.editorForm = {};
 
         $scope.save = function() {
-            var exist = false;
+            var exist = !$routeParams.new;
 
             if (exist) {
                 api.update($scope.table, $scope.record).then(function() {

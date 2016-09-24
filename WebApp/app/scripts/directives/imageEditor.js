@@ -9,14 +9,18 @@
 angular.module('webAppApp')
     .directive('imageEditor', function() {
         return {
-            template: '<div></div>',
+            template: '<div>\
+                        <input no-validation-message="true" ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
+                        <br />\
+                        <img src="imageUrl" class="img-resposnsive" />\
+                       </div>',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                element.text('this is the ImageEditor directive');
+
             }
         };
     });

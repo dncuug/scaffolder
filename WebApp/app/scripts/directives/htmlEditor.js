@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('htmlEditor', function() {
         return {
-            template: '<div ng-disabled="ngDisabled" text-angular ng-model="ngModel"></div>',
+            template: '<div no-validation-message="true" ng-disabled="ngDisabled" text-angular ng-model="ngModel"></div>',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='
