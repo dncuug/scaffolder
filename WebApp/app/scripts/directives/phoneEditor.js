@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('dateEditor', function() {
         return {
-            template: '<input no-validation-message="true" ng-required="ngRequired" ng-disabled="ngDisabled" type="date" class="form-control" ng-model="ngModel" />',
+            template: '<input  ng-required="ngRequired" ng-disabled="ngDisabled" type="date" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='

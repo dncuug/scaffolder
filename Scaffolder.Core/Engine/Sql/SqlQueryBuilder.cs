@@ -30,12 +30,12 @@ namespace Scaffolder.Core.Engine.Sql
                 sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
             }
 
-	        var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true);
-	        var orderByColumn = String.IsNullOrEmpty(filter.SortColumn)? keyColumn.Name: filter.SortColumn;
-	        var offset = filter.PageSize * (filter.CurrentPage - 1);
-	        var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
+            var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true);
+            var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
+            var offset = filter.PageSize * (filter.CurrentPage - 1);
+            var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
 
-	        sb.AppendFormat(@" ORDER BY [{0}] {1}
+            sb.AppendFormat(@" ORDER BY [{0}] {1}
   							  OFFSET {2} ROWS
   							  FETCH NEXT {3} ROWS ONLY;", orderByColumn, order, offset, filter.PageSize);
 
@@ -59,23 +59,23 @@ namespace Scaffolder.Core.Engine.Sql
             throw new NotSupportedException("Unknown query type");
         }
 
-	    public string BuildRecordCountQuery(Table table, Filter filter)
-	    {
-		    var sb = new StringBuilder();
+        public string BuildRecordCountQuery(Table table, Filter filter)
+        {
+            var sb = new StringBuilder();
 
-		    sb.AppendFormat("SElECT COUNT(*) FROM [{0}] ", filter.TableName);
+            sb.AppendFormat("SElECT COUNT(*) FROM [{0}] ", filter.TableName);
 
-		    var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).Where(o => !String.IsNullOrEmpty(o)).ToList();
+            var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o)).Where(o => !String.IsNullOrEmpty(o)).ToList();
 
-		    if (whereCaluses.Any())
-		    {
-			    sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
-		    }
+            if (whereCaluses.Any())
+            {
+                sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
+            }
 
-		    return sb.ToString();
-	    }
+            return sb.ToString();
+        }
 
-	    private string BuildInsert(Table table)
+        private string BuildInsert(Table table)
         {
             var sb = new StringBuilder();
 
@@ -92,13 +92,13 @@ namespace Scaffolder.Core.Engine.Sql
         {
             var sb = new StringBuilder();
 
-            var fields = table.Columns.Where(o => o.AutoIncrement != true).ToList();
+            var fields = table.Columns.Where(o => o.AutoIncrement != true && o.IsKey != true).Select(o => o.Name).ToList();
             var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
 
-            sb.AppendFormat("UPDATE [{0}] SET {1}", table.Name, String.Join(", ", fields));
-            sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
+            sb.AppendFormat("UPDATE [{0}] SET ", table.Name);
+            sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("[{0}] = @{0}", o))));
             sb.AppendFormat(" OUTPUT INSERTED.* ");
-            sb.AppendFormat(" WHERE");
+            sb.AppendFormat(" WHERE ");
             sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("[{0}] = @{0}", o.Name))));
 
             return sb.ToString();

@@ -19,11 +19,9 @@ angular
         'ui.grid',
         'ui.grid.edit',
         'ui.grid.pagination',
-        'textAngular',
-        'validation',
-        'validation.rule'
+        'textAngular'
     ])
-    .config(function($routeProvider, $validationProvider) {
+    .config(function($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -58,21 +56,4 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
-
-
-
-
-        $validationProvider.setErrorHTML(function(msg) {
-            return "<label class=\"control-label has-error\">" + msg + '222222' + "</label>";
-        });
-
-
-        angular.extend($validationProvider, {
-            validCallback: function(element) {
-                $(element).parents('.form-group:first').removeClass('has-error');
-            },
-            invalidCallback: function(element) {
-                $(element).parents('.form-group:first').addClass('has-error');
-            }
-        });
     });

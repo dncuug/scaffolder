@@ -10,7 +10,7 @@ angular.module('webAppApp')
     .directive('imageEditor', function() {
         return {
             template: '<div>\
-                        <input no-validation-message="true" ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
+                        <input  ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
                         <br />\
                         <img src="imageUrl" class="img-resposnsive" />\
                        </div>',
