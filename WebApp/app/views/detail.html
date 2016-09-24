@@ -3,8 +3,9 @@
 <form class="form">
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
-        <editor type="c.type" ng-disabled="!!c.readonly" ng-model="record[c.name]" type="c.type"></editor>
+        <editor type="c.type" ng-disabled="!!c.readonly" ng-model="record[c.name]"></editor>
     </div>
+
 </form>
 
 <input type="button" class="btn btn-success" ng-click="save()" value="Save" />

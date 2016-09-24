@@ -13,6 +13,8 @@ angular.module('webAppApp')
         $scope.table = {};
         $scope.record = {};
 
+        $scope.tmp = { test: 111 };
+
         $scope.save = function() {
             var exist = false;
 
