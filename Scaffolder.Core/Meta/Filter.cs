@@ -21,7 +21,7 @@ namespace Scaffolder.Core.Meta
 
         public bool DetailMode { get; set; }
 
-        public SortOrder SortOrder { get; set; }
+        public SortOrder x { get; set; }
 
         public String SortColumn { get; set; }
 

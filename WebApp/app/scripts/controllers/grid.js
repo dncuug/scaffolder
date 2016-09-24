@@ -8,14 +8,62 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('GridCtrl', function($scope, $routeParams, $location, api) {
+    .controller('GridCtrl', function($scope, $routeParams, $location, api, uiGridConstants) {
+
+        var paginationOptions = {
+            pageNumber: 1,
+            pageSize: 5,
+            sort: null
+        };
 
         $scope.gridOptions = {
             enableSorting: true,
-            paginationPageSizes: [25, 50, 75],
-            paginationPageSize: 25,
+            paginationPageSizes: [5, 25, 50, 75],
+            paginationPageSize: 5,
+            useExternalPagination: true,
+            useExternalSorting: true,
             columnDefs: [],
-            data: []
+            data: [],
+            onRegisterApi: function(gridApi) {
+                $scope.gridApi = gridApi;
+                $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
+                    if (sortColumns.length == 0) {
+                        paginationOptions.sort = null;
+                    } else {
+                        paginationOptions.sort = sortColumns[0].sort.direction;
+                    }
+                    getPage();
+                });
+                gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
+                    paginationOptions.pageNumber = newPage;
+                    paginationOptions.pageSize = pageSize;
+                    getPage();
+                });
+            }
+        };
+
+        function getPage() {
+            var url;
+            switch (paginationOptions.sort) {
+                case uiGridConstants.ASC:
+                    $scope.filter.sortOrder = 0;
+                    break;
+                case uiGridConstants.DESC:
+                    $scope.filter.sortOrder = 1;
+                    break;
+                default:
+                    $scope.filter.sortOrder = -1;
+                    break;
+            }
+
+            $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
+            $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
+
+
+            api.select($scope.filter).then(function(response) {
+                $scope.gridOptions.totalItems = response.totalItemsCount;
+                $scope.gridOptions.data = response.items;
+            });
         };
 
         $scope.filter = {
@@ -29,8 +77,15 @@ angular.module('webAppApp')
         };
 
         $scope.delete = function(e, row) {
-            debugger;
-            alert('Name: ' + value);
+
+            var r = confirm("Are you sure that you want to permanently delete the selected record?");
+
+            if (r == true) {
+                api.delete($scope.table, row.entity).then(function() {
+                    var url = "/grid/" + $scope.table.name;
+                    $location.path(url).search();
+                });
+            }
         };
 
         $scope.edit = function(e, row) {
@@ -44,7 +99,6 @@ angular.module('webAppApp')
             keys.forEach(function(key) {
                 params[key.name] = row.entity[key.name];
             }, this);
-
 
             var url = "/detail/" + $routeParams.table;
             $location.path(url).search(params);
@@ -97,20 +151,22 @@ angular.module('webAppApp')
 
                 $scope.gridOptions.columnDefs.push(buttons);
 
-                loadData();
+                //loadData();
+
+                getPage();
 
             });
         }
 
-        function loadData() {
+        // function loadData() {
 
-            $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
-            $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
+        //     $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
+        //     $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-            api.select($scope.filter).then(function(response) {
-                $scope.gridOptions.data = response.items;
-            });
-        }
+        //     api.select($scope.filter).then(function(response) {
+        //         $scope.gridOptions.data = response.items;
+        //     });
+        // }
 
         initializeGrid();
     });

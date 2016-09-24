@@ -21,12 +21,12 @@ angular.module('webAppApp')
             if (exist) {
                 api.update($scope.table, $scope.record).then(function() {
                     var url = "/grid/" + $scope.table.name;
-                    $location.path(url);
+                    $location.path(url).search();
                 });
             } else {
                 api.insert($scope.table, $scope.record).then(function() {
                     var url = "/grid/" + $scope.table.name;
-                    $location.path(url);
+                    $location.path(url).search();
                 });
             }
         }

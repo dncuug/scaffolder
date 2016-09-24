@@ -131,9 +131,10 @@ angular.module('webAppApp')
                 tableName: table.name,
                 entity: entity
             };
-
+            debugger;
             return $http({
                 method: 'DELETE',
+                contentType: "application/json",
                 url: Url(this, '/data'),
                 data: payload
             }).then(function(response) {
