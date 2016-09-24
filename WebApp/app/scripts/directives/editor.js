@@ -34,6 +34,8 @@ angular.module('webAppApp')
                 ngModel: '=',
                 type: '=',
                 minValue: '=',
+                maxValue: '=',
+                maxLenght: '=',
                 ngDisabled: '=',
             },
 

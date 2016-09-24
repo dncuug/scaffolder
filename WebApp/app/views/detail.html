@@ -3,7 +3,8 @@
 <form class="form">
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
-        <editor type="c.type" ng-disabled="!!c.readonly" ng-model="record[c.name]"></editor>
+        <editor type="c.type" max-xenght="c.maxLength" ng-disabled="!!c.readonly" ng-model="record[c.name]"></editor>
+        c.maxLength: {{c.maxLength}}
     </div>
 
 </form>

@@ -9,10 +9,11 @@
 angular.module('webAppApp')
     .directive('textEditor', function() {
         return {
-            template: '<input ng-disabled="ngDisabled" type="text" class="form-control" ng-model="ngModel" />',
+            template: '<input maxlength="maxLength" ng-disabled="ngDisabled" type="text" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '=',
-                ngDisabled: '='
+                ngDisabled: '=',
+                maxLength: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
