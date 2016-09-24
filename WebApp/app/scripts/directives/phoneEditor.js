@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('phoneEditor', function() {
         return {
-            template: '<input ng-disabled="ngDisabled" type="tel" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-required="ngRequired" ng-disabled="ngDisabled" type="tel" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='

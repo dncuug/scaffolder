@@ -19,7 +19,9 @@ angular
         'ui.grid',
         'ui.grid.edit',
         'ui.grid.pagination',
-        'textAngular'
+        'textAngular',
+        'validation',
+        'validation.rule'
     ])
     .config(function($routeProvider) {
         $routeProvider

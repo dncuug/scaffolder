@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('textEditor', function() {
         return {
-            template: '<input maxlength="maxLength" ng-disabled="ngDisabled" type="text" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-required="ngRequired" maxlength="maxLength" ng-disabled="ngDisabled" type="text" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '=',
                 ngDisabled: '=',

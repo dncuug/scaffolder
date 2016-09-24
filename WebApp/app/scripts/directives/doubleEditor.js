@@ -2,21 +2,26 @@
 
 /**
  * @ngdoc directive
- * @name webAppApp.directive:DoubleEditor
+ * @name webAppApp.directive:lookupEditor
  * @description
- * # DoubleEditor
+ * # lookupEditor
  */
 angular.module('webAppApp')
-    .directive('doubleEditor', function() {
+    .directive('lookupEditor', function() {
         return {
-            template: '<div></div>',
+            template: '<select ng-required="ngRequired" ng-disabled="ngDisabled" >\
+                        <option value="volvo">Volvo</option>\
+                        <option value="saab">Saab</option>\
+                        <option value="mercedes">Mercedes</option>\
+                        <option value="audi">Audi</option>\
+                      </select>',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                element.text('this is the DoubleEditor directive');
+
             }
         };
     });

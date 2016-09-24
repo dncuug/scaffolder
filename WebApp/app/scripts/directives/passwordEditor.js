@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('passwordEditor', function() {
         return {
-            template: '<input ng-disabled="ngDisabled" type="password" class="form-control" ng-model="ngModel" />',
+            template: '<input ng-required="ngRequired" ng-disabled="ngDisabled" type="password" class="form-control" ng-model="ngModel" />',
             scope: {
                 ngModel: '=',
                 ngDisabled: '='

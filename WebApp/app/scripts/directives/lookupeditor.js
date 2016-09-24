@@ -9,7 +9,7 @@
 angular.module('webAppApp')
     .directive('lookupEditor', function() {
         return {
-            template: '<select ng-disabled="ngDisabled" >\
+            template: '<select ng-required="ngRequired" ng-disabled="ngDisabled" >\
                         <option value="volvo">Volvo</option>\
                         <option value="saab">Saab</option>\
                         <option value="mercedes">Mercedes</option>\

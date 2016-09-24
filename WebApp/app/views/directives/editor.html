@@ -1,17 +1,17 @@
 <div ng-switch on="type">
-    <binary-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Binary"></binary-editor>
-    <date-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Date"></date-editor>
-    <time-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Time"></time-editor>
-    <date-time-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.DateTime"></date-time-editor>
-    <double-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Double"></double-editor>
-    <email-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Email"></email-editor>
-    <file-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.File"></file-editor>
-    <html-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.HTML"></html-editor>
-    <image-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Image"></image-editor>
-    <integer-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Integer"></integer-editor>
-    <phone-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Phone"></phone-editor>
-    <url-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Url"></url-editor>
-    <text-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Text" max-lenght="maxLenght"></text-editor>
-    <lookup-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Lookup"></lookup-editor>
-    <password-editor ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Password"></password-editor>
+    <binary-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Binary"></binary-editor>
+    <date-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Date"></date-editor>
+    <time-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Time"></time-editor>
+    <date-time-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.DateTime"></date-time-editor>
+    <double-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Double"></double-editor>
+    <email-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Email"></email-editor>
+    <file-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.File"></file-editor>
+    <html-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.HTML"></html-editor>
+    <image-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Image"></image-editor>
+    <integer-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Integer"></integer-editor>
+    <phone-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Phone"></phone-editor>
+    <url-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Url"></url-editor>
+    <text-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Text" max-lenght="maxLenght"></text-editor>
+    <lookup-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Lookup"></lookup-editor>
+    <password-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Password"></password-editor>
 </div>
