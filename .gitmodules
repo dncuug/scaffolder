@@ -1,0 +1,3 @@
+[submodule "scaffolder-ui"]
+	path = scaffolder-ui
+	url = git@github.com:kpi-ua/scaffolder-ui.git
