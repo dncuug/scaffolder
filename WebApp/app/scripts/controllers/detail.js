@@ -36,16 +36,6 @@ angular.module('webAppApp')
             $location.path(url).search('');
         }
 
-        function toArray(obj) {
-            var keys = Object.keys(obj);
-
-            var result = [];
-
-            keys.forEach(function(value) {
-
-            });
-        }
-
         function initializeEditor() {
 
             var name = $routeParams.table;
@@ -73,5 +63,4 @@ angular.module('webAppApp')
         }
 
         initializeEditor();
-
     });
