@@ -1,25 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using MySql.Data.MySqlClient;
 using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core.Engine.MySql
 {
-    public class MySqlDatabase : IDatabase
-    {
-        public object ExecuteScalar(string sql, Dictionary<string, object> parameters = null)
-        {
-            throw new NotImplementedException();
-        }
+	public class MySqlDatabase : DatabaseBase<MySqlConnection, MySqlCommand>
+	{
+		public MySqlDatabase(string connectionString)
+			: base(connectionString)
+		{
+		}
 
-        public void ExecuteNonQuery(string sql, Dictionary<string, object> parameters = null)
-        {
-            throw new NotImplementedException();
-        }
+		protected override MySqlConnection CreateConnection(string connectionString)
+		{
+			return new MySqlConnection(connectionString);
+		}
 
-        public IEnumerable<T> Execute<T>(string sql, Func<IDataReader, T> map, Dictionary<string, object> parameters = null)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		protected override MySqlCommand CreateCommand(MySqlConnection connection, string sql,
+			Dictionary<string, object> parameters = null)
+		{
+			var command = new MySqlCommand(sql, connection);
+
+			if (parameters != null)
+			{
+				foreach (var p in parameters)
+				{
+					command.Parameters.Add(new MySqlParameter
+					{
+						ParameterName = p.Key,
+						Value = p.Value
+					});
+				}
+			}
+
+			return command;
+		}
+	}
 }

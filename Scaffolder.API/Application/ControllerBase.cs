@@ -5,6 +5,7 @@ using Scaffolder.Core.Meta;
 using System;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
+using Scaffolder.Core.Engine.MySql;
 
 namespace Scaffolder.API.Application
 {
@@ -40,9 +41,14 @@ namespace Scaffolder.API.Application
         protected IRepository CreateRepository(Table table)
         {
             var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
-            var db = new SqlDatabase(connectionString);
-            var queryBuilder = new SqlQueryBuilder();
-            return new Repository(db, queryBuilder, table);
+
+	        //var db = new SqlDatabase(connectionString);
+            //var queryBuilder = new SqlQueryBuilder();
+
+	        var db = new MySqlDatabase(connectionString);
+	        var queryBuilder = new MySqlQueryBuilder();
+
+	        return new Repository(db, queryBuilder, table);
         }
     }
 }
