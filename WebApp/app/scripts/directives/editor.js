@@ -7,7 +7,7 @@
  * # Editor
  */
 angular.module('webAppApp')
-    .directive('editor', function() {
+    .directive('editor', function () {
 
         var ColumnType = {
             Text: 10,
@@ -38,13 +38,16 @@ angular.module('webAppApp')
                 maxLenght: '=',
                 ngDisabled: '=',
                 ngRequired: '=',
-                validatorRules: '='
+                validatorRules: '=',
+                keyColumn: '=',
+                displayColumn: '=',
+                table: '='
             },
 
             link: function postLink(scope, element, attrs) {
 
             },
-            controller: ['$scope', 'api', function($scope, api) {
+            controller: ['$scope', 'api', function ($scope, api) {
                 $scope.columnType = ColumnType;
             }]
         };

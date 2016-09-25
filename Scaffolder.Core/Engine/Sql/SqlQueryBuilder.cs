@@ -32,12 +32,17 @@ namespace Scaffolder.Core.Engine.Sql
 
             var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true) ?? table.Columns.FirstOrDefault();
             var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
-            var offset = filter.PageSize * (filter.CurrentPage - 1);
             var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
 
-            sb.AppendFormat(@" ORDER BY [{0}] {1}
-  							  OFFSET {2} ROWS
-  							  FETCH NEXT {3} ROWS ONLY;", orderByColumn, order, offset, filter.PageSize);
+            sb.AppendFormat(@" ORDER BY [{0}] {1} ", orderByColumn, order);
+
+            if (filter.PageSize.HasValue)
+            {
+                var offset = filter.PageSize*(filter.CurrentPage - 1);
+
+                sb.AppendFormat(@" OFFSET {0} ROWS
+  							       FETCH NEXT {1} ROWS ONLY;", offset, filter.PageSize);
+            }
 
             return sb.ToString();
         }

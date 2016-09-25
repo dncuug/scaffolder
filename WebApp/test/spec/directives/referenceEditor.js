@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: lookupEditor', function () {
+describe('Directive: referenceEditor', function () {
 
   // load the directive's module
   beforeEach(module('webAppApp'));
@@ -13,8 +13,8 @@ describe('Directive: lookupEditor', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<lookup-editor></lookup-editor>');
+    element = angular.element('<reference-editor></reference-editor>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the lookupEditor directive');
+    expect(element.text()).toBe('this is the referenceEditor directive');
   }));
 });

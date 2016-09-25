@@ -59,7 +59,6 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-
             api.select($scope.filter).then(function(response) {
                 $scope.gridOptions.totalItems = response.totalItemsCount;
                 $scope.gridOptions.data = response.items;

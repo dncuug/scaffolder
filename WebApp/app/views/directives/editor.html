@@ -11,7 +11,7 @@
     <integer-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Integer"></integer-editor>
     <phone-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Phone"></phone-editor>
     <url-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Url"></url-editor>
-    <text-editor validator-rules="validatorRules" ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Text" max-length="$parent.maxLenght"></text-editor>
-    <lookup-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Lookup"></lookup-editor>
+    <text-editor validator-rules="validatorRules" ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Text" max-length="$parent.maxLenght"></text-editor>   
     <password-editor ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" ng-if="type == columnType.Password"></password-editor>
+    <reference-editor key-column="keyColumn" display-column="displayColumn", ng-required="ngRequired" ng-disabled="ngDisabled" ng-model="$parent.ngModel" table="table" ng-if="type == columnType.Lookup"></reference-editor>
 </div>

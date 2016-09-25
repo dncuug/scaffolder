@@ -26,7 +26,7 @@ namespace Scaffolder.API.Controllers
 	        return new PagingInfo
 	        {
 				CurrentPage = filter.CurrentPage,
-		        PageSize = filter.PageSize,
+		        PageSize = filter.PageSize ?? totalItemsCount,
 		        Items = items,
 		        TotalItemsCount = totalItemsCount
 	        };

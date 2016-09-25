@@ -13,8 +13,7 @@ angular.module('webAppApp')
             scope: {
                 ngModel: '=',
                 ngDisabled: '=',
-                maxLength: '=',
-                validatorRules: '='
+                maxLength: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {}
