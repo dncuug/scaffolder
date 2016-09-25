@@ -12,7 +12,7 @@ angular.module('webAppApp')
             template: '<div>\
                         <input  ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
                         <br />\
-                        <img src="imageUrl" class="img-resposnsive" />\
+                        <img src="{{imageUrl}}" class="img-resposnsive" />\
                        </div>',
             scope: {
                 ngModel: '=',

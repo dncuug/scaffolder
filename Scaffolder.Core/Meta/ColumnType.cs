@@ -16,6 +16,7 @@ namespace Scaffolder.Core.Meta
         Double = 50,
         Image = 60,
         Binary = 70,
-        Lookup = 80
+        Lookup = 80,
+        Boolean = 90
     }
 }

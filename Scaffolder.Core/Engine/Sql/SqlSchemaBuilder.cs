@@ -8,7 +8,7 @@ using Scaffolder.Core.Meta;
 
 namespace Scaffolder.Core.Engine.Sql
 {
-    public class SqlSchemaBuilder : ISchemaBuilder
+    public class SqlSchemaBuilder : SchemeBuilderBase
     {
         private readonly IDatabase _db;
 
@@ -16,23 +16,8 @@ namespace Scaffolder.Core.Engine.Sql
         {
             _db = db;
         }
-
-        public Schema Build()
-        {
-            var database = new Schema();
-
-            var tableList = GetDatabaseTables();
-
-            foreach (var name in tableList)
-            {
-                var table = GetDataTable(name);
-                database.Tables.Add(table);
-            }
-
-            return database;
-        }
-
-        private Table GetDataTable(string name)
+        
+        protected override Table GetDataTable(string name)
         {
             var sql = @"
                         SELECT COLUMN_NAME,
@@ -58,7 +43,7 @@ namespace Scaffolder.Core.Engine.Sql
             return table;
         }
 
-        private IEnumerable<string> GetTablePrimaryKeys(string name)
+        protected override IEnumerable<string> GetTablePrimaryKeys(string name)
         {
             var sql = @"SELECT COLUMN_NAME
             FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
@@ -91,7 +76,7 @@ namespace Scaffolder.Core.Engine.Sql
             return _db.Execute(sql, r => r["COLUMN_NAME"].ToString(), parameters).ToList();
         }
 
-        private IEnumerable<String> GetDatabaseTables()
+        protected override IEnumerable<String> GetDatabaseTables()
         {
             var sql = "SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME != 'sysdiagrams'";
 
@@ -131,28 +116,7 @@ namespace Scaffolder.Core.Engine.Sql
             t.Columns.Add(column);
             return t;
         }
-
-        private static bool ShowInGrid(ColumnType type, string name)
-        {
-            if (type == ColumnType.HTML ||
-            type == ColumnType.Image ||
-            type == ColumnType.File ||
-            type == ColumnType.Binary)
-            {
-                return false;
-            }
-
-            name = name.ToLower();
-
-            if (name == "id" || name == "description")
-            {
-                return false;
-            }
-
-
-            return true;
-        }
-
+        
         private static ColumnType ParseColumnType(string type, string name)
         {
             name = name.ToLower();

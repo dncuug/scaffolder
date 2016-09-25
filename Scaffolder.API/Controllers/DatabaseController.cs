@@ -38,11 +38,6 @@ namespace Scaffolder.API.Controllers
             return true;
         }
 
-        private ISchemaBuilder GetSchemaBuilder()
-        {
-            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
-            var db = new SqlDatabase(connectionString);
-            return new SqlSchemaBuilder(db);
-        }
+       
     }
 }

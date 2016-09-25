@@ -38,17 +38,29 @@ namespace Scaffolder.API.Application
             }
         }
 
+        protected ISchemaBuilder GetSchemaBuilder()
+        {
+            var db = GetDatabase();
+
+            //return new SqlSchemaBuilder(db);
+            return new MySqlSchemaBuilder(db);
+        }
+
         protected IRepository CreateRepository(Table table)
         {
-            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
-
-	        //var db = new SqlDatabase(connectionString);
+            var db = GetDatabase();
+            
             //var queryBuilder = new SqlQueryBuilder();
+            var queryBuilder = new MySqlQueryBuilder();
 
-	        var db = new MySqlDatabase(connectionString);
-	        var queryBuilder = new MySqlQueryBuilder();
+            return new Repository(db, queryBuilder, table);
+        }
 
-	        return new Repository(db, queryBuilder, table);
+        private IDatabase GetDatabase()
+        {
+            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
+            //return new SqlDatabase(connectionString);
+            return new MySqlDatabase(connectionString);
         }
     }
 }
