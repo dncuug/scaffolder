@@ -30,7 +30,7 @@ namespace Scaffolder.Core.Engine.Sql
                 sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
             }
 
-            var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true);
+            var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true) ?? table.Columns.FirstOrDefault();
             var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
             var offset = filter.PageSize * (filter.CurrentPage - 1);
             var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
