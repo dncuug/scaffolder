@@ -10,11 +10,9 @@ namespace Scaffolder.Core.Engine.Sql
 {
     public class SqlSchemaBuilder : SchemeBuilderBase
     {
-        private readonly IDatabase _db;
-
-        public SqlSchemaBuilder(SqlDatabase db)
+        public SqlSchemaBuilder(IDatabase db)
+            : base(db)
         {
-            _db = db;
         }
         
         protected override Table GetDataTable(string name)

@@ -2,11 +2,19 @@
 using Scaffolder.Core.Meta;
 using System;
 using System.Collections.Generic;
+using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core.Engine
 {
     public abstract class SchemeBuilderBase : ISchemaBuilder
     {
+        protected readonly IDatabase _db;
+
+        public SchemeBuilderBase(IDatabase db)
+        {
+            _db = db;
+        }
+
         public Schema Build()
         {
             var database = new Schema();

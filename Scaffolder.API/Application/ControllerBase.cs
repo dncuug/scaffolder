@@ -42,16 +42,16 @@ namespace Scaffolder.API.Application
         {
             var db = GetDatabase();
 
-            //return new SqlSchemaBuilder(db);
-            return new MySqlSchemaBuilder(db);
+            return new SqlSchemaBuilder(db);
+            //return new MySqlSchemaBuilder(db);
         }
 
         protected IRepository CreateRepository(Table table)
         {
             var db = GetDatabase();
             
-            //var queryBuilder = new SqlQueryBuilder();
-            var queryBuilder = new MySqlQueryBuilder();
+            var queryBuilder = new SqlQueryBuilder();
+            //var queryBuilder = new MySqlQueryBuilder();
 
             return new Repository(db, queryBuilder, table);
         }
@@ -59,8 +59,8 @@ namespace Scaffolder.API.Application
         private IDatabase GetDatabase()
         {
             var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
-            //return new SqlDatabase(connectionString);
-            return new MySqlDatabase(connectionString);
+            return new SqlDatabase(connectionString);
+            //return new MySqlDatabase(connectionString);
         }
     }
 }

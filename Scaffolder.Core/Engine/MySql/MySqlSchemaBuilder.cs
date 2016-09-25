@@ -11,16 +11,13 @@ namespace Scaffolder.Core.Engine.MySql
 {
     public class MySqlSchemaBuilder : SchemeBuilderBase
     {
-        private readonly IDatabase _db;
-
         public MySqlSchemaBuilder(IDatabase db)
+            : base(db)
         {
-            _db = db;
         }
-        
+
         protected override Table GetDataTable(string name)
         {
-            //select * from information_schema.tables
             var sql = @"
                         SELECT COLUMN_NAME,
 	                           IS_NULLABLE,
@@ -47,7 +44,7 @@ namespace Scaffolder.Core.Engine.MySql
 
         protected override IEnumerable<string> GetTablePrimaryKeys(string name)
         {
-            var sql =$@"SELECT  column_name
+            var sql = $@"SELECT  column_name
                         FROM INFORMATION_SCHEMA.COLUMNS
                         WHERE  table_name = '{name}' and column_key = 'PRI'";
 
@@ -113,7 +110,7 @@ namespace Scaffolder.Core.Engine.MySql
             t.Columns.Add(column);
             return t;
         }
-        
+
         private static ColumnType ParseColumnType(string type, string name)
         {
             name = name.ToLower();
@@ -145,7 +142,8 @@ namespace Scaffolder.Core.Engine.MySql
             else if (type == "int" || type == "tinyint")
             {
                 return ColumnType.Integer;
-            }if (type == "bit")
+            }
+            if (type == "bit")
             {
                 return ColumnType.Boolean;
             }
