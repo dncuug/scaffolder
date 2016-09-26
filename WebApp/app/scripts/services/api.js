@@ -8,7 +8,7 @@
  * Service in the webAppApp.
  */
 angular.module('webAppApp')
-    .service('api', function($http) {
+    .service('api', function ($http) {
 
         //this.Endpoint = 'http://localhost:5000';
         this.Endpoint = 'http://localhost:5000';
@@ -21,12 +21,12 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getTables = function() {
+        this.getTables = function () {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/table')
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
 
@@ -35,11 +35,11 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.initizlizeDatrabaseScheme = function() {
+        this.rebuildScheme = function () {
             return $http({
                 method: 'POST',
                 url: Url(this, '/database')
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };
@@ -47,11 +47,11 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getDatabase = function() {
+        this.getDatabase = function () {
             return $http({
                 method: 'GET',
                 url: Url(this, '/database')
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };
@@ -59,12 +59,12 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getTable = function(name) {
+        this.getTable = function (name) {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/table/' + name)
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
 
@@ -73,13 +73,13 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.select = function(filter) {
+        this.select = function (filter) {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/data/' + name),
                 params: filter
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };
@@ -87,7 +87,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.insert = function(table, entity) {
+        this.insert = function (table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -98,7 +98,7 @@ angular.module('webAppApp')
                 method: 'POST',
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };
@@ -106,7 +106,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.update = function(table, entity) {
+        this.update = function (table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -117,7 +117,7 @@ angular.module('webAppApp')
                 method: 'PUT',
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };
@@ -125,19 +125,19 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.delete = function(table, entity) {
+        this.delete = function (table, entity) {
 
             var payload = {
                 tableName: table.name,
                 entity: entity
             };
-            debugger;
+           
             return $http({
                 method: 'DELETE',
-                contentType: "application/json",
+                headers: { 'Content-Type': 'application/json' },
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function(response) {
+            }).then(function (response) {
                 return response.data;
             });
         };

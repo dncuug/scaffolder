@@ -14,7 +14,7 @@ namespace Scaffolder.Core.Engine.Sql
             : base(db)
         {
         }
-        
+
         protected override Table GetDataTable(string name)
         {
             var sql = @"
@@ -114,13 +114,13 @@ namespace Scaffolder.Core.Engine.Sql
             t.Columns.Add(column);
             return t;
         }
-        
+
         private static ColumnType ParseColumnType(string type, string name)
         {
             name = name.ToLower();
             type = type.ToLower();
 
-            if (type.ToLower() == "nvarchar")
+            if (type == "nvarchar" || type == "varchar" || type == "ntext" || type == "text" || type == "nchar")
             {
                 if (name.Contains("password"))
                     return ColumnType.Password;
@@ -154,6 +154,10 @@ namespace Scaffolder.Core.Engine.Sql
             else if (type == "float")
             {
                 return ColumnType.Double;
+            }
+            if (type == "bit")
+            {
+                return ColumnType.Boolean;
             }
             else
             {

@@ -20,16 +20,16 @@ namespace Scaffolder.API.Controllers
             var table = Schema.GetTable(filter.TableName);
             var repository = CreateRepository(table);
 
-	        var items = repository.Select(filter);
-	        var totalItemsCount = repository.GetRecordCount(filter);
+            var items = repository.Select(filter);
+            var totalItemsCount = repository.GetRecordCount(filter);
 
-	        return new PagingInfo
-	        {
-				CurrentPage = filter.CurrentPage,
-		        PageSize = filter.PageSize ?? totalItemsCount,
-		        Items = items,
-		        TotalItemsCount = totalItemsCount
-	        };
+            return new PagingInfo
+            {
+                CurrentPage = filter.CurrentPage,
+                PageSize = filter.PageSize ?? totalItemsCount,
+                Items = items,
+                TotalItemsCount = totalItemsCount
+            };
         }
 
         [HttpPost]
@@ -56,7 +56,8 @@ namespace Scaffolder.API.Controllers
             var table = Schema.GetTable(payload.TableName);
             var repository = CreateRepository(table);
 
-            return repository.Delete(payload.Entity);
+            var deletedOjbect = repository.Delete(payload.Entity);
+            return deletedOjbect != null;
         }
     }
 }

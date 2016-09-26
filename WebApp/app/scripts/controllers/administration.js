@@ -8,10 +8,22 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('AdministrationCtrl', function($scope, api) {
-        $scope.initizlizeDatrabaseScheme = function() {
-            api.initizlizeDatrabaseScheme().then(function() {
-                $scope.status = 'Done';
+    .controller('AdministrationCtrl', function ($scope, api) {
+
+        $scope.progress = false;
+
+        $scope.rebuildScheme = function () {
+
+            $scope.progress = true;
+
+            api.rebuildScheme().then(function () {
+
+                $scope.progress = false;
+                $scope.status = 'Database schema updated successfully';
             });
+        }
+
+        $scope.refreshPage = function () {
+            location.reload();
         }
     });

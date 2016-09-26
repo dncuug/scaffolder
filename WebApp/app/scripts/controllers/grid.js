@@ -82,7 +82,7 @@ angular.module('webAppApp')
             if (r == true) {
                 api.delete($scope.table, row.entity).then(function() {
                     var url = "/grid/" + $scope.table.name;
-                    $location.path(url).search();
+                    getPage();
                 });
             }
         };
@@ -149,23 +149,11 @@ angular.module('webAppApp')
                 };
 
                 $scope.gridOptions.columnDefs.push(buttons);
-
-                //loadData();
-
+                
                 getPage();
 
             });
         }
-
-        // function loadData() {
-
-        //     $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
-        //     $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
-
-        //     api.select($scope.filter).then(function(response) {
-        //         $scope.gridOptions.data = response.items;
-        //     });
-        // }
 
         initializeGrid();
     });
