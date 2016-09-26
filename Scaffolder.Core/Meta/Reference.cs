@@ -21,5 +21,10 @@ namespace Scaffolder.Core.Meta
         /// </summary>
         /// <returns></returns>
         public String TextColumn { get; set; }
+
+        public String GetColumnAlias()
+        {
+            return $"{Table}_{TextColumn}";
+        }
     }
 }

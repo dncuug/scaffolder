@@ -16,7 +16,7 @@ namespace Scaffolder.Core.Data
         dynamic Update(Object obj);
         dynamic Delete(Object obj);
 
-	    int GetRecordCount(Filter filter);
+        int GetRecordCount(Filter filter);
     }
 
     public class Repository : IRepository
@@ -41,16 +41,16 @@ namespace Scaffolder.Core.Data
             return result;
         }
 
-	    public int GetRecordCount(Filter filter)
-	    {
-		    var query = _queryBuilder.BuildRecordCountQuery(_table, filter);
+        public int GetRecordCount(Filter filter)
+        {
+            var query = _queryBuilder.BuildRecordCountQuery(_table, filter);
 
-		    var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
-		    var result = Convert.ToInt32(_db.ExecuteScalar(query, parameters));
-		    return result;
-	    }
+            var parameters = filter.Parameters.ToDictionary(x => "@" + x.Key, x => x.Value);
+            var result = Convert.ToInt32(_db.ExecuteScalar(query, parameters));
+            return result;
+        }
 
-	    public dynamic Insert(Object obj)
+        public dynamic Insert(Object obj)
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true).ToList();
             var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
@@ -83,13 +83,17 @@ namespace Scaffolder.Core.Data
             return result;
         }
 
-	    private dynamic Map(IDataRecord r, bool loadAllColumns)
+        private dynamic Map(IDataRecord r, bool loadAllColumns)
         {
             var obj = new ExpandoObject();
 
             foreach (var c in _table.Columns)
             {
-                if (c.ShowInGrid == true || c.IsKey == true || loadAllColumns)
+                if (c.ShowInGrid == true && c.Reference != null)
+                {
+                    AddProperty(obj, $"{c.Reference.GetColumnAlias()}" , r[$"{c.Reference.GetColumnAlias()}"]);
+                }
+                else if (c.ShowInGrid == true || c.IsKey == true || loadAllColumns)
                 {
                     AddProperty(obj, c.Name, r[c.Name]);
                 }

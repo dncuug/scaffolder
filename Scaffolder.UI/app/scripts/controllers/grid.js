@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('GridCtrl', function($scope, $routeParams, $location, api, uiGridConstants) {
+    .controller('GridCtrl', function ($scope, $routeParams, $location, api, uiGridConstants) {
 
         var paginationOptions = {
             pageNumber: 1,
@@ -24,9 +24,9 @@ angular.module('webAppApp')
             useExternalSorting: true,
             columnDefs: [],
             data: [],
-            onRegisterApi: function(gridApi) {
+            onRegisterApi: function (gridApi) {
                 $scope.gridApi = gridApi;
-                $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
+                $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                     if (sortColumns.length == 0) {
                         paginationOptions.sort = null;
                     } else {
@@ -34,7 +34,7 @@ angular.module('webAppApp')
                     }
                     getPage();
                 });
-                gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
+                gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                     paginationOptions.pageNumber = newPage;
                     paginationOptions.pageSize = pageSize;
                     getPage();
@@ -59,7 +59,7 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
 
-            api.select($scope.filter).then(function(response) {
+            api.select($scope.filter).then(function (response) {
                 $scope.gridOptions.totalItems = response.totalItemsCount;
                 $scope.gridOptions.data = response.items;
             });
@@ -75,27 +75,27 @@ angular.module('webAppApp')
             detailMode: false,
         };
 
-        $scope.delete = function(e, row) {
+        $scope.delete = function (e, row) {
 
             var r = confirm("Are you sure that you want to permanently delete the selected record?");
 
             if (r == true) {
-                api.delete($scope.table, row.entity).then(function() {
+                api.delete($scope.table, row.entity).then(function () {
                     var url = "/grid/" + $scope.table.name;
                     getPage();
                 });
             }
         };
 
-        $scope.edit = function(e, row) {
+        $scope.edit = function (e, row) {
 
-            var keys = $scope.table.columns.filter(function(value, index) {
+            var keys = $scope.table.columns.filter(function (value, index) {
                 return value.isKey == true;
             });
 
             var params = {};
 
-            keys.forEach(function(key) {
+            keys.forEach(function (key) {
                 params[key.name] = row.entity[key.name];
             }, this);
 
@@ -107,31 +107,50 @@ angular.module('webAppApp')
             return string.charAt(0).toLowerCase() + string.slice(1);
         }
 
-        $scope.createNew = function() {
+        $scope.createNew = function () {
             var url = "/detail/" + $routeParams.table;
             $location.path(url).search({ new: true });
         }
 
         function filterGridColumns(column) {
-            return !!column.showInGrid;
+            return !!column.showInGrid && !column.reference;
         }
 
         function initializeGrid() {
 
             var name = $routeParams.table;
 
-            api.getTable(name).then(function(table) {
+            api.getTable(name).then(function (table) {
 
                 $scope.table = table;
 
                 $scope.filter.tableName = table.name;
 
-                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function(c) {
+                debugger;
+
+                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
                     return {
                         name: c.title,
                         field: c.name,
                     };
                 });
+
+                var references = table.columns.filter(function (o) {
+                    return !!o.reference;
+                })
+
+                if (!!references) {
+                    references.forEach(function (v) {
+                        {
+                            var c = {
+                                name: v.title,
+                                field: v.reference.table + "_" + v.reference.textColumn,
+                            };
+
+                            $scope.gridOptions.columnDefs.push(c);
+                        }
+                    });
+                }
 
                 var buttons = {
                     name: '',
@@ -149,7 +168,7 @@ angular.module('webAppApp')
                 };
 
                 $scope.gridOptions.columnDefs.push(buttons);
-                
+
                 getPage();
 
             });
