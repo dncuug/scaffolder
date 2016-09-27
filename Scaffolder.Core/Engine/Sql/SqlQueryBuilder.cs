@@ -20,7 +20,7 @@ namespace Scaffolder.Core.Engine.Sql
                 case Query.Insert:
                     return BuildInsert(table);
                 case Query.Update:
-                    return BuildUpdate(table);
+                    return BuildUpdate(table, parametrs);
                 case Query.Delete:
                     return BuildDelete(table);
             }
@@ -125,12 +125,17 @@ namespace Scaffolder.Core.Engine.Sql
             return sb.ToString();
         }
 
-        private string BuildUpdate(Table table)
+        private string BuildUpdate(Table table, Dictionary<string, Object> parameters = null)
         {
             var sb = new StringBuilder();
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true && o.IsKey != true).Select(o => o.Name).ToList();
             var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+
+            if (parameters != null)
+            {
+                fields = fields.Where(o => parameters.Keys.Any(k => String.Equals(o, k, StringComparison.OrdinalIgnoreCase))).ToList();
+            }
 
             sb.AppendFormat("UPDATE [{0}] SET ", table.Name);
             sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("[{0}] = @{0}", o))));
