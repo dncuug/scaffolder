@@ -15,6 +15,7 @@ namespace Scaffolder.Core.Meta
             Description = "";
             Tables = new List<Table>();
             Generated = DateTime.Now;
+
         }
 
         public List<Table> Tables { get; set; }

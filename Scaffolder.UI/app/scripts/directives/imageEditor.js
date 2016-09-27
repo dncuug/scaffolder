@@ -7,7 +7,7 @@
  * # ImageEditor
  */
 angular.module('webAppApp')
-    .directive('imageEditor', function() {
+    .directive('imageEditor', function () {
         return {
             template: '<div>\
                         <input  ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
@@ -16,11 +16,16 @@ angular.module('webAppApp')
                        </div>',
             scope: {
                 ngModel: '=',
-                ngDisabled: '='
+                ngDisabled: '=',
+                filesLocationUrl: '=',
+                filesUploadUrl: '='
             },
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
 
-            }
+            },
+            controller: ['$scope', 'api', function ($scope, api) {
+                $scope.imageUrl = $scope.staticFilesLocationUrl + $scope.ngModel;
+            }]
         };
     });
