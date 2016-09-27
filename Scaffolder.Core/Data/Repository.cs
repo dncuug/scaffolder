@@ -66,7 +66,7 @@ namespace Scaffolder.Core.Data
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true && c.IsKey != true).ToList();
             var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
 
-            var query = _queryBuilder.Build(Query.Update, _table);
+            var query = _queryBuilder.Build(Query.Update, _table, null, parameters);
 
             var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
             return result;

@@ -19,7 +19,7 @@ namespace Scaffolder.Core.Engine.MySql
 
             var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => $"{o.Name}").ToList();
 
-            sb.Append(String.Join(", ", columns.Select( o => $"`{o}`")));
+            sb.Append(String.Join(", ", columns.Select(o => $"`{o}`")));
 
             sb.AppendFormat(" FROM `{0}` ", filter.TableName);
 
@@ -46,7 +46,7 @@ namespace Scaffolder.Core.Engine.MySql
             return sb.ToString();
         }
 
-        public String Build(Query query, Table table, Filter filter = null)
+        public String Build(Query query, Table table, Filter filter = null, Dictionary<string, Object> parametrs = null)
         {
             switch (query)
             {
@@ -55,7 +55,7 @@ namespace Scaffolder.Core.Engine.MySql
                 case Query.Insert:
                     return BuildInsert(table);
                 case Query.Update:
-                    return BuildUpdate(table);
+                    return BuildUpdate(table, parametrs);
                 case Query.Delete:
                     return BuildDelete(table);
             }
@@ -92,13 +92,18 @@ namespace Scaffolder.Core.Engine.MySql
             return sb.ToString();
         }
 
-        private string BuildUpdate(Table table)
+        private string BuildUpdate(Table table, Dictionary<string, Object> parameters = null)
         {
             var sb = new StringBuilder();
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true && o.IsKey != true).Select(o => o.Name).ToList();
             var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
-            
+
+            if (parameters != null)
+            {
+                fields = fields.Where(o => parameters.Keys.Any(k => String.Equals(o, k, StringComparison.OrdinalIgnoreCase))).ToList();
+            }
+
             sb.AppendFormat("UPDATE `{0}` SET ", table.Name);
             sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("`{0}` = @{0}", o))));
             sb.AppendFormat(" OUTPUT INSERTED.* ");

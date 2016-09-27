@@ -11,7 +11,7 @@ namespace Scaffolder.Core.Engine.Sql
 {
     public class SqlQueryBuilder : IQueryBuilder
     {
-        public String Build(Query query, Table table, Filter filter = null)
+        public String Build(Query query, Table table, Filter filter = null, Dictionary<string, Object> parametrs = null)
         {
             switch (query)
             {
