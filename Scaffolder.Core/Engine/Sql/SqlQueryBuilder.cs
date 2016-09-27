@@ -77,8 +77,10 @@ namespace Scaffolder.Core.Engine.Sql
             }
 
             var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true) ?? table.Columns.FirstOrDefault();
-            var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
+            //var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
             var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
+
+            var orderByColumn = CheckOrderByColumn(table.Columns, filter.SortColumn);
 
             sb.AppendFormat(@" ORDER BY [{0}].[{1}] {2} ", table.Name, orderByColumn, order);
 
@@ -91,6 +93,23 @@ namespace Scaffolder.Core.Engine.Sql
             }
 
             return sb.ToString();
+        }
+
+        private string CheckOrderByColumn(IEnumerable<Column> columns, string column)
+        {
+            if (columns.All(o => !String.Equals(column, o.Name, StringComparison.OrdinalIgnoreCase)) || String.IsNullOrEmpty(column))
+            {
+                var sortColumn = columns.FirstOrDefault(o => o.IsKey == true);
+
+                if (sortColumn == null)
+                {
+                    sortColumn = columns.FirstOrDefault();
+                }
+
+                return sortColumn.Name;
+            }
+
+            return column;
         }
 
         private string BuildInsert(Table table)

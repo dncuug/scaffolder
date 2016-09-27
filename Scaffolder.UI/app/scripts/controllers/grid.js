@@ -30,6 +30,7 @@ angular.module('webAppApp')
                     if (sortColumns.length == 0) {
                         paginationOptions.sort = null;
                     } else {
+                        paginationOptions.sortField = sortColumns[0].colDef.field;
                         paginationOptions.sort = sortColumns[0].sort.direction;
                     }
                     getPage();
@@ -58,6 +59,8 @@ angular.module('webAppApp')
 
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
+            $scope.filter.sortColumn = paginationOptions.sortField;
+
 
             api.select($scope.filter).then(function (response) {
                 $scope.gridOptions.totalItems = response.totalItemsCount;
@@ -125,8 +128,6 @@ angular.module('webAppApp')
                 $scope.table = table;
 
                 $scope.filter.tableName = table.name;
-
-                debugger;
 
                 $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
                     return {

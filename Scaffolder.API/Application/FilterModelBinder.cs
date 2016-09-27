@@ -30,7 +30,7 @@ namespace Scaffolder.API.Application
             
             model.TableName = TryGetValue(parameters, "TableName", "");
             model.PageSize = TryGetValue(parameters, "PageSize", 25);
-            model.SortOrder = TryGetValue(parameters, "PageSize", SortOrder.Ascending);
+            model.SortOrder = TryGetValue(parameters, "SortOrder", SortOrder.Ascending);
             model.SortColumn = TryGetValue(parameters, "SortColumn", "");
             model.CurrentPage = TryGetValue(parameters, "CurrentPage", 1);
             model.DetailMode = TryGetValue(parameters, "DetailMode", false);
