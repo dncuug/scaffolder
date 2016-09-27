@@ -16,6 +16,25 @@ angular.module('webAppApp')
             sort: null
         };
 
+        var ColumnType = {
+            Text: 10,
+            Email: 11,
+            Url: 12,
+            Phone: 13,
+            HTML: 14,
+            Password: 15,
+            Date: 20,
+            Time: 21,
+            DateTime: 22,
+            File: 30,
+            Integer: 40,
+            Double: 50,
+            Image: 60,
+            Binary: 70,
+            Lookup: 80,
+            Boolean: 90
+        };
+
         $scope.gridOptions = {
             enableSorting: true,
             paginationPageSizes: [5, 25, 50, 75],
@@ -35,6 +54,7 @@ angular.module('webAppApp')
                     }
                     getPage();
                 });
+
                 gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                     paginationOptions.pageNumber = newPage;
                     paginationOptions.pageSize = pageSize;
@@ -60,7 +80,6 @@ angular.module('webAppApp')
             $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
             $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
             $scope.filter.sortColumn = paginationOptions.sortField;
-
 
             api.select($scope.filter).then(function (response) {
                 $scope.gridOptions.totalItems = response.totalItemsCount;
@@ -115,8 +134,22 @@ angular.module('webAppApp')
             $location.path(url).search({ new: true });
         }
 
-        function filterGridColumns(column) {
-            return !!column.showInGrid && !column.reference;
+        function filterGridColumns(c) {
+            return !!c.showInGrid && !c.reference;
+        }
+
+        function mapGridColumn(c) {
+            var column = {
+                name: c.title,
+                field: c.name,
+            };
+
+            if (c.type == ColumnType.Boolean) {
+                column.type = 'boolean';
+                column.cellTemplate = '<input type="checkbox" disabled ng-model="row.entity.isActive">';
+            }
+
+            return column;
         }
 
         function initializeGrid() {
@@ -129,12 +162,7 @@ angular.module('webAppApp')
 
                 $scope.filter.tableName = table.name;
 
-                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(function (c) {
-                    return {
-                        name: c.title,
-                        field: c.name,
-                    };
-                });
+                $scope.gridOptions.columnDefs = table.columns.filter(filterGridColumns).map(mapGridColumn);
 
                 var references = table.columns.filter(function (o) {
                     return !!o.reference;
@@ -142,7 +170,7 @@ angular.module('webAppApp')
 
                 if (!!references) {
                     references.forEach(function (v) {
-                        {
+                        if (!!v.showInGrid) {
                             var c = {
                                 name: v.title,
                                 field: v.reference.table + "_" + v.reference.textColumn,
