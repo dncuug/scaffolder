@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name webAppApp.directive:dateEditor
+ * @name webAppApp.directive:phoneEditor
  * @description
- * # dateEditor
+ * # phoneEditor
  */
 angular.module('webAppApp')
-    .directive('dateEditor', function() {
+    .directive('phoneEditor', function() {
         return {
             template: '<input  ng-required="ngRequired" ng-disabled="ngDisabled" type="date" class="form-control" ng-model="ngModel" />',
             scope: {

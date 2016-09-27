@@ -155,9 +155,9 @@ namespace Scaffolder.Core.Engine.Sql
             }
             if (includeTableName)
             {
-                return String.Format("[{0}] = @{0}", column.Name);
+                return String.Format("[{0}].[{1}] = @{1}", table.Name, column.Name);
             }
-            return String.Format("[{0}][{1}] = @{1}", table.Name, column.Name);
+            return String.Format("[{0}] = @{0}", column.Name);
         }
     }
 }

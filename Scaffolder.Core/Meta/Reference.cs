@@ -3,7 +3,7 @@ using System;
 namespace Scaffolder.Core.Meta
 {
     public class Reference
-    {
+    {   
         /// <summary>
         /// 
         /// </summary>

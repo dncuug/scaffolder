@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc directive
- * @name webAppApp.directive:dateEditor
+ * @name webAppApp.directive:urlEditor
  * @description
- * # dateEditor
+ * # urlEditor
  */
 angular.module('webAppApp')
     .directive('urlEditor', function() {
