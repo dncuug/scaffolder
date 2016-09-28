@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Scaffolder.Core.Base;
+using Scaffolder.Core.Data;
 using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
 using System;
-using Scaffolder.Core.Base;
-using Scaffolder.Core.Data;
-using Scaffolder.Core.Engine.MySql;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
+        protected Configuration Configuration { get; private set; }
         protected Schema Schema { get; private set; }
 
         protected readonly AppSettings Settings;
@@ -19,23 +19,30 @@ namespace Scaffolder.API.Application
         {
             Settings = settings.Value;
 
-            var configurationFilePath = Settings.WorkingDirectory + "db.json";
-            var extendedConfigurationFilePath = Settings.WorkingDirectory + "db_ex.json";
+            var schemaPath = Settings.WorkingDirectory + "db.json";
+            var extendedSchemaPath = Settings.WorkingDirectory + "db_ex.json";
+            var configurationPath = Settings.WorkingDirectory + "configuration.json";
 
-            if (System.IO.File.Exists(configurationFilePath))
+            if (!System.IO.File.Exists(configurationPath))
             {
-                Schema = Schema.Load(configurationFilePath, extendedConfigurationFilePath);
+                Configuration.Create().Save(configurationPath);
             }
-            else
+            
+            if (!System.IO.File.Exists(schemaPath))
             {
-                Schema = new Schema
+                var schema = new Schema
                 {
                     Description = "",
                     Name = "EmptySchema",
                     Generated = DateTime.Now,
                     Title = "Empty Schema"
                 };
+
+                schema.Save(schemaPath);
             }
+
+            Configuration = Configuration.Load(configurationPath);
+            Schema = Schema.Load(schemaPath, extendedSchemaPath);
         }
 
         protected ISchemaBuilder GetSchemaBuilder()
@@ -49,7 +56,7 @@ namespace Scaffolder.API.Application
         protected IRepository CreateRepository(Table table)
         {
             var db = GetDatabase();
-            
+
             var queryBuilder = new SqlQueryBuilder();
             //var queryBuilder = new MySqlQueryBuilder();
 
