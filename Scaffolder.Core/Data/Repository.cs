@@ -61,34 +61,7 @@ namespace Scaffolder.Core.Data
 
             return GetFullObject(result);
         }
-
-        /// <summary>
-        /// This method used to return full object that was Inserted or Updated
-        /// I.e. that object will contains all referenced columns.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        private dynamic GetFullObject(object result)
-        {
-            var keyFields = _table.GetPrimaryKeys();
-
-            var parameters = GetParameters(result)
-                    .Where(p => keyFields.Any(k => String.Equals(k.Name, p.Key, StringComparison.OrdinalIgnoreCase)))
-                    .ToDictionary(x => x.Key, x => x.Value);
-
-            var filter = new Filter
-            {
-                Parameters = parameters,
-                TableName = _table.Name,
-                CurrentPage = 1,
-                DetailMode = true
-            };
-
-            var fullObject = Select(filter).FirstOrDefault();
-
-            return fullObject;
-        }
-
+        
         public dynamic Update(Object obj)
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true && c.IsKey != true).ToList();
@@ -134,6 +107,33 @@ namespace Scaffolder.Core.Data
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// This method used to return full object that was Inserted or Updated
+        /// I.e. that object will contains all referenced columns.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private dynamic GetFullObject(object result)
+        {
+            var keyFields = _table.GetPrimaryKeys();
+
+            var parameters = GetParameters(result)
+                    .Where(p => keyFields.Any(k => String.Equals(k.Name, p.Key, StringComparison.OrdinalIgnoreCase)))
+                    .ToDictionary(x => x.Key, x => x.Value);
+
+            var filter = new Filter
+            {
+                Parameters = parameters,
+                TableName = _table.Name,
+                CurrentPage = 1,
+                DetailMode = true
+            };
+
+            var fullObject = Select(filter).FirstOrDefault();
+
+            return fullObject;
         }
 
         private static Dictionary<string, int> GetAllNames(IDataRecord record)

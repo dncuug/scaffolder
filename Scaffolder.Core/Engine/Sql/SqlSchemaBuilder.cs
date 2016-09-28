@@ -10,6 +10,13 @@ namespace Scaffolder.Core.Engine.Sql
 {
     public class SqlSchemaBuilder : SchemeBuilderBase
     {
+        private class ReferenceDetails
+        {
+            public String Table { get; set; }
+            public String Column { get; set; }
+            public Reference Reference { get; set; }
+        }
+
         private readonly IEnumerable<ReferenceDetails> _references;
 
         public SqlSchemaBuilder(IDatabase db)
@@ -20,14 +27,12 @@ namespace Scaffolder.Core.Engine.Sql
 
         protected override Table GetDataTable(string name)
         {
-            var sql = @"
-                        SELECT COLUMN_NAME,
+            var sql = @"SELECT COLUMN_NAME,
 	                           IS_NULLABLE,
                                DATA_TYPE,
                                CHARACTER_MAXIMUM_LENGTH
                           FROM INFORMATION_SCHEMA.COLUMNS
                          WHERE TABLE_NAME = @TableName";
-
 
             var table = new Table(name);
 
@@ -39,7 +44,7 @@ namespace Scaffolder.Core.Engine.Sql
             var keyColumns = GetTablePrimaryKeys(name);
             var identityColumns = GetTableIdentityColumns(name);
 
-            _db.Execute(sql, r => MapTableColumns(r, table, keyColumns, identityColumns), parameters);
+            _db.Execute(sql, r => MapTableColumns(table, r, _references, keyColumns, identityColumns), parameters);
 
             return table;
         }
@@ -58,6 +63,14 @@ namespace Scaffolder.Core.Engine.Sql
             };
 
             return _db.Execute(sql, r => r["COLUMN_NAME"].ToString(), parameters).ToList();
+        }
+
+        protected override IEnumerable<String> GetDatabaseTables()
+        {
+            var sql = "SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME != 'sysdiagrams'";
+
+            var tables = _db.Execute(sql, r => r[0].ToString());
+            return tables;
         }
 
         private IEnumerable<string> GetTableIdentityColumns(string name)
@@ -100,14 +113,6 @@ namespace Scaffolder.Core.Engine.Sql
 
         }
 
-        private class ReferenceDetails
-        {
-            public String Table { get; set; }
-            public String Column { get; set; }
-
-            public Reference Reference { get; set; }
-        }
-
         private static ReferenceDetails MapReferenceDetails(IDataReader r)
         {
             var table = Convert.ToString(r["FK_Table"]);
@@ -128,20 +133,12 @@ namespace Scaffolder.Core.Engine.Sql
             };
         }
 
-        protected override IEnumerable<String> GetDatabaseTables()
-        {
-            var sql = "SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME != 'sysdiagrams'";
-
-            var tables = _db.Execute(sql, r => r[0].ToString());
-            return tables;
-        }
-
-        private Table MapTableColumns(IDataRecord r, Table t, IEnumerable<string> keyColumns, IEnumerable<string> identityColumns)
+        private static Table MapTableColumns(Table t, IDataRecord r, IEnumerable<ReferenceDetails> references, IEnumerable<string> keyColumns, IEnumerable<string> identityColumns)
         {
             var columnName = r["COLUMN_NAME"].ToString();
             var columnType = ParseColumnType(r["DATA_TYPE"].ToString(), r["COLUMN_NAME"].ToString());
 
-            var reference = _references.Where(o => o.Table == t.Name && o.Column == columnName)
+            var reference = references.Where(o => o.Table == t.Name && o.Column == columnName)
                     .Select(o => o.Reference)
                     .SingleOrDefault();
 

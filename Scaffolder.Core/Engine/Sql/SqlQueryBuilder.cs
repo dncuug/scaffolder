@@ -54,9 +54,9 @@ namespace Scaffolder.Core.Engine.Sql
 
             var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => $"[{table.Name}].[{o.Name}]").ToList();
 
-            foreach (var t in references)
+            foreach (var r in references)
             {
-                columns.Add($"[{t.Reference.Table}].[{t.Reference.TextColumn}] AS {t.Reference.GetColumnAlias()}");
+                columns.Add($"[{r.Reference.Table}].[{r.Reference.TextColumn}] AS {r.Reference.GetColumnAlias()}");
             }
 
             sb.Append(String.Join(", ", columns));
@@ -75,9 +75,7 @@ namespace Scaffolder.Core.Engine.Sql
             {
                 sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
             }
-
-            var keyColumn = table.GetPrimaryKeys().FirstOrDefault() ?? table.Columns.FirstOrDefault();
-            //var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
+            
             var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
 
             var orderByColumn = CheckOrderByColumn(table.Columns, filter.SortColumn);
@@ -95,7 +93,7 @@ namespace Scaffolder.Core.Engine.Sql
             return sb.ToString();
         }
 
-        private string CheckOrderByColumn(IEnumerable<Column> columns, string column)
+        private static string CheckOrderByColumn(IEnumerable<Column> columns, string column)
         {
             if (columns.All(o => !String.Equals(column, o.Name, StringComparison.OrdinalIgnoreCase)) || String.IsNullOrEmpty(column))
             {
@@ -112,7 +110,7 @@ namespace Scaffolder.Core.Engine.Sql
             return column;
         }
 
-        private string BuildInsert(Table table)
+        private static string BuildInsert(Table table)
         {
             var sb = new StringBuilder();
 
@@ -125,7 +123,7 @@ namespace Scaffolder.Core.Engine.Sql
             return sb.ToString();
         }
 
-        private string BuildUpdate(Table table, Dictionary<string, Object> parameters = null)
+        private static string BuildUpdate(Table table, Dictionary<string, Object> parameters = null)
         {
             var sb = new StringBuilder();
 
@@ -146,7 +144,7 @@ namespace Scaffolder.Core.Engine.Sql
             return sb.ToString();
         }
 
-        private string BuildDelete(Table table)
+        private static string BuildDelete(Table table)
         {
             var sb = new StringBuilder();
 
@@ -160,7 +158,7 @@ namespace Scaffolder.Core.Engine.Sql
             return sb.ToString();
         }
 
-        private string BuildClause(Table table, KeyValuePair<string, object> p, bool includeTableName)
+        private static string BuildClause(Table table, KeyValuePair<string, object> p, bool includeTableName)
         {
             var column = table.GetColumn(p.Key);
 
@@ -175,12 +173,14 @@ namespace Scaffolder.Core.Engine.Sql
                 {
                     return String.Format("[{0}].[{1}] LIKE @{1}", table.Name, column.Name);
                 }
+
                 return String.Format("[{0}] LIKE @{0}", column.Name);
             }
             if (includeTableName)
             {
                 return String.Format("[{0}].[{1}] = @{1}", table.Name, column.Name);
             }
+
             return String.Format("[{0}] = @{0}", column.Name);
         }
     }
