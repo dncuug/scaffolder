@@ -26,3 +26,20 @@
     95% {left: 120%;}
     to {left: 100%;}
 }
+
+.btn-header-upload {
+    background: none;
+    border: none;
+    color: #FFF;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 0 !important;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-header-upload:hover,
+.btn-header-upload:focus{
+    background: rgba(0,0,0,0.1);
+    color: #FFF;
+}

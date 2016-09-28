@@ -13,7 +13,6 @@ angular.module('webAppApp')
       templateUrl: 'views/directives/fileUploadDialog.html',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
-
       },
       controller: ['$scope', '$uibModal', 'FileUploader', 'api', function ($scope, $uibModal, FileUploader, api) {
 
@@ -22,7 +21,8 @@ angular.module('webAppApp')
 
         var uploader = $scope.uploader = new FileUploader({
           url: api.getUploadEndpoint(),
-          removeAfterUpload: true
+          removeAfterUpload: true,
+          autoUpload: true
         });
 
         // FILTERS

@@ -6,7 +6,7 @@
         <input type="file" nv-file-select="" uploader="uploader" /> 
         <br />
         
-        <div>
+        <!--<div>
             <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
                 <span class="glyphicon glyphicon-upload"></span> Upload
             </button>
@@ -17,23 +17,34 @@
                 <span class="glyphicon glyphicon-trash"></span> Remove
             </button>
         </div>
-        
+        -->
+       
         <div class="input-group" style="margin-top: 50px;">
             <span class="input-group-addon" id="basic-addon1">
                 <span class="glyphicon glyphicon-paperclip"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Uploaded file url" ng-model="uploadedFileUrl">
+            <input id="url" type="text" class="form-control" placeholder="Uploaded file url" ng-model="uploadedFileUrl">
+            <span class="input-group-btn">
+                <button ng-disabled="!uploadedFileUrl" class="btn btn-secondary" type="button" ngclipboard  data-clipboard-action="cut" data-clipboard-target="#url">
+                    <i class="glyphicon glyphicon-copy"></i>
+                    Copy to clipboard
+                </button>
+            </span>
         </div>
 
-        <div class="progress" style="margin-top: 10px">
-            <div ng-show="showProgress" class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+
+        <div class="progress" ng-show="showProgress"  style="margin-top: 10px">
+            <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
 
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="$close()">OK</button>
+    <button class="btn btn-primary" type="button" style="width: 150px;" ng-click="$close()">OK</button>
 </div>
 </script>
 
-<button type="button" class="btn btn-default" ng-click="showFileUploadDialog()">Open me!</button>s
+<button type="button" class="btn-header-upload" ng-click="showFileUploadDialog()">
+    <i class="glyphicon glyphicon-upload"></i>
+    Upload file
+</button>

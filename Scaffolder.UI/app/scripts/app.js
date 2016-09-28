@@ -22,7 +22,8 @@ angular
         'textAngular',
         'ui.select',
         'angularFileUpload',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ngclipboard'
     ])
     .config(function($routeProvider) {
         $routeProvider
