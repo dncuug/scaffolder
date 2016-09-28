@@ -56,7 +56,8 @@ namespace Scaffolder.Core.Engine.Sql
 
             foreach (var r in references)
             {
-                columns.Add($"[{r.Reference.Table}].[{r.Reference.TextColumn}] AS {r.Reference.GetColumnAlias()}");
+                //columns.Add($"[{r.Reference.Table}].[{r.Reference.TextColumn}] AS {r.Reference.GetColumnAlias()}");
+                columns.Add($"[{r.Reference.GetTableAlias()}].[{r.Reference.TextColumn}] AS {r.Reference.GetColumnAlias()}");
             }
 
             sb.Append(String.Join(", ", columns));
@@ -66,9 +67,11 @@ namespace Scaffolder.Core.Engine.Sql
             var whereCaluses = filter.Parameters.Select(o => BuildClause(table, o, true)).Where(o => !String.IsNullOrEmpty(o)).ToList();
 
 
-            foreach (var t in references)
+            foreach (var r in references)
             {
-                sb.AppendFormat(" LEFT JOIN {0} ON [{0}].[{1}] = [{2}].[{3}] ", t.Reference.Table, t.Reference.KeyColumn, table.Name, t.Name);
+                //sb.AppendFormat(" LEFT JOIN {0} ON [{0}].[{1}] = [{2}].[{3}] ", r.Reference.Table, r.Reference.KeyColumn, table.Name, r.Name);
+
+                sb.AppendFormat(" LEFT JOIN {0} AS {1} ON [{1}].[{2}] = [{3}].[{4}] ", r.Reference.Table, r.Reference.GetTableAlias(), r.Reference.KeyColumn, table.Name, r.Name);
             }
 
             if (whereCaluses.Any())

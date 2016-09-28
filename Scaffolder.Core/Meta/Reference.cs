@@ -26,5 +26,10 @@ namespace Scaffolder.Core.Meta
         {
             return $"{Table}_{TextColumn}";
         }
+
+        public String GetTableAlias()
+        {
+            return $"{Table}_ref";
+        }
     }
 }
