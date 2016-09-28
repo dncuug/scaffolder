@@ -76,7 +76,7 @@ namespace Scaffolder.Core.Engine.Sql
                 sb.AppendFormat(" WHERE {0}", String.Join(" AND ", whereCaluses));
             }
 
-            var keyColumn = table.Columns.FirstOrDefault(o => o.IsKey == true) ?? table.Columns.FirstOrDefault();
+            var keyColumn = table.GetPrimaryKeys().FirstOrDefault() ?? table.Columns.FirstOrDefault();
             //var orderByColumn = String.IsNullOrEmpty(filter.SortColumn) ? keyColumn.Name : filter.SortColumn;
             var order = filter.SortOrder == SortOrder.Descending ? "DESC" : "ASC";
 
@@ -130,7 +130,7 @@ namespace Scaffolder.Core.Engine.Sql
             var sb = new StringBuilder();
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true && o.IsKey != true).Select(o => o.Name).ToList();
-            var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+            var keyFields = table.GetPrimaryKeys();
 
             if (parameters != null)
             {
@@ -150,7 +150,7 @@ namespace Scaffolder.Core.Engine.Sql
         {
             var sb = new StringBuilder();
 
-            var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+            var keyFields = table.GetPrimaryKeys();
 
             sb.AppendFormat("DELETE FROM [{0}] ", table.Name);
             sb.AppendFormat(" OUTPUT DELETED.* ");

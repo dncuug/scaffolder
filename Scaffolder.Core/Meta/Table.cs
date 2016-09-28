@@ -34,5 +34,10 @@ namespace Scaffolder.Core.Meta
         {
             return Columns.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
+
+        public IEnumerable<Column> GetPrimaryKeys()
+        {
+            return Columns.Where(c => c.IsKey == true).ToList();
+        }
     }
 }

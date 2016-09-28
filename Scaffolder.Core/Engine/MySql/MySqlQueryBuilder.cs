@@ -97,7 +97,7 @@ namespace Scaffolder.Core.Engine.MySql
             var sb = new StringBuilder();
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true && o.IsKey != true).Select(o => o.Name).ToList();
-            var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+            var keyFields = table.GetPrimaryKeys();
 
             if (parameters != null)
             {
@@ -117,7 +117,7 @@ namespace Scaffolder.Core.Engine.MySql
         {
             var sb = new StringBuilder();
 
-            var keyFields = table.Columns.Where(o => o.IsKey == true).ToList();
+            var keyFields = table.GetPrimaryKeys();
 
             sb.AppendFormat("DELETE FROM `{0}` ", table.Name);
             sb.AppendFormat(" OUTPUT DELETED.* ");

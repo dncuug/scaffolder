@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
-using System.Linq;
 using System.Reflection;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Meta;
@@ -11,10 +11,10 @@ namespace Scaffolder.Core.Data
 {
     public interface IRepository
     {
-        IEnumerable<object> Select(Filter filter);
+        IEnumerable<dynamic> Select(Filter filter);
         dynamic Insert(Object obj);
         dynamic Update(Object obj);
-        dynamic Delete(Object obj);
+        bool Delete(Object obj);
 
         int GetRecordCount(Filter filter);
     }
@@ -58,7 +58,35 @@ namespace Scaffolder.Core.Data
             var query = _queryBuilder.Build(Query.Insert, _table);
 
             var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            return result;
+
+            return GetFullObject(result);
+        }
+
+        /// <summary>
+        /// This method used to return full object that was Inserted or Updated
+        /// I.e. that object will contains all referenced columns.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private dynamic GetFullObject(object result)
+        {
+            var keyFields = _table.GetPrimaryKeys();
+
+            var parameters = GetParameters(result)
+                    .Where(p => keyFields.Any(k => String.Equals(k.Name, p.Key, StringComparison.OrdinalIgnoreCase)))
+                    .ToDictionary(x => x.Key, x => x.Value);
+
+            var filter = new Filter
+            {
+                Parameters = parameters,
+                TableName = _table.Name,
+                CurrentPage = 1,
+                DetailMode = true
+            };
+
+            var fullObject = Select(filter).FirstOrDefault();
+
+            return fullObject;
         }
 
         public dynamic Update(Object obj)
@@ -69,29 +97,35 @@ namespace Scaffolder.Core.Data
             var query = _queryBuilder.Build(Query.Update, _table, null, parameters);
 
             var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            return result;
+            return GetFullObject(result);
         }
 
-        public dynamic Delete(Object obj)
+        public bool Delete(Object obj)
         {
-            var keyColumns = _table.Columns.Where(c => c.IsKey == true).ToList();
+            var keyColumns = _table.GetPrimaryKeys();
             var parameters = GetParameters(obj).Where(p => keyColumns.Any(k => k.Name == p.Key)).ToDictionary(x => x.Key, x => x.Value); ;
 
             var query = _queryBuilder.Build(Query.Delete, _table);
 
             var result = _db.Execute(query, r => Map(r, true), parameters).FirstOrDefault();
-            return result;
+            return result != null;
         }
 
         private dynamic Map(IDataRecord r, bool loadAllColumns)
         {
             var obj = new ExpandoObject();
 
+            var dataColumns = GetAllNames(r);
+
             foreach (var c in _table.Columns)
             {
                 if (c.ShowInGrid == true && c.Reference != null)
                 {
-                    AddProperty(obj, $"{c.Reference.GetColumnAlias()}" , r[$"{c.Reference.GetColumnAlias()}"]);
+                    if (dataColumns.Any(o => String.Equals(o.Key, c.Reference.GetColumnAlias(), StringComparison.OrdinalIgnoreCase)))
+                    {
+                        AddProperty(obj, $"{c.Name}", r[$"{c.Name}"]);
+                        AddProperty(obj, $"{c.Reference.GetColumnAlias()}", r[$"{c.Reference.GetColumnAlias()}"]);
+                    }
                 }
                 else if (c.ShowInGrid == true || c.IsKey == true || loadAllColumns)
                 {
@@ -100,6 +134,16 @@ namespace Scaffolder.Core.Data
             }
 
             return obj;
+        }
+
+        private static Dictionary<string, int> GetAllNames(IDataRecord record)
+        {
+            var result = new Dictionary<string, int>();
+            for (int i = 0; i < record.FieldCount; i++)
+            {
+                result.Add(record.GetName(i), i);
+            }
+            return result;
         }
 
         private static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
