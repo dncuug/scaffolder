@@ -20,7 +20,8 @@ angular
         'ui.grid.edit',
         'ui.grid.pagination',
         'textAngular',
-        'ui.select'
+        'ui.select',
+        'angularFileUpload'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -53,6 +54,11 @@ angular
                 templateUrl: 'views/administration.html',
                 controller: 'AdministrationCtrl',
                 controllerAs: 'administration'
+            })
+            .when('/storage', {
+              templateUrl: 'views/storage.html',
+              controller: 'StorageCtrl',
+              controllerAs: 'storage'
             })
             .otherwise({
                 redirectTo: '/'

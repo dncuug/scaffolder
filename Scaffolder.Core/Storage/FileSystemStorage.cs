@@ -13,14 +13,19 @@ namespace Scaffolder.Core.Storage
 
         public FileSystemStorage(dynamic connection)
         {
-            _location = connection.Location;
+            _location = connection.Path;
+
+            if (String.IsNullOrEmpty(_location))
+            {
+                throw new ArgumentNullException($"FileSystemStorage location configuration unknow");
+            }
         }
 
         public override StorageType Type => StorageType.FileSystem;
 
-        public override string Upload(byte[] bytes)
+        public override string Upload(byte[] bytes, string extension = "")
         {
-            var name = Guid.NewGuid().ToString();
+            var name = Guid.NewGuid() + extension;
 
             var path = Path.Combine(_location, name);
             File.WriteAllBytes(path, bytes);

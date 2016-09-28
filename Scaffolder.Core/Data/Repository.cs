@@ -61,7 +61,7 @@ namespace Scaffolder.Core.Data
 
             return GetFullObject(result);
         }
-        
+
         public dynamic Update(Object obj)
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true && c.IsKey != true).ToList();
@@ -117,6 +117,11 @@ namespace Scaffolder.Core.Data
         /// <returns></returns>
         private dynamic GetFullObject(object result)
         {
+            if (result == null)
+            {
+                return null;
+            }
+
             var keyFields = _table.GetPrimaryKeys();
 
             var parameters = GetParameters(result)

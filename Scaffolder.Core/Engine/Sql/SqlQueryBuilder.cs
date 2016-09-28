@@ -68,7 +68,7 @@ namespace Scaffolder.Core.Engine.Sql
 
             foreach (var t in references)
             {
-                sb.AppendFormat("LEFT JOIN {0} ON {0}.{1} = {2}.{3}", t.Reference.Table, t.Reference.KeyColumn, table.Name, t.Name);
+                sb.AppendFormat(" LEFT JOIN {0} ON [{0}].[{1}] = [{2}].[{3}] ", t.Reference.Table, t.Reference.KeyColumn, table.Name, t.Name);
             }
 
             if (whereCaluses.Any())

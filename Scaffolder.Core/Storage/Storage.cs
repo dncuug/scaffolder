@@ -10,7 +10,7 @@ namespace Scaffolder.Core.Storage
     {
         public abstract StorageType Type { get; }
 
-        public abstract string Upload(byte[] bytes);
+        public abstract string Upload(byte[] bytes, string extension = "");
 
         public abstract byte[] Get(string name);
 

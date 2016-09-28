@@ -15,7 +15,7 @@ namespace Scaffolder.Core.Storage
 
         }
 
-        public override string Upload(byte[] bytes)
+        public override string Upload(byte[] bytes, string extension = "")
         {
             throw new NotImplementedException();
         }

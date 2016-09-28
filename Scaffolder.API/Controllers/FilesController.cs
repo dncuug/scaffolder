@@ -29,22 +29,22 @@ namespace Scaffolder.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ICollection<IFormFile> files)
         {
-            var storage = Storage.GetStorage(Configuration.StorageConfiguration.Type, Configuration.StorageConfiguration.Connection);
-
-            var file = files.FirstOrDefault();
+            Storage storage = Storage.GetStorage(Configuration.StorageConfiguration.Type, Configuration.StorageConfiguration.Connection);
+            
+            var file = this.Request.Form.Files.FirstOrDefault();
             
             if (file != null && file.Length > 0)
             {
                 String fileName;
+                var extension = Path.GetExtension(file.FileName);
 
                 using (var fileStream = new MemoryStream())
                 {
                     await file.CopyToAsync(fileStream);
-                    fileName = storage.Upload(fileStream.ToArray());
+                    fileName = storage.Upload(fileStream.ToArray(), extension);
                 }
-
-                return Created(Configuration.StorageConfiguration.Url + fileName, new object());
-                //return Ok(_configuration.StorageConfiguration.Url + fileName);
+                
+                return Ok(Configuration.StorageConfiguration.Url + fileName);
             }
 
             return BadRequest();

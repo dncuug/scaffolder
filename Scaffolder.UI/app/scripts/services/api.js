@@ -32,6 +32,10 @@ angular.module('webAppApp')
 
         };
 
+        this.getUploadEndpoint = function () {
+            return Url(this, '/files');
+        }
+
         /**
          * 
          */
@@ -131,7 +135,7 @@ angular.module('webAppApp')
                 tableName: table.name,
                 entity: entity
             };
-           
+
             return $http({
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
