@@ -27,7 +27,7 @@ namespace Scaffolder.API.Application
             {
                 Configuration.Create().Save(configurationPath);
             }
-            
+
             if (!System.IO.File.Exists(schemaPath))
             {
                 var schema = new Schema
@@ -65,8 +65,7 @@ namespace Scaffolder.API.Application
 
         private IDatabase GetDatabase()
         {
-            var connectionString = System.IO.File.ReadAllText(Settings.WorkingDirectory + "connection.conf");
-            return new SqlDatabase(connectionString);
+            return new SqlDatabase(Configuration.ConnectionString);
             //return new MySqlDatabase(connectionString);
         }
     }

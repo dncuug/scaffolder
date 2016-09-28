@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace Scaffolder.Core.Meta
 {
@@ -13,7 +12,7 @@ namespace Scaffolder.Core.Meta
         AzureStorage,
         SSH
     }
-    
+
     public class StorageConfiguration
     {
         public StorageType Type { get; set; }
@@ -32,6 +31,8 @@ namespace Scaffolder.Core.Meta
 
     public class Configuration
     {
+        public String ConnectionString { get; set; }
+
         public StorageConfiguration StorageConfiguration { get; set; }
 
         public List<User> Users { get; set; }
@@ -54,13 +55,14 @@ namespace Scaffolder.Core.Meta
         {
             return new Configuration
             {
+                ConnectionString = "Server=server.address;Database=dbname;User Id=login;Password=password",
                 StorageConfiguration = new StorageConfiguration
                 {
                     Type = StorageType.FileSystem,
                     Url = "http://example.com/storage/",
                     Connection = new
                     {
-                        Path="/var/www/example.com/storage/"
+                        Path = "/var/www/example.com/storage/"
                     }
                 },
                 Users = new List<User>
@@ -70,6 +72,6 @@ namespace Scaffolder.Core.Meta
                 }
             };
         }
-       
+
     }
 }
