@@ -21,7 +21,8 @@ angular
         'ui.grid.pagination',
         'textAngular',
         'ui.select',
-        'angularFileUpload'
+        'angularFileUpload',
+        'ui.bootstrap'
     ])
     .config(function($routeProvider) {
         $routeProvider
