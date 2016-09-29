@@ -8,10 +8,6 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-  .controller('LoginCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+    .controller('LoginCtrl', function() {
+
+    });

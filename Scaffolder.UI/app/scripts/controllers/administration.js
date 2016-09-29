@@ -12,11 +12,11 @@ angular.module('webAppApp')
 
         $scope.progress = false;
 
-        $scope.rebuildScheme = function () {
+        $scope.rebuildSchema = function () {
 
             $scope.progress = true;
 
-            api.rebuildScheme().then(function () {
+            api.rebuildSchema().then(function () {
 
                 $scope.progress = false;
                 $scope.status = 'Database schema updated successfully';

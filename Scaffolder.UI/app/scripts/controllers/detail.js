@@ -15,25 +15,21 @@ angular.module('webAppApp')
 
         $scope.editorForm = {};
 
+        $scope.cancel = redirectToGrid;
+
         $scope.save = function() {
             var exist = !$routeParams.new;
 
             if (exist) {
-                api.update($scope.table, $scope.record).then(function() {
-                    var url = "/grid/" + $scope.table.name;
-                    $location.path(url).search();
-                });
+                api.update($scope.table, $scope.record).then(redirectToGrid);
             } else {
-                api.insert($scope.table, $scope.record).then(function() {
-                    var url = "/grid/" + $scope.table.name;
-                    $location.path(url).search();
-                });
+                api.insert($scope.table, $scope.record).then(redirectToGrid);
             }
         }
 
-        $scope.cancel = function() {
+        function redirectToGrid() {
             var url = "/grid/" + $scope.table.name;
-            $location.path(url).search('');
+            $location.path(url).search(s);
         }
 
         function initializeEditor() {
@@ -42,7 +38,6 @@ angular.module('webAppApp')
 
             api.getTable(name).then(function(table) {
                 $scope.table = table;
-                $scope.title = table.title;
 
                 if ($routeParams.new) {
                     $scope.record = {};

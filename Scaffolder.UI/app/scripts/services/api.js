@@ -8,42 +8,42 @@
  * Service in the webAppApp.
  */
 angular.module('webAppApp')
-    .service('api', function ($http) {
+    .service('api', function($http) {
 
-        //this.Endpoint = 'http://localhost:5000';
         this.Endpoint = 'http://localhost:5000';
+        this.currentUser = null;
+
 
         function Url(self, relativeUrl) {
             return self.Endpoint + relativeUrl;
         }
 
-
         /**
          * 
          */
-        this.getTables = function () {
+        this.getTables = function() {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/table')
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
 
         };
 
-        this.getStorageEndpoint = function () {
+        this.getStorageEndpoint = function() {
             return Url(this, '/files');
         }
 
         /**
          * 
          */
-        this.rebuildScheme = function () {
+        this.rebuildSchema = function() {
             return $http({
                 method: 'POST',
                 url: Url(this, '/database')
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
@@ -51,11 +51,11 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getDatabase = function () {
+        this.getDatabase = function() {
             return $http({
                 method: 'GET',
                 url: Url(this, '/database')
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
@@ -63,12 +63,12 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.getTable = function (name) {
+        this.getTable = function(name) {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/table/' + name)
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
 
@@ -77,13 +77,13 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.select = function (filter) {
+        this.select = function(filter) {
 
             return $http({
                 method: 'GET',
                 url: Url(this, '/data/' + name),
                 params: filter
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
@@ -91,7 +91,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.insert = function (table, entity) {
+        this.insert = function(table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -102,7 +102,7 @@ angular.module('webAppApp')
                 method: 'POST',
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
@@ -110,7 +110,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.update = function (table, entity) {
+        this.update = function(table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -121,7 +121,7 @@ angular.module('webAppApp')
                 method: 'PUT',
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
@@ -129,7 +129,7 @@ angular.module('webAppApp')
         /**
          * 
          */
-        this.delete = function (table, entity) {
+        this.delete = function(table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -141,8 +141,23 @@ angular.module('webAppApp')
                 headers: { 'Content-Type': 'application/json' },
                 url: Url(this, '/data'),
                 data: payload
-            }).then(function (response) {
+            }).then(function(response) {
                 return response.data;
             });
         };
+
+        this.signIn = function(login, password) {
+            this.currentUser = {
+                login: 'test'
+            };
+        }
+
+        this.signOut = function() {
+            this.currentUser = null;
+        }
+
+
+        this.isAuthorized = function() {
+            return currentUser != null;
+        }
     });
