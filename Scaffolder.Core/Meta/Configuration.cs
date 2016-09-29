@@ -36,6 +36,7 @@ namespace Scaffolder.Core.Meta
         public StorageConfiguration StorageConfiguration { get; set; }
 
         public List<User> Users { get; set; }
+        public String SecretKey { get; set; }
 
         public bool Save(String path)
         {

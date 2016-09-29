@@ -3,13 +3,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Scaffolder.API.Application;
+using Scaffolder.API.Application.Security;
+using System;
+using System.Linq;
+using System.Text;
 
 namespace Scaffolder.API
 {
     public class Startup
     {
+        private static String _workingDirectory;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -37,8 +45,15 @@ namespace Scaffolder.API
                 opt.SerializerSettings.Formatting = Formatting.Indented;
             });
 
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            var appSettings = Configuration.GetSection("AppSettings");
+            var workingDirectorySection = appSettings.GetSection("WorkingDirectory");
+            _workingDirectory = workingDirectorySection.Value;
+
+            services.Configure<AppSettings>(appSettings);
             
+            var s = services.Select(o => o.ServiceType == typeof(AppSettings)).ToList();
+
+
             //Add Cors support to the service
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
@@ -61,6 +76,51 @@ namespace Scaffolder.API
 
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
+            
+            var configurationPath = _workingDirectory + "configuration.json";
+            var configuration = Scaffolder.Core.Meta.Configuration.Load(configurationPath);
+
+            //var secretKey = "mysupersecret_secretkey!123";
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.SecretKey));
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = AppSettings.Issuer,
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = AppSettings.Audience,
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                // If you want to allow a certain amount of clock drift, set that here:
+                ClockSkew = TimeSpan.Zero
+            };
+
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters
+            });
+
+            var options = new TokenProviderOptions
+            {
+                Issuer = AppSettings.Issuer,
+                Audience = AppSettings.Audience,
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+
+            };
+
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
 
             app.UseMvc();
         }

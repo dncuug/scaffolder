@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
-using Scaffolder.Core.Base;
-using Scaffolder.Core.Engine.Sql;
 
 namespace Scaffolder.API.Controllers
 {
+    //[Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     public class DatabaseController : Scaffolder.API.Application.ControllerBase
     {
