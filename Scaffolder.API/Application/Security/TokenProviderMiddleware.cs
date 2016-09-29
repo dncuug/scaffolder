@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Scaffolder.Core.Meta;
 
 namespace Scaffolder.API.Application.Security
 {
@@ -12,11 +15,13 @@ namespace Scaffolder.API.Application.Security
     {
         private readonly RequestDelegate _next;
         private readonly TokenProviderOptions _options;
+        private readonly Configuration _configuration;
 
         public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options)
         {
             _next = next;
             _options = options.Value;
+            _configuration = options.Value.Configuration;
         }
 
         public Task Invoke(HttpContext context)
@@ -53,7 +58,7 @@ namespace Scaffolder.API.Application.Security
             }
 
             var now = DateTime.Now;
-            var offset = 3;
+            var timeOffset = 3;
 
             // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
             // You can add other claims here, if you want:
@@ -61,7 +66,7 @@ namespace Scaffolder.API.Application.Security
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now.AddHours(offset)).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now.AddHours(timeOffset)).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             };
 
 
@@ -88,10 +93,11 @@ namespace Scaffolder.API.Application.Security
 
         private Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            // DON'T do this in production, obviously!
-            if (username == "TEST" && password == "TEST123")
+            var user = _configuration.Users.SingleOrDefault(o => String.Equals(username, o.Login, StringComparison.OrdinalIgnoreCase) && o.Password == password);
+
+            if (user != null)
             {
-                return Task.FromResult(new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"), new Claim[] { }));
+                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.Login, "Token"), new Claim[] { }));
             }
 
             // Credentials are invalid, or account doesn't exist

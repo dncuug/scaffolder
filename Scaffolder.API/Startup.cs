@@ -79,8 +79,7 @@ namespace Scaffolder.API
             
             var configurationPath = _workingDirectory + "configuration.json";
             var configuration = Scaffolder.Core.Meta.Configuration.Load(configurationPath);
-
-            //var secretKey = "mysupersecret_secretkey!123";
+            
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.SecretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -117,7 +116,7 @@ namespace Scaffolder.API
                 Issuer = AppSettings.Issuer,
                 Audience = AppSettings.Audience,
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
-
+                Configuration = configuration
             };
 
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
