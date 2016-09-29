@@ -153,3 +153,9 @@ input[type=password]:hover {
 .login-help {
     font-size: 12px;
 }
+
+.btn,
+.ui-grid-pager-control button,
+.ui-grid-pager-row-count-picker select {
+    border-radius: 0px !important;
+}
