@@ -156,6 +156,7 @@ input[type=password]:hover {
 
 .btn,
 .ui-grid-pager-control button,
+.ui-grid-pager-control input,
 .ui-grid-pager-row-count-picker select {
     border-radius: 0px !important;
 }
