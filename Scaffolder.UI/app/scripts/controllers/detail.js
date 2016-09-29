@@ -56,7 +56,17 @@ angular.module('webAppApp')
                 };
 
                 api.select(filter).then(function(response) {
-                    $scope.record = !!response ? response.items[0] : null;
+                    var record = !!response ? response.items[0] : null;
+                    var dateTypeId = 20;
+
+                    $scope.table.columns.forEach(function(c) {
+                        if (c.type == dateTypeId) {
+                            record[c.name] = new Date(record[c.name]);
+                        }
+                    })
+
+                    $scope.record = record;
+
                 });
             });
 

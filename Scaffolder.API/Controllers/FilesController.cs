@@ -20,19 +20,19 @@ namespace Scaffolder.API.Controllers
         }
 
         [HttpGet]
-        public byte[] Get(string name)
+        public IActionResult Get(string name)
         {
-            Storage storage = Storage.GetStorage(Configuration.StorageConfiguration.Type, Configuration.StorageConfiguration.Connection);
-            return storage.Get(name);
+            var link = Configuration.StorageConfiguration.Url + name;
+            return Redirect(link);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(ICollection<IFormFile> files)
         {
             Storage storage = Storage.GetStorage(Configuration.StorageConfiguration.Type, Configuration.StorageConfiguration.Connection);
-            
+
             var file = this.Request.Form.Files.FirstOrDefault();
-            
+
             if (file != null && file.Length > 0)
             {
                 String fileName;
@@ -43,7 +43,7 @@ namespace Scaffolder.API.Controllers
                     await file.CopyToAsync(fileStream);
                     fileName = storage.Upload(fileStream.ToArray(), extension);
                 }
-                
+
                 return Ok(Configuration.StorageConfiguration.Url + fileName);
             }
 

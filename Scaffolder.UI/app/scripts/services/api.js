@@ -32,7 +32,7 @@ angular.module('webAppApp')
 
         };
 
-        this.getUploadEndpoint = function () {
+        this.getStorageEndpoint = function () {
             return Url(this, '/files');
         }
 

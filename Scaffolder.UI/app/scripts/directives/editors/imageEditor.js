@@ -7,7 +7,7 @@
  * # ImageEditor
  */
 angular.module('webAppApp')
-    .directive('imageEditor', function () {
+    .directive('imageEditor', function() {
         return {
             template: '<div>\
                         <input  ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
@@ -24,8 +24,24 @@ angular.module('webAppApp')
             link: function postLink(scope, element, attrs) {
 
             },
-            controller: ['$scope', 'api', function ($scope, api) {
-                $scope.imageUrl = $scope.staticFilesLocationUrl + $scope.ngModel;
+            controller: ['$scope', 'api', function($scope, api) {
+
+                function isUrl(str) {
+                    return !!str && str.indexOf('http') > -1;
+                }
+
+
+                $scope.$watch('ngModel', function(o, n) {
+
+                    if (o != n) {
+                        debugger;
+                        $scope.imageUrl = isUrl($scope.ngModel) ?
+                            $scope.ngModel :
+                            api.getStorageEndpoint() + '?name=' + $scope.ngModel;
+                    }
+
+                });
+
             }]
         };
     });
