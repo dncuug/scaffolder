@@ -19,7 +19,9 @@ angular.module('webAppApp')
             controller: ['$scope', 'api', function($scope, api) {
 
                 api.getTables().then(function(response) {
-                    $scope.tables = response;
+                    $scope.tables = response.filter(function(t) {
+                        return !!t.showInList;
+                    });
                 });
 
             }]

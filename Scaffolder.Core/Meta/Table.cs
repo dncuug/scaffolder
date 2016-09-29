@@ -17,13 +17,14 @@ namespace Scaffolder.Core.Meta
         {
             Name = name;
             Title = name;
+            ShowInList = true;
         }
         
         public List<Column> Columns { get; set; }
 
         public int Position { get; set; }
 
-        public bool ShowInList { get; set; }
+        public bool? ShowInList { get; set; }
 
         public override string ToString()
         {

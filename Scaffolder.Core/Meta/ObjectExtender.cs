@@ -12,6 +12,11 @@ namespace Scaffolder.Core.Meta
             {
                 dst.Position = src.Position;
             }
+
+            if (src.ShowInList != null)
+            {
+                dst.ShowInList = src.ShowInList;
+            }
         }
 
         public static void MapExtendInformation(Column src, Column dst)

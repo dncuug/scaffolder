@@ -16,13 +16,14 @@ namespace Scaffolder.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BaseObject> Get()
+        public IEnumerable<dynamic> Get()
         {
-            return Schema.Tables.Select(o => new BaseObject
+            return Schema.Tables.Select(o => new
             {
-                Name = o.Name,
-                Title = o.Title,
-                Description = o.Description
+                o.Name,
+                o.Title,
+                o.Description,
+                o.ShowInList
             }).ToList();
         }
 

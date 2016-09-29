@@ -13,5 +13,6 @@ namespace Scaffolder.Core.Meta
 
         public String Name { get; set; }
         public String Title { get; set; }
-        public String Description { get; set; }}
+        public String Description { get; set; }
+    }
 }
