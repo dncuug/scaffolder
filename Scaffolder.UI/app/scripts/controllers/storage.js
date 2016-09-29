@@ -1,48 +1,69 @@
 'use strict';
 
 /**
- * @ngdoc directive
- * @name webAppApp.directive:ImageEditor
+ * @ngdoc function
+ * @name webAppApp.controller:StorageCtrl
  * @description
- * # ImageEditor
+ * # StorageCtrl
+ * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .directive('imageEditor', function() {
-        return {
-            template: '<div>\
-            ngModel: {{ngModel}}\
-                        <input  ng-required="ngRequired" ng-disabled="ngDisabled" type="file" class="form-control" ng-model="ngModel" />\
-                        <br />\
-                        <img src="{{imageUrl}}" class="img-resposnsive" />\
-                       </div>',
-            scope: {
-                ngModel: '=',
-                ngDisabled: '=',
-                filesLocationUrl: '=',
-                filesUploadUrl: '='
-            },
-            restrict: 'E',
-            link: function postLink(scope, element, attrs) {
+    .controller('StorageCtrl', function ($scope, FileUploader, api) {
 
-            },
-            controller: ['$scope', 'api', function($scope, api) {
+        $scope.uploadedFileUrl = '';
+        $scope.showProgress = false;
 
-                function isUrl(str) {
-                    return !!str && str.indexOf('http') > -1;
-                }
+        var uploader = $scope.uploader = new FileUploader({
+            url: api.getUploadEndpoint(),
+            removeAfterUpload: true
+        });
 
+        // FILTERS
 
-                $scope.$watch('ngModel', function(o, n) {
+        uploader.filters.push({
+            name: 'customFilter',
+            fn: function (item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
 
-                    if (o != n) {
-                        debugger;
-                        $scope.imageUrl = isUrl($scope.ngModel) ?
-                            $scope.ngModel :
-                            api.getStorageEndpoint() + '/' + $scope.ngModel;
-                    }
+        // CALLBACKS
 
-                });
-
-            }]
+        uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
         };
+
+        uploader.onAfterAddingFile = function (fileItem) {
+        };
+
+        uploader.onAfterAddingAll = function (addedFileItems) {
+        };
+
+        uploader.onBeforeUploadItem = function (item) {
+            $scope.showProgress = true;
+        };
+
+        uploader.onProgressItem = function (fileItem, progress) {
+        };
+
+        uploader.onProgressAll = function (progress) {
+        };
+
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        };
+
+        uploader.onErrorItem = function (fileItem, response, status, headers) {
+            $scope.uploadedFileUrl = response;
+        };
+
+        uploader.onCancelItem = function (fileItem, response, status, headers) {
+        };
+
+        uploader.onCompleteItem = function (fileItem, response, status, headers) {
+            $scope.uploadedFileUrl = response;
+            $scope.showProgress = false;
+        };
+
+        uploader.onCompleteAll = function (result) {
+        };
+
     });
