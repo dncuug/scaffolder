@@ -14,7 +14,7 @@ angular.module('webAppApp')
         $scope.showProgress = false;
 
         var uploader = $scope.uploader = new FileUploader({
-            url: api.getUploadEndpoint(),
+            url: api.getStorageEndpoint(),
             removeAfterUpload: true
         });
 
