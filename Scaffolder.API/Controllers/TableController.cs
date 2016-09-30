@@ -4,9 +4,12 @@ using Scaffolder.API.Application;
 using Scaffolder.Core.Meta;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Scaffolder.API.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     public class TableController : Scaffolder.API.Application.ControllerBase
     {

@@ -3,9 +3,12 @@ using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using Scaffolder.Core.Meta;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Scaffolder.API.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     public class DataController : Application.ControllerBase
     {
