@@ -183,6 +183,4 @@ angular.module('webAppApp')
 
       return this.execute('DELETE', '/data', payload);
     };
-
-
   });

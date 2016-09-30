@@ -12,10 +12,10 @@ angular.module('webAppApp')
 
         $scope.auth = function () {
 
-            debugger;
-            api.auth($scope.username, $scope.password).then(function (resposne) {
+            api.signIn($scope.username, $scope.password).then(function (resposne) {
+              debugger;
                 if (resposne) {
-                    $location.redirect('/')
+                  $location.path("/");
                 }
             });
         };
