@@ -11,8 +11,6 @@ angular.module('webAppApp')
   .service('api', function ($http) {
 
     this.Endpoint = 'http://localhost:5000';
-    this.currentUser = null;
-
     this.tokenKey = "scaffolder-access-token";
 
     /**
@@ -20,6 +18,7 @@ angular.module('webAppApp')
      */
     this.setToken = function (token) {
       localStorage[this.tokenKey] = token;
+      $http.defaults.headers.common.Authorization = "Bearer " + token;
     };
 
     /**
@@ -30,48 +29,44 @@ angular.module('webAppApp')
       return token == "null" ? null : token;
     };
 
-
-    this.logout = function () {
-      localStorage[this.tokenKey] = '';
+    this.signOut = function () {
+      this.setToken('');
     };
 
     /**
      * Authorize and save auth token
      */
-    this.auth = function (login, password) {
+    this.signIn = function (login, password) {
 
       var payload = {
         username: login,
-        password: password,
+        password: password
       };
 
       var self = this;
 
-      var d = $.Deferred();
-
-      $http({
+      return $http({
         method: 'POST',
         url: self.Endpoint + '/token',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: payload,
         transformRequest: function (obj) {
           var str = [];
           for (var p in obj)
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
           return str.join("&");
-        },
-        data: payload,
-        success: function (response) {
-          self.setToken(response.access_token);
-        },
-        error: function (xhr, status, err) {
-          console.warn(xhr, status, err.toString());
-
-          self.logout();
-          d.resolve(null);
         }
+      }).then(function(response) {
+          //Auth ok
+          var token = response.data.access_token;
+          self.setToken(token);
+          return token;
+      },
+      function(data) {
+          //Auth fail
+          self.setToken('');
+          return null;
       });
-
-      return d.promise();
     };
 
     /**
@@ -98,39 +93,28 @@ angular.module('webAppApp')
         data = payload;
       }
 
-      var jqxhr = $http({
+      return $http({
         url: url,
         method: method,
         data: data,
         params: params,
         processData: true,
         contentType: false,
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader("Accept", "application/json");
-          xhr.setRequestHeader("Content-Type", "application/json");
-
-          if (!!self.getToken()) {
-            xhr.setRequestHeader("Authorization", "Bearer " + self.getToken());
-          }
-        },
-        success: function () {
-          //console.info('Request to campus API success: ', response);
-        },
-        error: function (jqXHR, status, error) {
-          console.warn('Error occured: ', status, error);
-        }
-      });
-
-      return jqxhr.then(function (resposne) {
-        return resposne.data;
-      });
+        headers: {
+          'Authorization': "Bearer " + self.getToken()
+        }})
+        .then(function(resposne) {
+            return resposne.data;
+        }, function(resposne){
+            return null;
+        });
     };
 
 
     /**
      *
      */
-    this.getTables = function () {
+    this.getSchema = function () {
       return this.execute('GET', '/table');
     };
 
@@ -143,13 +127,6 @@ angular.module('webAppApp')
      */
     this.rebuildSchema = function () {
       return this.execute('POST', '/database');
-    };
-
-    /**
-     *
-     */
-    this.getDatabase = function () {
-      return this.execute('GET', '/database');
     };
 
     /**

@@ -18,7 +18,7 @@ angular.module('webAppApp')
             link: function postLink(scope, element, attrs) {},
             controller: ['$scope', 'api', function($scope, api) {
 
-                api.getTables().then(function(response) {
+                api.getSchema().then(function(response) {
                     $scope.tables = response.filter(function(t) {
                         return !!t.showInList;
                     });
