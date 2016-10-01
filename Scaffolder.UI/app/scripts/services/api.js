@@ -115,8 +115,10 @@ angular.module('webAppApp')
         params: params,
         processData: true,
         contentType: false,
+
         headers: {
-          'Authorization': "Bearer " + self.getToken()
+          'Authorization': "Bearer " + self.getToken(),
+          'Content-Type': 'application/json'
         }
       })
         .then(function (resposne) {

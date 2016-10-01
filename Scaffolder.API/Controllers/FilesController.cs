@@ -22,6 +22,7 @@ namespace Scaffolder.API.Controllers
         {
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get(string name)
         {
@@ -47,7 +48,13 @@ namespace Scaffolder.API.Controllers
                     fileName = storage.Upload(fileStream.ToArray(), extension);
                 }
 
-                return Ok(Configuration.StorageConfiguration.Url + fileName);
+                var result = new
+                {
+                    Name = fileName,
+                    Url = Configuration.StorageConfiguration.Url + fileName
+                };
+
+                return Ok(result);
             }
 
             return BadRequest();
