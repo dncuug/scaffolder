@@ -10,12 +10,19 @@
 angular.module('webAppApp')
     .controller('LoginCtrl', function ($scope, $location, api) {
 
+        $scope.incorrectCredential = false;
+
         $scope.auth = function () {
 
             api.signIn($scope.username, $scope.password).then(function (resposne) {
-              debugger;
+
                 if (resposne) {
+                  $scope.incorrectCredential = false;
                   $location.path("/");
+                  location.reload();
+                }
+                else{
+                  $scope.incorrectCredential = true;
                 }
             });
         };

@@ -37,8 +37,8 @@ angular.module('webAppApp')
 
         $scope.gridOptions = {
             enableSorting: true,
-            paginationPageSizes: [5, 25, 50, 75],
-            paginationPageSize: 5,
+            paginationPageSizes: [10, 20, 30, 50, 75, 100],
+            paginationPageSize: 10,
             useExternalPagination: true,
             useExternalSorting: true,
             columnDefs: [],

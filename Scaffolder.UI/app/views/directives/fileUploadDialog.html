@@ -3,9 +3,9 @@
     <h3 class="modal-title" id="modal-title">Upload file</h3>
 </div>
 <div class="modal-body" id="modal-body" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
-        <input type="file" nv-file-select="" uploader="uploader" /> 
+        <input type="file" nv-file-select="" uploader="uploader" />
         <br />
-        
+
         <!--<div>
             <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
                 <span class="glyphicon glyphicon-upload"></span> Upload
@@ -18,7 +18,7 @@
             </button>
         </div>
         -->
-       
+
         <div class="input-group" style="margin-top: 50px;">
             <span class="input-group-addon" id="basic-addon1">
                 <span class="glyphicon glyphicon-paperclip"></span>
@@ -32,7 +32,6 @@
             </span>
         </div>
 
-
         <div class="progress" ng-show="showProgress"  style="margin-top: 10px">
             <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
@@ -44,7 +43,7 @@
 </div>
 </script>
 
-<button type="button" class="btn-header-upload" ng-click="showFileUploadDialog()">
+<button type="button" class="btn-header" ng-click="showFileUploadDialog()">
     <i class="fa fa-upload"></i>
     Upload file
 </button>

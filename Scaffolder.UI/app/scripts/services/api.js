@@ -11,7 +11,22 @@ angular.module('webAppApp')
   .service('api', function ($http) {
 
     this.Endpoint = 'http://localhost:5000';
-    this.tokenKey = "scaffolder-access-token";
+    this.tokenKey = 'scaffolder-access-token';
+
+    this.authorized = function () {
+      return $http({
+        url: this.Endpoint + '/Database',
+        method: 'GET',
+        headers: {
+          'Authorization': "Bearer " + this.getToken()
+        }
+      })
+        .then(function (resposne) {
+          return true;
+        }, function (resposne) {
+          return false;
+        });
+    };
 
     /**
      * Set auth token
@@ -48,7 +63,7 @@ angular.module('webAppApp')
       return $http({
         method: 'POST',
         url: self.Endpoint + '/token',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: payload,
         transformRequest: function (obj) {
           var str = [];
@@ -56,17 +71,17 @@ angular.module('webAppApp')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
           return str.join("&");
         }
-      }).then(function(response) {
+      }).then(function (response) {
           //Auth ok
           var token = response.data.access_token;
           self.setToken(token);
           return token;
-      },
-      function(data) {
+        },
+        function (data) {
           //Auth fail
           self.setToken('');
           return null;
-      });
+        });
     };
 
     /**
@@ -102,11 +117,12 @@ angular.module('webAppApp')
         contentType: false,
         headers: {
           'Authorization': "Bearer " + self.getToken()
-        }})
-        .then(function(resposne) {
-            return resposne.data;
-        }, function(resposne){
-            return null;
+        }
+      })
+        .then(function (resposne) {
+          return resposne.data;
+        }, function (resposne) {
+          return null;
         });
     };
 
