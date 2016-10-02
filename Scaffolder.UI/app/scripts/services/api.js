@@ -10,7 +10,7 @@
 angular.module('webAppApp')
   .service('api', function ($http) {
 
-    this.Endpoint = 'http://localhost:5000';
+    this.Endpoint = 'http://localhost:5000/api';
     this.tokenKey = 'scaffolder-access-token';
 
     this.authorized = function () {
