@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace Scaffolder.API.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DataController : Application.ControllerBase
     {
         public DataController(IOptions<AppSettings> settings)

@@ -7,7 +7,7 @@ using Scaffolder.API.Application;
 namespace Scaffolder.API.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DatabaseController : Scaffolder.API.Application.ControllerBase
     {
         public DatabaseController(IOptions<AppSettings> settings)

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace Scaffolder.API.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FilesController : Scaffolder.API.Application.ControllerBase
     {
         public FilesController(IOptions<AppSettings> settings)
