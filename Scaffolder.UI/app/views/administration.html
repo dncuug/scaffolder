@@ -2,6 +2,9 @@
 
 <input type="button" ng-disabled="!!progress" class="btn btn-default" value="Rebuild DB Scheme" ng-click="rebuildSchema()" />
 
+<input type="button" ng-disabled="!!progress" class="btn btn-default" value="Restart web application" ng-click="restart()" />
+
+
 <div class="loading-bar-container">
     <div ng-show="!!progress" class="loading-bar"></div>
 </div>

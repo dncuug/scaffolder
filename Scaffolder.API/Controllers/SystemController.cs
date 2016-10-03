@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -8,9 +9,9 @@ namespace Scaffolder.API.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
-    public class DatabaseController : Scaffolder.API.Application.ControllerBase
+    public class SystemController : Scaffolder.API.Application.ControllerBase
     {
-        public DatabaseController(IOptions<AppSettings> settings)
+        public SystemController(IOptions<AppSettings> settings)
             : base(settings)
         {
         }
@@ -39,6 +40,23 @@ namespace Scaffolder.API.Controllers
             return true;
         }
 
-       
+        [HttpGet]
+        [Route("api/system/restart")]
+        public IActionResult Restart()
+        {
+            var cmd = Settings.ApplicationRestartCommand;
+
+            try
+            {
+                var p = Process.Start(cmd);
+                p.WaitForExit();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
+            return Ok();
+        }
     }
 }

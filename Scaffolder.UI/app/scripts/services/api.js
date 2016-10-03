@@ -10,13 +10,13 @@
 angular.module('webAppApp')
   .service('api', function ($http) {
 
-    //this.Endpoint = 'http://localhost:5000/api';
-    this.Endpoint = 'http://x.mh.agi.net.ua/api';
+    this.Endpoint = 'http://localhost:5070/api';
+    //this.Endpoint = 'http://x.mh.agi.net.ua/api';
     this.tokenKey = 'scaffolder-access-token';
 
     this.authorized = function () {
       return $http({
-        url: this.Endpoint + '/Database',
+        url: this.Endpoint + '/System',
         method: 'GET',
         headers: {
           'Authorization': "Bearer " + this.getToken()
@@ -47,6 +47,10 @@ angular.module('webAppApp')
 
     this.signOut = function () {
       this.setToken('');
+    };
+
+    this.restart = function () {
+      return this.execute('GET', '/system/restart');
     };
 
     /**
