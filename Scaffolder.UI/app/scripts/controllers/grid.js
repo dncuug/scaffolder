@@ -35,6 +35,8 @@ angular.module('webAppApp')
             Boolean: 90
         };
 
+        $scope.loading = false;
+
         $scope.gridOptions = {
             enableSorting: true,
             paginationPageSizes: [10, 20, 30, 50, 75, 100],
@@ -61,30 +63,6 @@ angular.module('webAppApp')
                     getPage();
                 });
             }
-        };
-
-        function getPage() {
-            var url;
-            switch (paginationOptions.sort) {
-                case uiGridConstants.ASC:
-                    $scope.filter.sortOrder = 0;
-                    break;
-                case uiGridConstants.DESC:
-                    $scope.filter.sortOrder = 1;
-                    break;
-                default:
-                    $scope.filter.sortOrder = -1;
-                    break;
-            }
-
-            $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
-            $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
-            $scope.filter.sortColumn = paginationOptions.sortField;
-
-            api.select($scope.filter).then(function(response) {
-                $scope.gridOptions.totalItems = response.totalItemsCount;
-                $scope.gridOptions.data = response.items;
-            });
         };
 
         $scope.filter = {
@@ -124,10 +102,6 @@ angular.module('webAppApp')
             var url = "/detail/" + $routeParams.table;
             $location.path(url).search(params);
         };
-
-        function lowercaseFirstLetter(string) {
-            return string.charAt(0).toLowerCase() + string.slice(1);
-        }
 
         $scope.createNew = function() {
             var url = "/detail/" + $routeParams.table;
@@ -209,6 +183,34 @@ angular.module('webAppApp')
 
             });
         }
+
+        function getPage() {
+            var url;
+
+            switch (paginationOptions.sort) {
+                case uiGridConstants.ASC:
+                    $scope.filter.sortOrder = 0;
+                    break;
+                case uiGridConstants.DESC:
+                    $scope.filter.sortOrder = 1;
+                    break;
+                default:
+                    $scope.filter.sortOrder = -1;
+                    break;
+            }
+
+            $scope.filter.pageSize = $scope.gridOptions.paginationPageSize;
+            $scope.filter.currentPage = $scope.gridOptions.paginationCurrentPage;
+            $scope.filter.sortColumn = paginationOptions.sortField;
+
+            $scope.loading = true;
+
+            api.select($scope.filter).then(function(response) {
+                $scope.gridOptions.totalItems = response.totalItemsCount;
+                $scope.gridOptions.data = response.items;
+                $scope.loading = false;
+            });
+        };
 
         initializeGrid();
     });

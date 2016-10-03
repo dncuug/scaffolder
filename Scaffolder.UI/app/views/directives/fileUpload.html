@@ -1,0 +1,19 @@
+<input type="file" nv-file-select="" uploader="uploader" />
+<br />
+
+<div class="input-group" style="margin-top: 50px;">
+    <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-paperclip"></span>
+    </span>
+    <input id="url" type="text" class="form-control" placeholder="Uploaded file url" ng-model="uploadedFileUrl">
+    <span class="input-group-btn">
+        <button ng-disabled="!uploadedFileUrl" class="btn btn-secondary" type="button" ngclipboard  data-clipboard-action="cut" data-clipboard-target="#url">
+            <i class="glyphicon glyphicon-copy"></i>
+            Copy to clipboard
+        </button>
+    </span>
+</div>
+
+<div class="loading-bar-container">
+    <div ng-show="!!showProgress" class="loading-bar"></div>
+</div>

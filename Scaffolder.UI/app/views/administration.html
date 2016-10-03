@@ -1,9 +1,11 @@
 <h3>Administration</h3>
 
 <input type="button" ng-disabled="!!progress" class="btn btn-default" value="Rebuild DB Scheme" ng-click="rebuildSchema()" />
-<br />
-<div ng-show="!!progress" class="loading-bar"></div>
-<br />
+
+<div class="loading-bar-container">
+    <div ng-show="!!progress" class="loading-bar"></div>
+</div>
+
 <div ng-show="!!status" class="alert alert-success" role="alert">
     {{status}}&nbsp;<input value="OK" class="btn btn-default" ng-click="refreshPage()" type="button" />
 </div>

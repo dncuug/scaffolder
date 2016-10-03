@@ -1,33 +1,8 @@
 <h3>Upload file</h3>
 
-<div class="row" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+<div class="row">
 
     <div class="col-md-12">
-
-        <input type="file" nv-file-select="" uploader="uploader" /> 
-        <br />
-        
-        <div>
-            <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                <span class="glyphicon glyphicon-upload"></span> Upload
-            </button>
-            <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-            </button>
-            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                <span class="glyphicon glyphicon-trash"></span> Remove
-            </button>
-        </div>
-        
-        <div class="input-group" style="margin-top: 50px;">
-            <span class="input-group-addon" id="basic-addon1">
-                <span class="glyphicon glyphicon-paperclip"></span>
-            </span>
-            <input type="text" class="form-control" placeholder="Uploaded file url" ng-model="uploadedFileUrl">
-        </div>
-
-        <div class="progress" ng-show="showProgress" style="">
-            <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
-        </div>
+        <file-upload></file-upload>
     </div>
 </div>

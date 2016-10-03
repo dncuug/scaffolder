@@ -3,7 +3,11 @@
 <form class="form" name="editorForm">
     <input type="button" class="btn btn-success btn-details" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
     <input type="button" class="btn btn-default btn-details" ng-click="cancel()" value="Cancel" />
-    <br />
+    
+    <div class="loading-bar-container">
+        <div ng-show="!!loading" class="loading-bar"></div>
+    </div>
+
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
         <editor ng-required="c.isNullable" type="c.type" max-lenght="c.maxLength"
