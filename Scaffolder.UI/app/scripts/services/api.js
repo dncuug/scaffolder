@@ -10,8 +10,8 @@
 angular.module('webAppApp')
   .service('api', function ($http) {
 
-    this.Endpoint = 'http://localhost:5070/api';
-    //this.Endpoint = 'http://x.mh.agi.net.ua/api';
+    //this.Endpoint = 'http://localhost:5070/api';
+    this.Endpoint = 'http://x.mh.agi.net.ua/api';
     this.tokenKey = 'scaffolder-access-token';
 
     this.authorized = function () {
