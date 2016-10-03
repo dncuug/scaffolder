@@ -7,22 +7,30 @@
  * # navbar
  */
 angular.module('webAppApp')
-  .directive('navbar', function () {
-    return {
-      templateUrl: 'views/directives/navbar.html',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
+    .directive('navbar', function() {
+        return {
+            templateUrl: 'views/directives/navbar.html',
+            restrict: 'E',
+            link: function postLink(scope, element, attrs) {
 
-      },
-      controller: ['$scope', 'api', function ($scope, api) {
+            },
+            controller: ['$scope', '$rootScope', 'api', function($scope, $rootScope, api) {
 
-        $scope.authorized = false;
+                $scope.authorized = false;
 
-        api.authorized().then(function (response) {
-          $scope.authorized = response;
-        });
+                $rootScope.$on('reload', function(event, data) {
+                    reload();
+                });
+
+                function reload() {
+                    api.authorized().then(function(response) {
+                        $scope.authorized = response;
+                    });
+                }
+
+                reload();
 
 
-      }]
-    };
-  });
+            }]
+        };
+    });
