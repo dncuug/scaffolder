@@ -138,3 +138,9 @@ input[type=password] {
 .ui-grid-top-panel {
   background: #EEE;
 }
+
+.btn-details{
+  width: 100px;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}

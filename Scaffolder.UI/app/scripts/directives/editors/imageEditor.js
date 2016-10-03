@@ -9,7 +9,7 @@
 angular.module('webAppApp')
   .directive('imageEditor', function () {
     return {
-      templateUrl: 'views/directives/editors/imageEditor.html',
+      templateUrl: 'views/directives/imageEditor.html',
       scope: {
         ngModel: '=',
         ngDisabled: '=',
@@ -63,7 +63,7 @@ angular.module('webAppApp')
         $scope.$watch('ngModel', function (o, n) {
 
           if (o != n) {
-            $scope.imageUrl = isUrl($scope.ngModel)
+            $scope.imageUrl = !!isUrl($scope.ngModel)
               ? $scope.ngModel
               : api.getStorageEndpoint() + '?name=' + $scope.ngModel;
           }

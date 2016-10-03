@@ -1,14 +1,17 @@
 <h3>{{table.title}}</h3>
 
 <form class="form" name="editorForm">
+    <input type="button" class="btn btn-success btn-details" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
+    <input type="button" class="btn btn-default btn-details" ng-click="cancel()" value="Cancel" />
+    <br />
     <div ng-repeat="c in table.columns" class="form-group">
         <label>{{c.title}}</label>
-        <editor ng-required="c.isNullable" type="c.type" max-lenght="c.maxLength" 
+        <editor ng-required="c.isNullable" type="c.type" max-lenght="c.maxLength"
                 ng-disabled="!!c.readonly" ng-model="record[c.name]" table="c.reference.table"
                 key-column="c.reference.keyColumn" display-column="c.reference.textColumn">
         </editor>
     </div>
 
-    <input type="button" class="btn btn-success" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
-    <input type="button" class="btn btn-default" ng-click="cancel()" value="Cancel" />
+    <input type="button" class="btn btn-success btn-details" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
+    <input type="button" class="btn btn-default btn-details" ng-click="cancel()" value="Cancel" />
 </form>

@@ -39,7 +39,7 @@ angular
           debugger;
           deferred.reject();
           $location.url('/login');
-          location.reload();
+          //location.reload();
         }
       });
 

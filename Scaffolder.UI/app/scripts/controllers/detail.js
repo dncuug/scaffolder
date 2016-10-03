@@ -29,7 +29,7 @@ angular.module('webAppApp')
 
         function redirectToGrid() {
             var url = "/grid/" + $scope.table.name;
-            $location.path(url).search(s);
+            $location.path(url).search();
         }
 
         function initializeEditor() {
