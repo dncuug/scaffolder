@@ -1,0 +1,33 @@
+box: microsoft/aspnetcore-build
+# Build definition
+build:
+  # Show base information
+  steps:
+    # packages restore
+    - script:
+        name: Scaffolder.Core packages restore 
+        code: |
+          cd Scaffolder.Core
+          dotnet restore
+          
+    - script:
+        name: Scaffolder.API packages restore 
+        code: |
+          cd Scaffolder.API
+          dotnet restore
+          
+    # Executes build commands
+    - script:
+        name: Scaffolder.API build
+        code: |
+          cd Scaffolder.API
+          dotnet build
+
+    - script:
+        name: Scaffolder.UI build
+        code: |
+          cd Scaffolder.UI
+          npm install
+          npm install -g grunt-cli 
+          bower install --allow-root
+          grunt build --force
