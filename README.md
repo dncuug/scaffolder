@@ -1,4 +1,2 @@
-X.Scaffolding
-=============
-
-X.Scaffolding
+# scaffolder
+Database scaffolding tool

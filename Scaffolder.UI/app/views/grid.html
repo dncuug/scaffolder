@@ -1,0 +1,11 @@
+<h3>{{table.title}}</h3>
+
+<div style="margin-bottom: 10px;">
+    <i>{{table.description}}</i>
+</div>
+
+<input type="button" class="btn btn-success" ng-click="createNew()" value="Create New" />
+<br />
+<br />
+<div id="grid" ui-grid="gridOptions" external-scopes="clickHandler" ui-grid-resize-columns ui-grid-pagination class="grid">
+</div>
