@@ -1,0 +1,17 @@
+box: microsoft/aspnetcore
+# Build definition
+build:
+  # Show base information
+  steps:
+    # packages restore
+    - script:
+        name: packages restore
+        code: |
+          cd Scaffolder.API
+          dotnet restore
+          
+    # Executes build commands
+    - script:
+        name: run build
+        code: |
+          dotnet build
