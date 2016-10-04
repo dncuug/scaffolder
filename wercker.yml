@@ -22,3 +22,11 @@ build:
         code: |
           cd Scaffolder.API
           dotnet build
+
+    - script:
+        name: Scaffolder.UI build
+        code: |
+          cd Scaffolder.UI
+          npm install
+          bower install
+          grunt build
