@@ -41,10 +41,9 @@ namespace Scaffolder.API.Controllers
         }
 
         [HttpGet("restart")]
-        // [Route("api/system/restart")]
         public IActionResult Restart()
         {
-            var cmd = Settings.ApplicationRestartCommand;
+            var cmd = Configuration.ApplicationRestartCommand;
 
             try
             {
@@ -55,7 +54,7 @@ namespace Scaffolder.API.Controllers
             {
                 return BadRequest();
             }
-            
+
             return Ok();
         }
     }

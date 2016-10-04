@@ -37,8 +37,11 @@ namespace Scaffolder.API
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting();
+
             // Add framework services.
             var mvc = services.AddMvc();
+           
 
             mvc.AddJsonOptions(opt =>
             {
@@ -50,8 +53,6 @@ namespace Scaffolder.API
             _workingDirectory = workingDirectorySection.Value;
 
             services.Configure<AppSettings>(appSettings);
-
-            var s = services.Select(o => o.ServiceType == typeof(AppSettings)).ToList();
 
             //Add Cors support to the service
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
