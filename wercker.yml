@@ -10,7 +10,7 @@ build:
           cd Scaffolder.Core
           dotnet restore
           
-     - script:
+    - script:
         name: Scaffolder.API packages restore 
         code: |
           cd Scaffolder.API
