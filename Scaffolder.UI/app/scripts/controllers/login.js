@@ -8,14 +8,20 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('LoginCtrl', function ($scope, $location, api) {
+    .controller('LoginCtrl', function($scope, $rootScope, $location, api) {
 
-        $scope.auth = function () {
+        $scope.incorrectCredential = false;
 
-            debugger;
-            api.auth($scope.username, $scope.password).then(function (resposne) {
+        $scope.auth = function() {
+
+            api.signIn($scope.username, $scope.password).then(function(resposne) {
+
                 if (resposne) {
-                    $location.redirect('/')
+                    $scope.incorrectCredential = false;
+                    $location.path("/").search();
+                    $rootScope.$emit("reload", true);
+                } else {
+                    $scope.incorrectCredential = true;
                 }
             });
         };

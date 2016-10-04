@@ -50,9 +50,8 @@ namespace Scaffolder.API
             _workingDirectory = workingDirectorySection.Value;
 
             services.Configure<AppSettings>(appSettings);
-            
-            var s = services.Select(o => o.ServiceType == typeof(AppSettings)).ToList();
 
+            var s = services.Select(o => o.ServiceType == typeof(AppSettings)).ToList();
 
             //Add Cors support to the service
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -71,15 +70,18 @@ namespace Scaffolder.API
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
-            
+
             var configurationPath = _workingDirectory + "configuration.json";
             var configuration = Scaffolder.Core.Meta.Configuration.Load(configurationPath);
-            
+
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.SecretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -102,7 +104,6 @@ namespace Scaffolder.API
                 // If you want to allow a certain amount of clock drift, set that here:
                 ClockSkew = TimeSpan.Zero
             };
-
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {

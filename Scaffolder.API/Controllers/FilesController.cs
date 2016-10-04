@@ -8,10 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Scaffolder.API.Controllers
 {
-    [Route("[controller]")]
+    [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Route("api/[controller]")]
     public class FilesController : Scaffolder.API.Application.ControllerBase
     {
         public FilesController(IOptions<AppSettings> settings)
@@ -19,6 +22,7 @@ namespace Scaffolder.API.Controllers
         {
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get(string name)
         {
@@ -44,7 +48,13 @@ namespace Scaffolder.API.Controllers
                     fileName = storage.Upload(fileStream.ToArray(), extension);
                 }
 
-                return Ok(Configuration.StorageConfiguration.Url + fileName);
+                var result = new
+                {
+                    Name = fileName,
+                    Url = Configuration.StorageConfiguration.Url + fileName
+                };
+
+                return Ok(result);
             }
 
             return BadRequest();

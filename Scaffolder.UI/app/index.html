@@ -8,8 +8,11 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/skin-blue.css">
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.css" />
@@ -27,13 +30,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-        page. However, you can choose any other skin. Make sure you
-        apply the skin class to the body tag so the changes take effect.
-    -->
-    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/skin-blue.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,28 +49,13 @@
             <a href="/" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <img class="" src="/images/logo.png" style="width: 35px; margin-left: -5px;">    
+                    <img class="" src="/images/logo.png" style="width: 35px; margin-left: -5px;">
                 </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg"><b>Scaffolder</b></span>
             </a>
 
-            <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <file-upload-dialog></file-upload-dialog>
-                        </li>
-                    </ul>
-                </div>           
-
-            </nav>
+            <navbar></navbar>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
@@ -85,35 +66,20 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <!--<img src="bower_components/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
                     </div>
                     <div class="pull-left info">
 
-                        <!--<p>Alexander Pierce</p>-->
-                        <!-- Status -->
-                        <!--<a href="#"><i class="fa fa-circle text-success"></i> Online</a>-->
                     </div>
                 </div>
 
-                <!-- Sidebar Menu -->
-                <ul class="sidebar-menu">
-                    <li class="header">Menu</li>
-                    <li><a href="/#/"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                    <li><a href="/#/administration"><i class="fa fa-sliders"></i> <span>Administration</span></a></li>
-                    <li><a href="/#/storage"><i class="fa fa-upload"></i> <span>Upload file</span></a></li>
-                </ul>
-                <ul class="sidebar-menu">
-                    <li class="header">Tables</li>
-                </ul>
-                <!-- /.sidebar-menu -->
-                <tables></tables>
+                <navigation></navigation>
             </section>
             <!-- /.sidebar -->
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-           
+
             <!-- Main content -->
             <section class="content">
 
@@ -163,10 +129,10 @@
     <script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
     <script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
-    <script src="bower_components/angular-file-upload/dist/angular-file-upload.js"></script>
+    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/clipboard/dist/clipboard.min.js"></script>
-    <script src="bower_components/ngclipboard/dist/ngclipboard.min.js"></script>
+    <script src="bower_components/clipboard/dist/clipboard.js"></script>
+    <script src="bower_components/ngclipboard/dist/ngclipboard.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -182,8 +148,8 @@
     <script src="scripts/controllers/administration.js"></script>
 
     <script src="scripts/services/api.js"></script>
-    
-    <script src="scripts/directives/tables.js"></script>
+
+    <script src="scripts/directives/navigation.js"></script>
     <script src="scripts/directives/editors/textEditor.js"></script>
     <script src="scripts/directives/editors/emailEditor.js"></script>
     <script src="scripts/directives/editors/urlEditor.js"></script>
@@ -195,14 +161,15 @@
     <script src="scripts/directives/editors/integerEditor.js"></script>
     <script src="scripts/directives/editors/doubleEditor.js"></script>
     <script src="scripts/directives/editors/imageEditor.js"></script>
-    <script src="scripts/directives/editors/binaryEditor.js"></script>    
-    <script src="scripts/directives/editors/timeEditor.js"></script>    
+    <script src="scripts/directives/editors/binaryEditor.js"></script>
+    <script src="scripts/directives/editors/timeEditor.js"></script>
     <script src="scripts/directives/editors/passwordEditor.js"></script>
     <script src="scripts/directives/editors/referenceEditor.js"></script>
     <script src="scripts/directives/editors/booleanEditor.js"></script>
     <script src="scripts/directives/editor.js"></script>
     <script src="scripts/directives/fileUploadDialog.js"></script>
-    <script src="scripts/services/authprovider.js"></script>
+    <script src="scripts/directives/navbar.js"></script>
+    <script src="scripts/directives/fileUpload.js"></script>
     <!-- endbuild -->
 </body>
 

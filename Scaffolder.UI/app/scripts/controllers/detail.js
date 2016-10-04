@@ -12,10 +12,12 @@ angular.module('webAppApp')
 
         $scope.table = {};
         $scope.record = {};
+        $scope.loading = false;
 
         $scope.editorForm = {};
 
         $scope.cancel = redirectToGrid;
+
 
         $scope.save = function() {
             var exist = !$routeParams.new;
@@ -29,7 +31,7 @@ angular.module('webAppApp')
 
         function redirectToGrid() {
             var url = "/grid/" + $scope.table.name;
-            $location.path(url).search(s);
+            $location.path(url).search();
         }
 
         function initializeEditor() {
@@ -50,6 +52,8 @@ angular.module('webAppApp')
                     Parameters: $routeParams
                 };
 
+                $scope.loading = true;
+
                 api.select(filter).then(function(response) {
                     var record = !!response ? response.items[0] : null;
                     var dateTypeId = 20;
@@ -61,6 +65,7 @@ angular.module('webAppApp')
                     })
 
                     $scope.record = record;
+                    $scope.loading = false;
 
                 });
             });

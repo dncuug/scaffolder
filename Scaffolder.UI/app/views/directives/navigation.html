@@ -1,0 +1,17 @@
+<!-- Sidebar Menu -->
+<ul class="sidebar-menu" ng-show="authorized">
+  <li class="header">Menu</li>
+  <li><a href="/#/"><i class="fa fa-home"></i> <span>Home</span></a></li>
+  <li><a href="/#/administration"><i class="fa fa-sliders"></i> <span>Administration</span></a></li>
+  <li><a href="/#/storage"><i class="fa fa-upload"></i> <span>Upload file</span></a></li>
+</ul>
+<ul class="sidebar-menu" ng-show="authorized">
+  <li class="header">Tables</li>
+</ul>
+<!-- /.sidebar-menu -->
+
+<ul class="sidebar-menu" ng-show="authorized">
+  <li ng-repeat="t in tables">
+    <a href="/#/grid/{{t.name}}"><i class="fa fa-table"></i> <span>{{t.title}}</span></a>
+  </li>
+</ul>

@@ -21,7 +21,19 @@ angular.module('webAppApp')
                 $scope.progress = false;
                 $scope.status = 'Database schema updated successfully';
             });
-        }
+        };
+
+        $scope.restart = function () {
+
+            $scope.progress = true;
+
+            api.restart().then(function () {
+
+                $scope.progress = false;
+                $scope.status = 'Web application restarted successfully';
+            });
+        };
+
 
         $scope.refreshPage = function () {
             location.reload();
