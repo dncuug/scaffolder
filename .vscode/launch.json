@@ -1,18 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [{
-            "name": "Launch Scaffolder App",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/Scaffolder.App/bin/Debug/netcoreapp1.0/Scaffolder.App.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}",
-            "externalConsole": false,
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
             "name": "Launch Scaffolder API",
             "type": "coreclr",
             "request": "launch",
