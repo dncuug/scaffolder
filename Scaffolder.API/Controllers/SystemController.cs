@@ -40,8 +40,8 @@ namespace Scaffolder.API.Controllers
             return true;
         }
 
-        [HttpGet]
-        [Route("api/system/restart")]
+        [HttpGet("restart")]
+        // [Route("api/system/restart")]
         public IActionResult Restart()
         {
             var cmd = Settings.ApplicationRestartCommand;
