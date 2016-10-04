@@ -18,7 +18,7 @@ build:
           
     # Executes build commands
     - script:
-        name: run build
+        name: Scaffolder.API build
         code: |
           cd Scaffolder.API
           dotnet build
