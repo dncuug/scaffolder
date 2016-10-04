@@ -1,2 +1,0 @@
-# scaffolder
-Database scaffolding tool
