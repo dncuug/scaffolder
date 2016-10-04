@@ -1,0 +1,23 @@
+{
+    "version": "1.0.0-*",
+
+    "dependencies": {
+        "BundlerMinifier.Core": "2.2.281",
+        "NETStandard.Library": "1.6.0",
+        "Newtonsoft.Json": "9.0.1",
+        "System.Data.Common": "4.1.0",
+        "System.Data.SqlClient": "4.1.0",
+        "MySqlConnector": "0.1.0-alpha23"
+    },
+
+    "tools": {},
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": [
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
+        }
+    }
+}

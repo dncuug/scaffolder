@@ -1,0 +1,15 @@
+{
+    "version": "0.1.0",
+    "command": "dotnet",
+    "isShellCommand": true,
+    "args": [],
+    "tasks": [{
+        "taskName": "build",
+        "args": [
+            "${workspaceRoot}/Scaffolder.Core/project.json",
+            "${workspaceRoot}/Scaffolder.API/project.json"
+        ],
+        "isBuildCommand": true,
+        "problemMatcher": "$msCompile"
+    }]
+}
