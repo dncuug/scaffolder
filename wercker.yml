@@ -1,4 +1,4 @@
-box: microsoft/aspnetcore
+box: microsoft/aspnetcore-build
 # Build definition
 build:
   # Show base information
