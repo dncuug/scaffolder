@@ -28,5 +28,5 @@ build:
         code: |
           cd Scaffolder.UI
           npm install
-          bower install
+          bower install --allow-root
           grunt build
