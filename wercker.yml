@@ -5,7 +5,13 @@ build:
   steps:
     # packages restore
     - script:
-        name: packages restore
+        name: Scaffolder.Core packages restore 
+        code: |
+          cd Scaffolder.Core
+          dotnet restore
+          
+     - script:
+        name: Scaffolder.API packages restore 
         code: |
           cd Scaffolder.API
           dotnet restore
