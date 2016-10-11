@@ -149,7 +149,7 @@ angular.module('webAppApp')
          *
          */
         this.rebuildSchema = function() {
-            return this.execute('POST', '/database');
+            return this.execute('POST', '/system');
         };
 
         /**
