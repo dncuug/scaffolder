@@ -15,6 +15,7 @@ namespace Scaffolder.API
             var config = new ConfigurationBuilder()
                 //.AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+                .AddJsonFile("hosting.json", optional: true)
                 .Build();
 
             var host = new WebHostBuilder()
@@ -23,7 +24,7 @@ namespace Scaffolder.API
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5070")
+                //.UseUrls("http://localhost:5080")
                 .Build();
 
             host.Run();
