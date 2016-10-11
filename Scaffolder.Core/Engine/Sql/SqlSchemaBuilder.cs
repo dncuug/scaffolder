@@ -218,6 +218,10 @@ namespace Scaffolder.Core.Engine.Sql
             {
                 return ColumnType.Boolean;
             }
+            if (type == "varbinary")
+            {
+                return ColumnType.Binary;
+            }
             else
             {
                 throw new NotSupportedException();
