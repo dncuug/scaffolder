@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -14,8 +15,7 @@ namespace Scaffolder.API.Application.Security
         private readonly RequestDelegate _next;
         private readonly TokenProviderOptions _options;
         private readonly String _workingDirectory;
-        
-        
+
         public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options)
         {
             _next = next;
@@ -32,8 +32,7 @@ namespace Scaffolder.API.Application.Security
             }
 
             // Request must be POST with Content-Type: application/x-www-form-urlencoded
-            if (!context.Request.Method.Equals("POST")
-                || !context.Request.HasFormContentType)
+            if (!context.Request.Method.Equals("POST") || !context.Request.HasFormContentType)
             {
                 context.Response.StatusCode = 400;
                 return context.Response.WriteAsync("Bad request.");
@@ -59,13 +58,15 @@ namespace Scaffolder.API.Application.Security
             var now = DateTime.Now;
             var timeOffset = 3;
 
+            var offset = new DateTimeOffset(now.AddHours(timeOffset)).ToUnixTimeSeconds().ToString();
+
             // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
             // You can add other claims here, if you want:
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now.AddHours(timeOffset)).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, offset, ClaimValueTypes.Integer64)
             };
 
 
@@ -75,8 +76,9 @@ namespace Scaffolder.API.Application.Security
                 audience: _options.Audience,
                 claims: claims,
                 notBefore: now,
-                expires: (now.AddHours(3).Add(_options.Expiration)),
+                expires: (now.AddHours(timeOffset).Add(_options.Expiration)),
                 signingCredentials: _options.SigningCredentials);
+
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             var response = new
@@ -90,21 +92,21 @@ namespace Scaffolder.API.Application.Security
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private Task<ApplicationClaimsIdentity> GetIdentity(string username, string password)
+        private Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
             var authorizationManager = new AuthorizationManager(_workingDirectory);
             var userAndConfiguration = authorizationManager.Auth(username, password);
 
             if (userAndConfiguration != null)
             {
-                var user = userAndConfiguration.Item1;
-                var configuratoinLocation = userAndConfiguration.Item2;
 
-                return Task.FromResult(new ApplicationClaimsIdentity(new GenericIdentity(user.Login, "Token"), new Claim[] { }, configuratoinLocation));
+                var identity = new ClaimsIdentity(new GenericIdentity(username, "Token"), claims);
+
+                return Task.FromResult(identity);
             }
 
             // Credentials are invalid, or account doesn't exist
-            return Task.FromResult<ApplicationClaimsIdentity>(null);
+            return Task.FromResult<ClaimsIdentity>(null);
         }
     }
 }

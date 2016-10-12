@@ -30,9 +30,9 @@ namespace Scaffolder.API.Application.Security
 
         private Tuple<Configuration, String> LoadConfiguration(String configurationDirectory)
         {
-            var path = configurationDirectory + "configuration.json";
+            var path = Path.Combine(configurationDirectory, "configuration.json");
 
-            if (!System.IO.File.Exists(path))
+            if (!File.Exists(path))
             {
                 Configuration.Create().Save(path);
             }
@@ -48,7 +48,7 @@ namespace Scaffolder.API.Application.Security
 
             foreach (var u in users)
             {
-                if (users.Count(o => o.Login == u.Login && o.Password == u.Password) > 1)
+                if (users.Count(o => o.Login == u.Login) > 1)
                 {
                     return false;
                 }
@@ -78,5 +78,19 @@ namespace Scaffolder.API.Application.Security
             return null;
         }
 
+        public string GetConfiguratoinLocationForUser(string login)
+        {
+            foreach (var configuration in _configurations)
+            {
+                var user = configuration.Key.Users.SingleOrDefault(o => o.Login == login);
+
+                if (user != null)
+                {
+                    return configuration.Value;
+                }
+            }
+
+            return String.Empty;
+        }
     }
 }
