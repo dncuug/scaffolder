@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using System.Diagnostics;
+using System.IO;
 
 namespace Scaffolder.API.Controllers
 {
@@ -34,8 +35,8 @@ namespace Scaffolder.API.Controllers
         {
             var builder = GetSchemaBuilder();
             var schema = builder.Build();
-
-            schema.Save(Settings.WorkingDirectory + "db.json");
+            
+            schema.Save(Path.Combine(ApplicationContext.Location, "db.json"));
 
             return true;
         }
