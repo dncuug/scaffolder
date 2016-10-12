@@ -100,7 +100,7 @@ namespace Scaffolder.API.Application.Security
             if (userAndConfiguration != null)
             {
 
-                var identity = new ClaimsIdentity(new GenericIdentity(username, "Token"), claims);
+                var identity = new ClaimsIdentity(new GenericIdentity(username, "Token"), new List<Claim>());
 
                 return Task.FromResult(identity);
             }

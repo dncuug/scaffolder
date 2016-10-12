@@ -1,40 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Scaffolder.API.Application.Security;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
-using System;
-using Scaffolder.API.Application.Security;
+using System.Security.Claims;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
-        protected ApplicationContext ApplicationContext { get; private set; }
+        private ApplicationContext _applicationContext;
 
-        protected readonly AppSettings Settings;
+        protected ApplicationContext ApplicationContext
+        {
+            get
+            {
+                if (_applicationContext == null)
+                {
+                    var login = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    
+                    var authorizationManager = new AuthorizationManager(Settings.WorkingDirectory);
+                    var configuratoinLocation = authorizationManager.GetConfiguratoinLocationForUser(login);
+                    _applicationContext = ApplicationContext.Load(configuratoinLocation);
+
+                }
+
+                return _applicationContext;
+            }
+        }
+
+        protected AppSettings Settings { get; private set; }
 
         public ControllerBase(IOptions<AppSettings> settings)
         {
             Settings = settings.Value;
-
-            LoadApplicationContext();
-
-        }
-
-        private void LoadApplicationContext()
-        {
-            var identity = this.User.Identity as ApplicationClaimsIdentity;
-
-            if (identity != null)
-            {
-                ApplicationContext = ApplicationContext.Load(identity.ConfiguratoinLocation);
-            }
-            else
-            {
-                ApplicationContext = null;
-            }
         }
 
         protected ISchemaBuilder GetSchemaBuilder()
