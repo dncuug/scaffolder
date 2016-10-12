@@ -12,9 +12,9 @@ namespace Scaffolder.Core.Meta
 
         public static ApplicationContext Load(String workingDirectory)
         {
-            var schemaPath = workingDirectory + "db.json";
-            var extendedSchemaPath = workingDirectory + "db_ex.json";
-            var configurationPath = workingDirectory + "configuration.json";
+            var schemaPath = Path.Combine(workingDirectory, "db.json");
+            var extendedSchemaPath = Path.Combine(workingDirectory, "db_ex.json");
+            var configurationPath = Path.Combine(workingDirectory, "configuration.json");
 
             if (!File.Exists(configurationPath))
             {
@@ -26,13 +26,15 @@ namespace Scaffolder.Core.Meta
                 new Schema().Save(schemaPath);
             }
 
-            return new ApplicationContext
+            var applicationContext = new ApplicationContext
             {
                 Configuration = Configuration.Load(configurationPath),
                 Schema = Schema.Load(schemaPath, extendedSchemaPath),
                 Name = Path.GetFileName(workingDirectory),
                 Location = workingDirectory
             };
+
+            return applicationContext;
 
         }
     }
