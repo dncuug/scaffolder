@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Scaffolder.API
 {
@@ -13,7 +9,6 @@ namespace Scaffolder.API
         public static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
-                //.AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
                 .AddJsonFile("hosting.json", optional: true)
                 .Build();
@@ -24,7 +19,6 @@ namespace Scaffolder.API
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                //.UseUrls("http://localhost:5080")
                 .Build();
 
             host.Run();
