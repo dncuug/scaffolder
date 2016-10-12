@@ -71,7 +71,7 @@ namespace Scaffolder.Core.Engine.Sql
             {
                 //sb.AppendFormat(" LEFT JOIN {0} ON [{0}].[{1}] = [{2}].[{3}] ", r.Reference.Table, r.Reference.KeyColumn, table.Name, r.Name);
 
-                sb.AppendFormat(" LEFT JOIN {0} AS {1} ON [{1}].[{2}] = [{3}].[{4}] ", r.Reference.Table, r.Reference.GetTableAlias(), r.Reference.KeyColumn, table.Name, r.Name);
+                sb.AppendFormat(" LEFT JOIN [{0}] AS {1} ON [{1}].[{2}] = [{3}].[{4}] ", r.Reference.Table, r.Reference.GetTableAlias(), r.Reference.KeyColumn, table.Name, r.Name);
             }
 
             if (whereCaluses.Any())
