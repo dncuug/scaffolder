@@ -10,12 +10,11 @@ namespace Scaffolder.Core.Meta
     {
         public Schema()
         {
-            Name = "Database";
-            Title = "Database";
+            Name = "EmptySchema";
+            Title = "Empty Schema";
             Description = "";
             Tables = new List<Table>();
             Generated = DateTime.Now;
-
         }
 
         public List<Table> Tables { get; set; }

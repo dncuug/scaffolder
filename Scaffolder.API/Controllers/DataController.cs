@@ -19,7 +19,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public PagingInfo Get([ModelBinder(BinderType = typeof(FilterModelBinder))]Filter filter)
         {
-            var table = Schema.GetTable(filter.TableName);
+            var table = ApplicationContext.Schema.GetTable(filter.TableName);
             var repository = CreateRepository(table);
 
             var items = repository.Select(filter);
@@ -37,7 +37,7 @@ namespace Scaffolder.API.Controllers
         [HttpPost]
         public dynamic Post([FromBody]Payload payload)
         {
-            var table = Schema.GetTable(payload.TableName);
+            var table = ApplicationContext.Schema.GetTable(payload.TableName);
             var repository = CreateRepository(table);
 
             return repository.Insert(payload.Entity);
@@ -46,7 +46,7 @@ namespace Scaffolder.API.Controllers
         [HttpPut]
         public dynamic Put([FromBody]Payload payload)
         {
-            var table = Schema.GetTable(payload.TableName);
+            var table = ApplicationContext.Schema.GetTable(payload.TableName);
             var repository = CreateRepository(table);
 
             return repository.Update(payload.Entity);
@@ -55,7 +55,7 @@ namespace Scaffolder.API.Controllers
         [HttpDelete]
         public bool Delete([FromBody]Payload payload)
         {
-            var table = Schema.GetTable(payload.TableName);
+            var table = ApplicationContext.Schema.GetTable(payload.TableName);
             var repository = CreateRepository(table);
 
             var deletedOjbect = repository.Delete(payload.Entity);

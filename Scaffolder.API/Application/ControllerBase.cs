@@ -5,13 +5,13 @@ using Scaffolder.Core.Data;
 using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
 using System;
+using Scaffolder.API.Application.Security;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
-        protected Configuration Configuration { get; private set; }
-        protected Schema Schema { get; private set; }
+        protected ApplicationContext ApplicationContext { get; private set; }
 
         protected readonly AppSettings Settings;
 
@@ -19,30 +19,22 @@ namespace Scaffolder.API.Application
         {
             Settings = settings.Value;
 
-            var schemaPath = Settings.WorkingDirectory + "db.json";
-            var extendedSchemaPath = Settings.WorkingDirectory + "db_ex.json";
-            var configurationPath = Settings.WorkingDirectory + "configuration.json";
+            LoadApplicationContext();
 
-            if (!System.IO.File.Exists(configurationPath))
+        }
+
+        private void LoadApplicationContext()
+        {
+            var identity = this.User.Identity as ApplicationClaimsIdentity;
+
+            if (identity != null)
             {
-                Configuration.Create().Save(configurationPath);
+                ApplicationContext = ApplicationContext.Load(identity.ConfiguratoinLocation);
             }
-
-            if (!System.IO.File.Exists(schemaPath))
+            else
             {
-                var schema = new Schema
-                {
-                    Description = "",
-                    Name = "EmptySchema",
-                    Generated = DateTime.Now,
-                    Title = "Empty Schema"
-                };
-
-                schema.Save(schemaPath);
+                ApplicationContext = null;
             }
-
-            Configuration = Configuration.Load(configurationPath);
-            Schema = Schema.Load(schemaPath, extendedSchemaPath);
         }
 
         protected ISchemaBuilder GetSchemaBuilder()
@@ -65,7 +57,7 @@ namespace Scaffolder.API.Application
 
         private IDatabase GetDatabase()
         {
-            return new SqlDatabase(Configuration.ConnectionString);
+            return new SqlDatabase(ApplicationContext.Configuration.ConnectionString);
             //return new MySqlDatabase(connectionString);
         }
     }

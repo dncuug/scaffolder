@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Scaffolder.Core.Meta;
 
 namespace Scaffolder.API.Application.Security
 {
@@ -15,13 +13,14 @@ namespace Scaffolder.API.Application.Security
     {
         private readonly RequestDelegate _next;
         private readonly TokenProviderOptions _options;
-        private readonly Configuration _configuration;
-
+        private readonly String _workingDirectory;
+        
+        
         public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options)
         {
             _next = next;
             _options = options.Value;
-            _configuration = options.Value.Configuration;
+            _workingDirectory = options.Value.WorkingDirectory;
         }
 
         public Task Invoke(HttpContext context)
@@ -62,7 +61,7 @@ namespace Scaffolder.API.Application.Security
 
             // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
             // You can add other claims here, if you want:
-            var claims = new Claim[]
+            var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -91,17 +90,21 @@ namespace Scaffolder.API.Application.Security
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private Task<ApplicationClaimsIdentity> GetIdentity(string username, string password)
         {
-            var user = _configuration.Users.SingleOrDefault(o => String.Equals(username, o.Login, StringComparison.OrdinalIgnoreCase) && o.Password == password);
+            var authorizationManager = new AuthorizationManager(_workingDirectory);
+            var userAndConfiguration = authorizationManager.Auth(username, password);
 
-            if (user != null)
+            if (userAndConfiguration != null)
             {
-                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.Login, "Token"), new Claim[] { }));
+                var user = userAndConfiguration.Item1;
+                var configuratoinLocation = userAndConfiguration.Item2;
+
+                return Task.FromResult(new ApplicationClaimsIdentity(new GenericIdentity(user.Login, "Token"), new Claim[] { }, configuratoinLocation));
             }
 
             // Credentials are invalid, or account doesn't exist
-            return Task.FromResult<ClaimsIdentity>(null);
+            return Task.FromResult<ApplicationClaimsIdentity>(null);
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.IdentityModel.Tokens;
-using Scaffolder.Core.Meta;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Scaffolder.API.Application.Security
 {
@@ -16,6 +15,6 @@ namespace Scaffolder.API.Application.Security
 
         public SigningCredentials SigningCredentials { get; set; }
 
-        public Configuration Configuration { get; set; }
+        public String WorkingDirectory { get; set; }
     }
 }
