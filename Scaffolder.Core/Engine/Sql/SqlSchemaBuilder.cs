@@ -210,6 +210,10 @@ namespace Scaffolder.Core.Engine.Sql
             {
                 return ColumnType.DateTime;
             }
+            if (type == "date")
+            {
+                return ColumnType.Date;
+            }
             else if (type == "float")
             {
                 return ColumnType.Double;
