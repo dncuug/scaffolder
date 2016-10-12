@@ -80,7 +80,6 @@ namespace Scaffolder.API
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
             
-            
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -108,7 +107,8 @@ namespace Scaffolder.API
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
+                TokenValidationParameters = tokenValidationParameters,
+                SaveToken = true
             });
 
             var options = new TokenProviderOptions
