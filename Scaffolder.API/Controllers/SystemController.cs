@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
+using System.Diagnostics;
 
 namespace Scaffolder.API.Controllers
 {
