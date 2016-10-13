@@ -33,12 +33,18 @@ namespace Scaffolder.Core.Meta
     {
         public String ConnectionString { get; set; }
 
+        public String Logo { get; set; }
+
         public StorageConfiguration StorageConfiguration { get; set; }
 
         public String ApplicationRestartCommand { get; set; }
 
         public List<User> Users { get; set; }
-        
+
+        public String Title { get; set; }
+
+        public String Description { get; set; }
+
         public bool Save(String path)
         {
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -57,6 +63,8 @@ namespace Scaffolder.Core.Meta
         {
             return new Configuration
             {
+                Title = "",
+                Description = "",
                 ConnectionString = "Server=server.address;Database=dbname;User Id=login;Password=password",
                 StorageConfiguration = new StorageConfiguration
                 {
@@ -71,9 +79,10 @@ namespace Scaffolder.Core.Meta
                 {
                     new User {Login = "admin", Password = "admin", Administrator = true},
                     new User {Login = "manager", Password = "manager", Administrator = false},
-                }
+                },
+                Logo = "http://example.com/logo.jpg",
+                ApplicationRestartCommand = ""
             };
         }
-
     }
 }
