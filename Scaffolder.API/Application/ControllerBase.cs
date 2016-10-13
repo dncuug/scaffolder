@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application.Security;
 using Scaffolder.Core.Base;
@@ -13,17 +14,25 @@ namespace Scaffolder.API.Application
     {
         private ApplicationContext _applicationContext;
 
+        private static Object _lock = new Object();
+
         protected ApplicationContext ApplicationContext
         {
             get
             {
                 if (_applicationContext == null)
                 {
-                    var login = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    
-                    var authorizationManager = new AuthorizationManager(Settings.WorkingDirectory);
-                    var configuratoinLocation = authorizationManager.GetConfiguratoinLocationForUser(login);
-                    _applicationContext = ApplicationContext.Load(configuratoinLocation);
+                    lock (_lock)
+                    {
+                        if (_applicationContext == null)
+                        {
+                            var login = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                            var authorizationManager = new AuthorizationManager(Settings.WorkingDirectory);
+                            var configuratoinLocation = authorizationManager.GetConfiguratoinLocationForUser(login);
+                            _applicationContext = ApplicationContext.Load(configuratoinLocation);
+                        }
+                    }
 
                 }
 
