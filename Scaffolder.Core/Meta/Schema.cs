@@ -6,19 +6,18 @@ using System.Linq;
 
 namespace Scaffolder.Core.Meta
 {
-    public class Schema : BaseObject
+    public class Schema
     {
         public Schema()
         {
-            Name = "EmptySchema";
-            Title = "Empty Schema";
-            Description = "";
             Tables = new List<Table>();
             Generated = DateTime.Now;
         }
 
         public List<Table> Tables { get; set; }
+
         public DateTime Generated { get; set; }
+
         public bool ExtendedConfigurationLoaded { get; private set; }
 
         public bool Save(String path)

@@ -7,9 +7,7 @@ namespace Scaffolder.Core.Meta
     {
         public Configuration Configuration { get; set; }
         public Schema Schema { get; set; }
-        public String Name { get; set; }
         public String Location { get; set; }
-
         public static ApplicationContext Load(String workingDirectory)
         {
             var schemaPath = Path.Combine(workingDirectory, "db.json");
@@ -30,7 +28,6 @@ namespace Scaffolder.Core.Meta
             {
                 Configuration = Configuration.Load(configurationPath),
                 Schema = Schema.Load(schemaPath, extendedSchemaPath),
-                Name = Path.GetFileName(workingDirectory),
                 Location = workingDirectory
             };
 
