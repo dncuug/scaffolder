@@ -14,13 +14,18 @@ angular.module('webAppApp')
             link: function postLink(scope, element, attrs) {
 
             },
-            controller: ['$scope', '$rootScope', 'api', function($scope, $rootScope, api) {
+            controller: ['$scope', '$rootScope', '$location', 'api', function($scope, $rootScope, $location, api) {
 
                 $scope.authorized = false;
 
                 $rootScope.$on('reload', function(event, data) {
                     reload();
                 });
+
+                $scope.logout = function(){
+                    api.signOut();
+                    location.reload();
+                }
 
                 function reload() {
                     api.authorized().then(function(response) {

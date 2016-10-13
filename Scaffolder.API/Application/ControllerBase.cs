@@ -1,48 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Scaffolder.API.Application.Security;
 using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
-using System;
+using System.Security.Claims;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
-        protected Configuration Configuration { get; private set; }
-        protected Schema Schema { get; private set; }
+        private ApplicationContext _applicationContext;
 
-        protected readonly AppSettings Settings;
+        protected ApplicationContext ApplicationContext
+        {
+            get
+            {
+                if (_applicationContext == null)
+                {
+                    var login = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    
+                    var authorizationManager = new AuthorizationManager(Settings.WorkingDirectory);
+                    var configuratoinLocation = authorizationManager.GetConfiguratoinLocationForUser(login);
+                    _applicationContext = ApplicationContext.Load(configuratoinLocation);
+
+                }
+
+                return _applicationContext;
+            }
+        }
+
+        protected AppSettings Settings { get; private set; }
 
         public ControllerBase(IOptions<AppSettings> settings)
         {
             Settings = settings.Value;
-
-            var schemaPath = Settings.WorkingDirectory + "db.json";
-            var extendedSchemaPath = Settings.WorkingDirectory + "db_ex.json";
-            var configurationPath = Settings.WorkingDirectory + "configuration.json";
-
-            if (!System.IO.File.Exists(configurationPath))
-            {
-                Configuration.Create().Save(configurationPath);
-            }
-
-            if (!System.IO.File.Exists(schemaPath))
-            {
-                var schema = new Schema
-                {
-                    Description = "",
-                    Name = "EmptySchema",
-                    Generated = DateTime.Now,
-                    Title = "Empty Schema"
-                };
-
-                schema.Save(schemaPath);
-            }
-
-            Configuration = Configuration.Load(configurationPath);
-            Schema = Schema.Load(schemaPath, extendedSchemaPath);
         }
 
         protected ISchemaBuilder GetSchemaBuilder()
@@ -65,7 +58,7 @@ namespace Scaffolder.API.Application
 
         private IDatabase GetDatabase()
         {
-            return new SqlDatabase(Configuration.ConnectionString);
+            return new SqlDatabase(ApplicationContext.Configuration.ConnectionString);
             //return new MySqlDatabase(connectionString);
         }
     }

@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Scaffolder.API.Application;
 using Scaffolder.API.Application.Security;
 using System;
-using System.Linq;
 using System.Text;
 
 namespace Scaffolder.API
@@ -17,6 +16,7 @@ namespace Scaffolder.API
     public class Startup
     {
         private static String _workingDirectory;
+        private static String _secretKey;
 
         public Startup(IHostingEnvironment env)
         {
@@ -41,18 +41,18 @@ namespace Scaffolder.API
 
             // Add framework services.
             var mvc = services.AddMvc();
-           
 
             mvc.AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.Formatting = Formatting.Indented;
             });
 
-            var appSettings = Configuration.GetSection("AppSettings");
-            var workingDirectorySection = appSettings.GetSection("WorkingDirectory");
-            _workingDirectory = workingDirectorySection.Value;
+            var settings = Configuration.GetSection("AppSettings");
+            
+            _workingDirectory = settings["WorkingDirectory"];
+            _secretKey = settings["SecretKey"];
 
-            services.Configure<AppSettings>(appSettings);
+            services.Configure<AppSettings>(settings);
 
             //Add Cors support to the service
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -79,11 +79,8 @@ namespace Scaffolder.API
 
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
-
-            var configurationPath = _workingDirectory + "configuration.json";
-            var configuration = Scaffolder.Core.Meta.Configuration.Load(configurationPath);
-
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.SecretKey));
+            
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -110,7 +107,8 @@ namespace Scaffolder.API
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
+                TokenValidationParameters = tokenValidationParameters,
+                SaveToken = true
             });
 
             var options = new TokenProviderOptions
@@ -118,7 +116,7 @@ namespace Scaffolder.API
                 Issuer = AppSettings.Issuer,
                 Audience = AppSettings.Audience,
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
-                Configuration = configuration
+                WorkingDirectory = _workingDirectory
             };
 
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));

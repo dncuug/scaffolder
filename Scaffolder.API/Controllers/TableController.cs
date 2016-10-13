@@ -21,7 +21,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get()
         {
-            return Schema.Tables.Select(o => new
+            return ApplicationContext.Schema.Tables.Select(o => new
             {
                 o.Name,
                 o.Title,
@@ -33,7 +33,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet("{name}")]
         public Table Get(string name)
         {
-            return Schema.GetTable(name);
+            return ApplicationContext.Schema.GetTable(name);
         }
     }
 }

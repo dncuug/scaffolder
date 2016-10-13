@@ -8,22 +8,22 @@
  * Service in the webAppApp.
  */
 angular.module('webAppApp')
-    .service('api', function($http) {
+    .service('api', function ($http) {
 
         this.Endpoint = 'http://localhost:5000/api';
         this.tokenKey = 'scaffolder-access-token';
 
-        this.authorized = function() {
+        this.authorized = function () {
             return $http({
-                    url: this.Endpoint + '/System',
-                    method: 'GET',
-                    headers: {
-                        'Authorization': "Bearer " + this.getToken()
-                    }
-                })
-                .then(function(resposne) {
+                url: this.Endpoint + '/System',
+                method: 'GET',
+                headers: {
+                    'Authorization': "Bearer " + this.getToken()
+                }
+            })
+                .then(function (resposne) {
                     return true;
-                }, function(resposne) {
+                }, function (resposne) {
                     return false;
                 });
         };
@@ -31,7 +31,7 @@ angular.module('webAppApp')
         /**
          * Set auth token
          */
-        this.setToken = function(token) {
+        this.setToken = function (token) {
             localStorage[this.tokenKey] = token;
             $http.defaults.headers.common.Authorization = "Bearer " + token;
         };
@@ -39,23 +39,23 @@ angular.module('webAppApp')
         /**
          * Return current auth token
          */
-        this.getToken = function() {
+        this.getToken = function () {
             var token = localStorage[this.tokenKey];
             return token == "null" ? null : token;
         };
 
-        this.signOut = function() {
-            this.setToken('');
+        this.signOut = function () {
+            return this.setToken('');
         };
 
-        this.restart = function() {
+        this.restart = function () {
             return this.execute('GET', '/system/restart');
         };
 
         /**
          * Authorize and save auth token
          */
-        this.signIn = function(login, password) {
+        this.signIn = function (login, password) {
 
             var payload = {
                 username: login,
@@ -69,19 +69,19 @@ angular.module('webAppApp')
                 url: self.Endpoint + '/token',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 data: payload,
-                transformRequest: function(obj) {
+                transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 }
-            }).then(function(response) {
-                    //Auth ok
-                    var token = response.data.access_token;
-                    self.setToken(token);
-                    return token;
-                },
-                function(data) {
+            }).then(function (response) {
+                //Auth ok
+                var token = response.data.access_token;
+                self.setToken(token);
+                return token;
+            },
+                function (data) {
                     //Auth fail
                     self.setToken('');
                     return null;
@@ -91,7 +91,7 @@ angular.module('webAppApp')
         /**
          * Execute API method
          */
-        this.execute = function(method, path, payload) {
+        this.execute = function (method, path, payload) {
 
             var self = this;
 
@@ -113,21 +113,21 @@ angular.module('webAppApp')
             }
 
             return $http({
-                    url: url,
-                    method: method,
-                    data: data,
-                    params: params,
-                    processData: true,
-                    contentType: false,
+                url: url,
+                method: method,
+                data: data,
+                params: params,
+                processData: true,
+                contentType: false,
 
-                    headers: {
-                        'Authorization': "Bearer " + self.getToken(),
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(function(resposne) {
+                headers: {
+                    'Authorization': "Bearer " + self.getToken(),
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (resposne) {
                     return resposne.data;
-                }, function(resposne) {
+                }, function (resposne) {
                     return null;
                 });
         };
@@ -136,32 +136,32 @@ angular.module('webAppApp')
         /**
          *
          */
-        this.getSchema = function() {
+        this.getSchema = function () {
             return this.execute('GET', '/table');
         };
 
-        this.getStorageEndpoint = function() {
+        this.getStorageEndpoint = function () {
             return this.Endpoint + '/files';
         }
 
         /**
          *
          */
-        this.rebuildSchema = function() {
+        this.rebuildSchema = function () {
             return this.execute('POST', '/system');
         };
 
         /**
          *
          */
-        this.getTable = function(name) {
+        this.getTable = function (name) {
             return this.execute('GET', '/table/' + name);
         };
 
         /**
          *
          */
-        this.select = function(filter) {
+        this.select = function (filter) {
 
             return this.execute('GET', '/data/' + name, filter);
         };
@@ -169,7 +169,7 @@ angular.module('webAppApp')
         /**
          *
          */
-        this.insert = function(table, entity) {
+        this.insert = function (table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -182,7 +182,7 @@ angular.module('webAppApp')
         /**
          *
          */
-        this.update = function(table, entity) {
+        this.update = function (table, entity) {
 
             var payload = {
                 tableName: table.name,
@@ -196,7 +196,7 @@ angular.module('webAppApp')
         /**
          *
          */
-        this.delete = function(table, entity) {
+        this.delete = function (table, entity) {
 
             var payload = {
                 tableName: table.name,

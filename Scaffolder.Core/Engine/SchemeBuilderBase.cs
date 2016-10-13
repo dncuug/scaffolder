@@ -17,17 +17,17 @@ namespace Scaffolder.Core.Engine
 
         public Schema Build()
         {
-            var database = new Schema();
+            var schema = new Schema();
 
             var tableList = GetDatabaseTables();
 
             foreach (var name in tableList)
             {
                 var table = GetDataTable(name);
-                database.Tables.Add(table);
+                schema.Tables.Add(table);
             }
 
-            return database;
+            return schema;
         }
 
         protected abstract Table GetDataTable(string name);

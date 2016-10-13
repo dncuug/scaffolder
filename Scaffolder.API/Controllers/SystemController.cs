@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using System.Diagnostics;
+using System.IO;
 
 namespace Scaffolder.API.Controllers
 {
@@ -21,11 +22,11 @@ namespace Scaffolder.API.Controllers
         {
             return new
             {
-                Schema.Name,
-                Schema.Title,
-                Schema.Description,
-                Schema.Generated,
-                Schema.ExtendedConfigurationLoaded
+                ApplicationContext.Schema.Name,
+                ApplicationContext.Schema.Title,
+                ApplicationContext.Schema.Description,
+                ApplicationContext.Schema.Generated,
+                ApplicationContext.Schema.ExtendedConfigurationLoaded
             };
         }
 
@@ -34,8 +35,8 @@ namespace Scaffolder.API.Controllers
         {
             var builder = GetSchemaBuilder();
             var schema = builder.Build();
-
-            schema.Save(Settings.WorkingDirectory + "db.json");
+            
+            schema.Save(Path.Combine(ApplicationContext.Location, "db.json"));
 
             return true;
         }
@@ -43,7 +44,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet("restart")]
         public IActionResult Restart()
         {
-            var cmd = Configuration.ApplicationRestartCommand;
+            var cmd = ApplicationContext.Configuration.ApplicationRestartCommand;
 
             try
             {

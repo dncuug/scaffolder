@@ -8,6 +8,7 @@ namespace Scaffolder.Core.Meta
         Phone = 13,
         HTML = 14,
         Password = 15,
+        Guid = 16,
         Date = 20,
         Time = 21,
         DateTime = 22,

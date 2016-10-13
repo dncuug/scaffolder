@@ -202,7 +202,7 @@ namespace Scaffolder.Core.Engine.Sql
 
                 return ColumnType.Text;
             }
-            else if (type == "int")
+            else if (type == "int" || type == "tinyint")
             {
                 return ColumnType.Integer;
             }
@@ -225,6 +225,10 @@ namespace Scaffolder.Core.Engine.Sql
             if (type == "varbinary")
             {
                 return ColumnType.Binary;
+            }
+            if (type == "uniqueidentifier")
+            {
+                return ColumnType.Guid;
             }
             else
             {
