@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using System.Diagnostics;
 using System.IO;
+using Scaffolder.Core.Engine;
 
 namespace Scaffolder.API.Controllers
 {
@@ -32,7 +33,8 @@ namespace Scaffolder.API.Controllers
         [HttpPost]
         public bool Post()
         {
-            var builder = GetSchemaBuilder();
+	        var engine  = new Engine(ApplicationContext.Configuration.ConnectionString, ApplicationContext.Configuration.Engine);
+	        var builder = engine.CreateSchemaBuilder();
             var schema = builder.Build();
             
             schema.Save(Path.Combine(ApplicationContext.Location, "db.json"));

@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application.Security;
-using Scaffolder.Core.Base;
-using Scaffolder.Core.Data;
-using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
 using System.Security.Claims;
 
@@ -13,10 +10,10 @@ namespace Scaffolder.API.Application
     public class ControllerBase : Controller
     {
         private ApplicationContext _applicationContext;
+	    
+	    private static readonly Object _lock = new Object();
 
-        private static Object _lock = new Object();
-
-        protected ApplicationContext ApplicationContext
+	    protected ApplicationContext ApplicationContext
         {
             get
             {
@@ -45,30 +42,6 @@ namespace Scaffolder.API.Application
         public ControllerBase(IOptions<AppSettings> settings)
         {
             Settings = settings.Value;
-        }
-
-        protected ISchemaBuilder GetSchemaBuilder()
-        {
-            var db = GetDatabase();
-
-            return new SqlSchemaBuilder(db);
-            //return new MySqlSchemaBuilder(db);
-        }
-
-        protected IRepository CreateRepository(Table table)
-        {
-            var db = GetDatabase();
-
-            var queryBuilder = new SqlQueryBuilder();
-            //var queryBuilder = new MySqlQueryBuilder();
-
-            return new Repository(db, queryBuilder, table);
-        }
-
-        private IDatabase GetDatabase()
-        {
-            return new SqlDatabase(ApplicationContext.Configuration.ConnectionString);
-            //return new MySqlDatabase(connectionString);
         }
     }
 }

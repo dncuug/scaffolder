@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Scaffolder.Core.Data;
 
 namespace Scaffolder.Core.Meta
 {
@@ -40,6 +41,8 @@ namespace Scaffolder.Core.Meta
         public String ApplicationRestartCommand { get; set; }
 
         public List<User> Users { get; set; }
+
+	    public DatabaseEngine Engine { get; set; }
 
         public String Title { get; set; }
 
