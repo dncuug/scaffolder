@@ -120,7 +120,7 @@ angular.module('webAppApp')
 
             if (c.type == ColumnType.Boolean) {
                 column.type = 'boolean';
-                column.cellTemplate = '<input type="checkbox" disabled ng-model="row.entity[\'' + column.name + '\']" />';
+                column.cellTemplate = '<input type="checkbox" disabled ng-model="!!row.entity[\'' + column.name + '\']" />';
             }
 
             if (c.type == ColumnType.Date) {
