@@ -17,7 +17,8 @@ namespace Scaffolder.Core.Engine.MySql
 
             sb.AppendFormat("SElECT ");
 
-            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true).Select(o => $"{o.Name}").ToList();
+            var columns = table.Columns.Where(o => o.ShowInGrid == true || filter.DetailMode || o.IsKey == true)
+                    .Select(o => $"{o.Name}").ToList();
 
             sb.Append(String.Join(", ", columns.Select(o => $"`{o}`")));
 
@@ -85,9 +86,11 @@ namespace Scaffolder.Core.Engine.MySql
 
             var fields = table.Columns.Where(o => o.AutoIncrement != true).ToList();
 
-            sb.AppendFormat("INSERT INTO {0} ({1})", table.Name, String.Join(", ", fields.Select(o => $"'{o.Name}'")));
-            sb.AppendFormat(" OUTPUT INSERTED.* ");
-            sb.AppendFormat(" VALUES({0})", String.Join(", ", fields.Select(o => "@" + o.Name)));
+            sb.AppendFormat("INSERT INTO {0} ({1})", table.Name, String.Join(", ", fields.Select(o => $"`{o.Name}`")));
+            sb.AppendFormat(" VALUES({0});", String.Join(", ", fields.Select(o => "@" + o.Name)));
+
+            var key = table.GetPrimaryKeys().FirstOrDefault();
+            sb.AppendLine($"SElECT * FROM {table.Name} WHERE {key.Name} = LAST_INSERT_ID()");
 
             return sb.ToString();
         }
@@ -106,9 +109,10 @@ namespace Scaffolder.Core.Engine.MySql
 
             sb.AppendFormat("UPDATE `{0}` SET ", table.Name);
             sb.AppendLine(String.Join(", ", fields.Select(o => String.Format("`{0}` = @{0}", o))));
-            sb.AppendFormat(" OUTPUT INSERTED.* ");
-            sb.AppendFormat(" WHERE ");
-            sb.AppendLine(String.Join(", ", keyFields.Select(o => String.Format("`{0}` = @{0}", o.Name))));
+            sb.AppendFormat(" WHERE {0}; ", String.Join(", ", keyFields.Select(o => String.Format("`{0}` = @{0}", o.Name))));
+
+            var key = table.GetPrimaryKeys().FirstOrDefault();
+            sb.AppendLine($"SElECT * FROM {table.Name} WHERE {key.Name} = LAST_INSERT_ID()");
 
             return sb.ToString();
         }
