@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Scaffolder.Core.Meta;
 
 namespace Scaffolder.API.Controllers
 {
@@ -24,9 +25,12 @@ namespace Scaffolder.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Get(string name)
+        public IActionResult Get(string name, string configuration)
         {
-            var link = ApplicationContext.Configuration.StorageConfiguration.Url + name;
+	        var configurationPath = Path.Combine(Settings.WorkingDirectory, configuration, "configuration.json");
+	        var c = Configuration.Load(configurationPath);
+	        var link = c.StorageConfiguration.Url + name;
+
             return Redirect(link);
         }
 

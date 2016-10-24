@@ -30,6 +30,7 @@ angular.module('webAppApp')
 
         $scope.uploader = uploader;
         $scope.showProgress = false;
+        $scope.configuration = '';
 
         uploader.onBeforeUploadItem = function () {
           $scope.showProgress = true;
@@ -60,12 +61,34 @@ angular.module('webAppApp')
           return !!str && str.indexOf('http') > -1;
         }
 
+        function reload() {
+          api.getConfiguration().then(function (response) {
+            debugger;
+            $scope.configuration = response.name;
+          })
+        }
+
+        function updateImageUrl() {
+          debugger;
+          $scope.imageUrl = !!isUrl($scope.ngModel)
+            ? $scope.ngModel
+            : api.getStorageEndpoint() + '?name=' + $scope.ngModel + '&configuration=' + $scope.configuration;
+        }
+
+        reload();
+
         $scope.$watch('ngModel', function (o, n) {
 
           if (o != n) {
-            $scope.imageUrl = !!isUrl($scope.ngModel)
-              ? $scope.ngModel
-              : api.getStorageEndpoint() + '?name=' + $scope.ngModel;
+            updateImageUrl();
+          }
+
+        });
+
+        $scope.$watch('ngModel', function (o, n) {
+
+          if (o != n) {
+            updateImageUrl();
           }
 
         });

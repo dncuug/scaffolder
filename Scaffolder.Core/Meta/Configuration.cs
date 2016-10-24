@@ -32,6 +32,8 @@ namespace Scaffolder.Core.Meta
 
     public class Configuration
     {
+	    public String Name { get; set; }
+
         public String ConnectionString { get; set; }
 
         public String Logo { get; set; }
@@ -59,7 +61,9 @@ namespace Scaffolder.Core.Meta
         {
             var json = File.ReadAllText(path);
             var configuration = JsonConvert.DeserializeObject<Configuration>(json);
-            return configuration;
+	        var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(path));
+	        configuration.Name = directoryInfo.Name;
+	        return configuration;
         }
 
         public static Configuration Create()

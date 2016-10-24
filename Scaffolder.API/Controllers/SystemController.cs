@@ -23,7 +23,8 @@ namespace Scaffolder.API.Controllers
         {
             return new
             {
-                ApplicationContext.Configuration.Title,
+	            ApplicationContext.Configuration.Name,
+	            ApplicationContext.Configuration.Title,
                 ApplicationContext.Configuration.Description,
                 ApplicationContext.Schema.Generated,
                 ApplicationContext.Schema.ExtendedConfigurationLoaded
