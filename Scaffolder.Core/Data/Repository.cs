@@ -53,7 +53,9 @@ namespace Scaffolder.Core.Data
         public dynamic Insert(Object obj)
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true).ToList();
-            var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
+            var editableColumns = _table.Columns.Where(c => c.AutoIncrement != true && c.Readonly != true).ToList();
+
+            var parameters = GetParameters(obj, editableColumns).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
 
             var query = _queryBuilder.Build(Query.Insert, _table);
 
@@ -155,9 +157,9 @@ namespace Scaffolder.Core.Data
         {
             // ExpandoObject supports IDictionary so we can extend it like this
             var expandoDict = expando as IDictionary<string, object>;
-	        var value = propertyValue == DBNull.Value ? null : propertyValue;
+            var value = propertyValue == DBNull.Value ? null : propertyValue;
 
-	        if (expandoDict.ContainsKey(propertyName))
+            if (expandoDict.ContainsKey(propertyName))
             {
                 expandoDict[propertyName] = value;
             }
@@ -167,22 +169,34 @@ namespace Scaffolder.Core.Data
             }
         }
 
-        private static Dictionary<string, object> GetParameters(Object obj)
+        private static Dictionary<string, object> GetParameters(Object obj, IEnumerable<Column> columns = null)
         {
             var type = obj.GetType();
+            var result = new Dictionary<String, Object>();
 
             if (type == typeof(Newtonsoft.Json.Linq.JObject))
             {
-                return ((Newtonsoft.Json.Linq.JObject)obj).ToObject<Dictionary<string, object>>();
+                result  = ((Newtonsoft.Json.Linq.JObject) obj).ToObject<Dictionary<string, object>>();
+            }
+            else
+            {
+                var properties = type.GetProperties();
+                
+                foreach (var p in properties)
+                {
+                    result.Add(p.Name, p.GetValue(obj));
+                }
             }
 
-            var properties = type.GetProperties();
-
-            var result = new Dictionary<String, Object>();
-
-            foreach (var p in properties)
+            if (columns != null)
             {
-                result.Add(p.Name, p.GetValue(obj));
+                foreach (var c in columns)
+                {
+                    if (result.All(o => !String.Equals(o.Key, c.Name, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        result.Add(c.Name, DBNull.Value);
+                    }
+                }
             }
 
             return result;
