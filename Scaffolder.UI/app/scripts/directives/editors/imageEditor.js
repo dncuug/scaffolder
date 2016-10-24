@@ -63,13 +63,17 @@ angular.module('webAppApp')
 
         function reload() {
           api.getConfiguration().then(function (response) {
-            debugger;
             $scope.configuration = response.name;
           })
         }
 
         function updateImageUrl() {
-          debugger;
+
+          if (!$scope.ngModel) {
+            $scope.imageUrl = '';
+            return;
+          }
+
           $scope.imageUrl = !!isUrl($scope.ngModel)
             ? $scope.ngModel
             : api.getStorageEndpoint() + '?name=' + $scope.ngModel + '&configuration=' + $scope.configuration;
@@ -77,20 +81,16 @@ angular.module('webAppApp')
 
         reload();
 
-        $scope.$watch('ngModel', function (o, n) {
-
+        $scope.$watch('configuration', function (o, n) {
           if (o != n) {
             updateImageUrl();
           }
-
         });
 
         $scope.$watch('ngModel', function (o, n) {
-
           if (o != n) {
             updateImageUrl();
           }
-
         });
 
       }]

@@ -155,14 +155,15 @@ namespace Scaffolder.Core.Data
         {
             // ExpandoObject supports IDictionary so we can extend it like this
             var expandoDict = expando as IDictionary<string, object>;
+	        var value = propertyValue == DBNull.Value ? null : propertyValue;
 
-            if (expandoDict.ContainsKey(propertyName))
+	        if (expandoDict.ContainsKey(propertyName))
             {
-                expandoDict[propertyName] = propertyValue;
+                expandoDict[propertyName] = value;
             }
             else
             {
-                expandoDict.Add(propertyName, propertyValue);
+                expandoDict.Add(propertyName, value);
             }
         }
 

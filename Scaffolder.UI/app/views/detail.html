@@ -3,14 +3,16 @@
 <form class="form" name="editorForm">
     <input type="button" class="btn btn-success btn-details" ng-click="save()" value="Save" ng-disabled="!editorForm.$valid" />
     <input type="button" class="btn btn-default btn-details" ng-click="cancel()" value="Cancel" />
-    
+
     <div class="loading-bar-container">
         <div ng-show="!!loading" class="loading-bar"></div>
     </div>
 
     <div ng-repeat="c in table.columns" class="form-group">
-        <label>{{c.title}}</label>
-        <editor ng-required="c.isNullable" type="c.type" max-lenght="c.maxLength"
+        <label>
+          {{c.title}} <span ng-if="!c.isNullable && !c.readonly" title="required field" style="color: #DD0000">*</span>
+        </label>
+        <editor ng-required="!c.isNullable && !c.readonly" type="c.type" max-lenght="c.maxLength"
                 ng-disabled="!!c.readonly" ng-model="record[c.name]" table="c.reference.table"
                 key-column="c.reference.keyColumn" display-column="c.reference.textColumn">
         </editor>
