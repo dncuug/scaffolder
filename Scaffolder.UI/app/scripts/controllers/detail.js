@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('DetailCtrl', function($scope, $routeParams, $location, api) {
+    .controller('DetailCtrl', function($scope, $routeParams, $location, FileUploader, api) {
 
         $scope.table = {};
         $scope.record = {};

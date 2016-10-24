@@ -67,7 +67,9 @@ namespace Scaffolder.Core.Data
         public dynamic Update(Object obj)
         {
             var autoIncrementColumns = _table.Columns.Where(c => c.AutoIncrement == true && c.IsKey != true).ToList();
-            var parameters = GetParameters(obj).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
+            var editableColumns = _table.Columns.Where(c => c.AutoIncrement != true && c.Readonly != true).ToList();
+
+            var parameters = GetParameters(obj, editableColumns).Where(p => autoIncrementColumns.All(c => c.Name != p.Key)).ToDictionary(x => x.Key, x => x.Value);
 
             var query = _queryBuilder.Build(Query.Update, _table, null, parameters);
 
