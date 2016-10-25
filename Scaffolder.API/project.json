@@ -4,6 +4,10 @@
     "preserveCompilationContext": true
   },
   "dependencies": {
+     "Microsoft.NETCore.App": {
+      "version": "1.0.1",
+      "type": "platform"
+    },
     "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
     "Microsoft.AspNetCore.Cors": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
@@ -19,10 +23,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.IdentityModel.Tokens": "5.0.0",
-    "Microsoft.NETCore.App": {
-      "version": "1.0.1",
-      "type": "platform"
-    },
+
     "MySqlConnector": "0.6.0",
     "NLog.Extensions.Logging": "1.0.0-*",
     "Scaffolder.Core": "1.0.0-*"

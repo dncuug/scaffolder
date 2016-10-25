@@ -6,7 +6,7 @@
     "Newtonsoft.Json": "9.0.1",
     "System.Data.Common": "4.1.0",
     "System.Data.SqlClient": "4.1.0",
-    "BundlerMinifier.Core": "2.2.296",
+    "BundlerMinifier.Core": "2.2.281",
     "MySqlConnector": "0.6.0"
   },
 

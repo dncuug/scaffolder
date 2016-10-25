@@ -9,7 +9,7 @@
 angular.module('webAppApp')
   .directive('fileEditor', function () {
       return {
-          templateUrl: 'views/directives/editors/fileEditor.html',
+          templateUrl: 'views/directives/fileEditor.html',
           scope: {
               ngModel: '=',
               ngDisabled: '=',
@@ -53,7 +53,7 @@ angular.module('webAppApp')
 
               uploader.onCompleteItem = function (fileItem, response) {
                   debugger;
-                  $scope.ngModel = response.name;
+                  $scope.ngModel = response.url;
                   $scope.showProgress = false;
               };
 
@@ -63,7 +63,7 @@ angular.module('webAppApp')
 
               function reload() {
                   api.getConfiguration().then(function (response) {
-                      $scope.configuration = response.name;
+                      $scope.configuration = response.url;
                   });
               }
 
