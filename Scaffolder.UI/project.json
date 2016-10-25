@@ -1,0 +1,32 @@
+{
+    "dependencies": {
+        "Microsoft.NETCore.App": {
+            "version": "1.0.1",
+            "type": "platform"
+        }      
+    },
+
+    "tools": {       
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+        }
+    },
+
+    "buildOptions": {      
+    },
+
+    "runtimeOptions": {       
+    },
+
+    "publishOptions": {
+        "include": [
+            "app/*"
+        ]
+    },
+
+    "scripts": {
+        
+    }
+}
