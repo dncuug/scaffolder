@@ -11,7 +11,8 @@ namespace Scaffolder.Core.Meta
         FileSystem,
         FTP,
         AzureStorage,
-        SSH
+        SSH,
+        AmazonS3
     }
 
     public class StorageConfiguration
