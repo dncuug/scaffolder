@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Scaffolder.Core.Meta;
 
 namespace Scaffolder.API.Controllers
 {
@@ -23,21 +22,13 @@ namespace Scaffolder.API.Controllers
         {
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Get(string name, string configuration)
-        {
-	        var configurationPath = Path.Combine(Settings.WorkingDirectory, configuration, "configuration.json");
-	        var c = Configuration.Load(configurationPath);
-	        var link = c.StorageConfiguration.Url + name;
-
-            return Redirect(link);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post(ICollection<IFormFile> files)
         {
-            Storage storage = Storage.GetStorage(ApplicationContext.Configuration.StorageConfiguration.Type, ApplicationContext.Configuration.StorageConfiguration.Connection);
+            Storage storage = Storage.GetStorage(
+                ApplicationContext.Configuration.StorageConfiguration.Type,
+                ApplicationContext.Configuration.StorageConfiguration.Url,
+                ApplicationContext.Configuration.StorageConfiguration.Connection);
 
             var file = this.Request.Form.Files.FirstOrDefault();
 
@@ -55,7 +46,7 @@ namespace Scaffolder.API.Controllers
                 var result = new
                 {
                     Name = fileName,
-                    Url = ApplicationContext.Configuration.StorageConfiguration.Url + fileName
+                    Url = storage.Url + fileName
                 };
 
                 return Ok(result);
