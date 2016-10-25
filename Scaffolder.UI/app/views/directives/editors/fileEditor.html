@@ -1,0 +1,8 @@
+<div>
+    <div class="progress" ng-show="showProgress" style="margin-top: 10px">
+        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+    </div>
+    <input type="file" nv-file-select="" uploader="uploader" />
+    <br />
+    <a ng-if="!!ngModel" href="{{ngModel}}" target="_blank">Download</a>
+</div>

@@ -4,6 +4,5 @@
   </div>
   <input type="file" nv-file-select="" uploader="uploader" />
   <br />
-  <a ng-if="!!fileUrl" href="{{fileUrl}}" target="_blank">Download</a>
+  <img ng-if="!!ngModel" ng-src="{{ngModel}}" style="max-width: 200px" class="img-resposnsive" />
 </div>
-

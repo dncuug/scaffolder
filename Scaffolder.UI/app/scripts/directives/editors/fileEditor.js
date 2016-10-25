@@ -8,57 +8,66 @@
  */
 angular.module('webAppApp')
   .directive('fileEditor', function () {
-    return {
-      templateUrl: 'views/directives/fileEditor.html',
-      scope: {
-        ngModel: '=',
-        ngDisabled: '=',
-        filesLocationUrl: '=',
-        filesUploadUrl: '='
-      },
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
+      return {
+          templateUrl: 'views/directives/editors/fileEditor.html',
+          scope: {
+              ngModel: '=',
+              ngDisabled: '=',
+              filesLocationUrl: '=',
+              filesUploadUrl: '='
+          },
+          restrict: 'E',
+          link: function postLink(scope, element, attrs) {
 
-      },
-      controller: ['$scope', 'api', function ($scope, api) {
-        $scope.fileUrl = '';
+          },
+          controller: ['$scope', 'api', 'FileUploader', function ($scope, api, FileUploader) {
 
-        function reload() {
-          api.getConfiguration().then(function (response) {
-            $scope.configuration = response.name;
-          })
-        }
+              var uploader = new FileUploader({
+                  url: api.getStorageEndpoint(),
+                  removeAfterUpload: true,
+                  autoUpload: true
+              });
 
-        function isUrl(str) {
-          return !!str && str.indexOf('http') > -1;
-        }
+              $scope.uploader = uploader;
+              $scope.showProgress = false;
+              $scope.configuration = '';
 
-        function updateFileUrl() {
+              uploader.onBeforeUploadItem = function () {
+                  $scope.showProgress = true;
+              };
 
-          if (!$scope.ngModel) {
-            $scope.fileUrl = '';
-            imageUrl
-          }
+              uploader.onAfterAddingFile = function () {
+                  uploader.queue[uploader.queue.length - 1].headers.Authorization = "Bearer " + api.getToken();
+              };
 
-          $scope.fileUrl = !!isUrl($scope.ngModel)
-            ? $scope.ngModel
-            : api.getStorageEndpoint() + '?name=' + $scope.ngModel + '&configuration=' + $scope.configuration;
-        }
+              uploader.filters.push({
+                  name: 'customFilter',
+                  fn: function (item /*{File|FileLikeObject}*/, options) {
+                      return this.queue.length < 10;
+                  }
+              });
 
-        reload();
+              uploader.onErrorItem = function () {
+                  $scope.uploadedFileUrl = '';
+              };
 
-        $scope.$watch('configuration', function (o, n) {
-          if (o != n) {
-            updateFileUrl();
-          }
-        });
+              uploader.onCompleteItem = function (fileItem, response) {
+                  debugger;
+                  $scope.ngModel = response.name;
+                  $scope.showProgress = false;
+              };
 
-        $scope.$watch('ngModel', function (o, n) {
-          if (o != n) {
-            updateFileUrl();
-          }
-        });
+              function isUrl(str) {
+                  return !!str && str.indexOf('http') > -1;
+              }
 
-      }]
-    };
+              function reload() {
+                  api.getConfiguration().then(function (response) {
+                      $scope.configuration = response.name;
+                  });
+              }
+
+              reload();
+          }]
+      };
   });
