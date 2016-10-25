@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Scaffolder.Core.Meta;
+﻿using Scaffolder.Core.Meta;
+using System;
 
 namespace Scaffolder.Core.Storage
 {
@@ -10,7 +7,8 @@ namespace Scaffolder.Core.Storage
     {
         public override StorageType Type => StorageType.SSH;
 
-        public SshStorage(dynamic connection)
+        public SshStorage(dynamic connection, String locationUrl)
+            :base(locationUrl)
         {
 
         }

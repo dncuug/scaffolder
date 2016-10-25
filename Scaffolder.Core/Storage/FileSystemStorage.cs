@@ -11,7 +11,8 @@ namespace Scaffolder.Core.Storage
     {
         private readonly string _location;
 
-        public FileSystemStorage(dynamic connection)
+        public FileSystemStorage(dynamic connection, String locationUrl)
+            : base(locationUrl)
         {
             _location = connection.Path;
 

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Scaffolder.Core.Meta;
+﻿using Scaffolder.Core.Meta;
+using System;
 
 namespace Scaffolder.Core.Storage
 {
     public class FtpStorage : Storage
     {
-        public FtpStorage(dynamic connection)
+        public FtpStorage(dynamic connection, String locationUrl)
+            : base(locationUrl)
         {
            
         }
