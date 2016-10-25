@@ -4,22 +4,25 @@ using Microsoft.Extensions.Options;
 using Scaffolder.API.Application.Security;
 using Scaffolder.Core.Meta;
 using System.Security.Claims;
+using NLog;
 
 namespace Scaffolder.API.Application
 {
     public class ControllerBase : Controller
     {
         private ApplicationContext _applicationContext;
-	    
-	    private static readonly Object _lock = new Object();
 
-	    protected ApplicationContext ApplicationContext
+        private static readonly Object Lock = new Object();
+
+        protected static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        protected ApplicationContext ApplicationContext
         {
             get
             {
                 if (_applicationContext == null)
                 {
-                    lock (_lock)
+                    lock (Lock)
                     {
                         if (_applicationContext == null)
                         {

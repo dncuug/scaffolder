@@ -10,6 +10,8 @@ using Scaffolder.API.Application;
 using Scaffolder.API.Application.Security;
 using System;
 using System.Text;
+using NLog;
+using NLog.Extensions.Logging;
 
 namespace Scaffolder.API
 {
@@ -71,6 +73,12 @@ namespace Scaffolder.API
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //add NLog to ASP.NET Core
+            loggerFactory.AddNLog();
+            
+            //needed for non-NETSTANDARD platforms: configure nlog.config in your project root
+            env.ConfigureNLog("nlog.config");
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
