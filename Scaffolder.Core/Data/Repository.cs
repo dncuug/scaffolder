@@ -174,19 +174,20 @@ namespace Scaffolder.Core.Data
         private static Dictionary<string, object> GetParameters(Object obj, IEnumerable<Column> columns = null)
         {
             var type = obj.GetType();
-            var result = new Dictionary<String, Object>();
+
+            var queryParameters = new Dictionary<String, Object>();
 
             if (type == typeof(Newtonsoft.Json.Linq.JObject))
             {
-                result  = ((Newtonsoft.Json.Linq.JObject) obj).ToObject<Dictionary<string, object>>();
+                queryParameters = ((Newtonsoft.Json.Linq.JObject)obj).ToObject<Dictionary<string, object>>();
             }
             else
             {
                 var properties = type.GetProperties();
-                
+
                 foreach (var p in properties)
                 {
-                    result.Add(p.Name, p.GetValue(obj));
+                    queryParameters.Add(p.Name, p.GetValue(obj));
                 }
             }
 
@@ -194,14 +195,25 @@ namespace Scaffolder.Core.Data
             {
                 foreach (var c in columns)
                 {
-                    if (result.All(o => !String.Equals(o.Key, c.Name, StringComparison.CurrentCultureIgnoreCase)))
+                    if (queryParameters.All(o => !String.Equals(o.Key, c.Name, StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        result.Add(c.Name, DBNull.Value);
+                        queryParameters.Add(c.Name, null);
                     }
                 }
             }
 
-            return result;
+            //Replace all NULL values to DBNull.Value
+            for (int i = 0; i < queryParameters.Count; i++)
+            {
+                var key = queryParameters.Select(o => o.Key).ElementAt(i);
+
+                if (queryParameters[key] == null)
+                {
+                    queryParameters[key] = DBNull.Value;
+                }
+            }
+
+            return queryParameters;
         }
     }
 }

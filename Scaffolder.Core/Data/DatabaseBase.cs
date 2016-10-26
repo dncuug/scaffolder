@@ -26,7 +26,6 @@ namespace Scaffolder.Core.Data
                 var result = command.ExecuteScalar();
                 connection.Close();
 
-
                 return result;
             }
         }
