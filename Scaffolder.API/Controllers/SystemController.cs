@@ -23,8 +23,8 @@ namespace Scaffolder.API.Controllers
         {
             return new
             {
-	            ApplicationContext.Configuration.Name,
-	            ApplicationContext.Configuration.Title,
+                ApplicationContext.Configuration.Name,
+                ApplicationContext.Configuration.Title,
                 ApplicationContext.Configuration.Description,
                 ApplicationContext.Schema.Generated,
                 ApplicationContext.Schema.ExtendedConfigurationLoaded
@@ -34,10 +34,10 @@ namespace Scaffolder.API.Controllers
         [HttpPost]
         public bool Post()
         {
-	        var engine  = new Engine(ApplicationContext.Configuration.ConnectionString, ApplicationContext.Configuration.Engine);
-	        var builder = engine.CreateSchemaBuilder();
+            var engine = new Engine(ApplicationContext.Configuration.ConnectionString, ApplicationContext.Configuration.Engine);
+            var builder = engine.CreateSchemaBuilder();
             var schema = builder.Build();
-            
+
             schema.Save(Path.Combine(ApplicationContext.Location, "db.json"));
 
             return true;
@@ -46,19 +46,16 @@ namespace Scaffolder.API.Controllers
         [HttpGet("restart")]
         public IActionResult Restart()
         {
-            var cmd = ApplicationContext.Configuration.ApplicationRestartCommand;
+            var command = ApplicationContext.Configuration.ApplicationRestartCommand;
+            var executor = new Executor();
+            var result = executor.Execute(command);
 
-            try
+            if (result)
             {
-                var p = Process.Start(cmd);
-                p.WaitForExit();
-            }
-            catch
-            {
-                return BadRequest();
+                return Ok();
             }
 
-            return Ok();
+            return StatusCode(500, "Error detecting during executing restart command");
         }
     }
 }
