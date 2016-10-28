@@ -11,8 +11,8 @@ namespace Scaffolder.Core.Engine
 {
     public class Executor
     {
-		private static Logger Logger = LogManager.GetCurrentClassLogger();
-		
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         public bool Execute(string command)
         {
             bool isWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -21,24 +21,27 @@ namespace Scaffolder.Core.Engine
 
             try
             {
+                System.Diagnostics.Process p = null;
+
                 if (isLinux || isMacOSX)
                 {
                     //System.Diagnostics.Process.Start("/bin/bash", "-c \"echo '12345d' >> /Users/andrew/Projects/test/2.txt\"");
-                    System.Diagnostics.Process.Start($"/bin/bash", "-c \"{command}\"");
+                    p = System.Diagnostics.Process.Start($"/bin/bash", $"-c \"{command}\"");
                 }
 
                 if (isWindows)
                 {
-                    //TODO: test it
-                    System.Diagnostics.Process.Start($"cmd.exe", "/c \"{command}\"");
+                    p = System.Diagnostics.Process.Start($"cmd.exe", $"/c \"{command}\"");
                 }
+
+                p?.WaitForExit();
 
                 return true;
 
             }
             catch (Exception ex)
             {
-				Logger.Error(ex, "Error on restart command executing");
+                Logger.Error(ex, "Error on restart command executing");
                 return false;
             }
 
