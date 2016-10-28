@@ -8,11 +8,11 @@ namespace Scaffolder.Core.Meta
 {
     public enum StorageType
     {
-        FileSystem,
-        FTP,
-        AzureStorage,
-        SSH,
-        AmazonS3
+        FileSystem = 0,
+        FTP = 1,
+        AzureStorage = 2,
+        SSH = 3,
+        AmazonS3 = 4
     }
 
     public class StorageConfiguration
