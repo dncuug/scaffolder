@@ -133,6 +133,11 @@ angular.module('webAppApp')
                 }
             }
 
+            if (c.type == ColumnType.Url) {
+                column.type = 'url';
+                column.cellTemplate = '<a target="_blank" class="ui-grid-cell-contents" href="{{row.entity[\'' + column.name + '\']}}">{{row.entity[\'' + column.name + '\']}}</a>';
+            }
+
             return column;
         }
 
