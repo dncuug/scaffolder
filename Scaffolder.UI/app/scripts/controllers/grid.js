@@ -120,7 +120,7 @@ angular.module('webAppApp')
 
             if (c.type == ColumnType.Boolean) {
                 column.type = 'boolean';
-                column.cellTemplate = '<input type="checkbox" disabled ng-model="!!row.entity[\'' + column.name + '\']" />';
+                column.cellTemplate = '<input type="checkbox" disabled ng-model="!!row.entity[\'' + column.field + '\']" />';
             }
 
             if (c.type == ColumnType.Date) {
@@ -135,7 +135,7 @@ angular.module('webAppApp')
 
             if (c.type == ColumnType.Url) {
                 column.type = 'url';
-                column.cellTemplate = '<a target="_blank" class="ui-grid-cell-contents" href="{{row.entity[\'' + column.name + '\']}}">{{row.entity[\'' + column.name + '\']}}</a>';
+                column.cellTemplate = '<a target="_blank" class="ui-grid-cell-contents" href="{{row.entity[\'' + column.field + '\']}}">{{row.entity[\'' + column.field + '\']}}</a>';
             }
 
             return column;
