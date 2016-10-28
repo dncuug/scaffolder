@@ -30,7 +30,7 @@ namespace Scaffolder.Core.Engine
                 if (isWindows)
                 {
                     //TODO: test it
-                    System.Diagnostics.Process.Start($"{command}");
+                    System.Diagnostics.Process.Start($"cmd.exe", "/c \"{command}\"");
                 }
 
                 return true;
