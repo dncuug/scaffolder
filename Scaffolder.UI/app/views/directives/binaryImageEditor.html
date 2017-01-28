@@ -2,7 +2,7 @@
     <div class="progress" ng-show="showProgress" style="margin-top: 10px">
         <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
     </div>
-    <input type="file" nv-file-select="" uploader="uploader" />
+    <input type="file" />
     <br />
-    <img ng-if="!!ngModel" ng-src="{{'data:image/png;base64,'+ngModel}}" style="max-width: 200px" class="img-resposnsive" />
+    <img ng-if="!!ngModel" ng-src="{{ngModel}}" style="max-width: 200px" class="img-resposnsive" />
 </div>
