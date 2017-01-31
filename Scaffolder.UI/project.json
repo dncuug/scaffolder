@@ -1,10 +1,7 @@
 {
-    "dependencies": {
-        "Microsoft.NETCore.App": {
-            "version": "1.0.1",
-            "type": "platform"
-        }      
-    },
+  "dependencies": {
+    "Microsoft.NETCore.App": "1.1.0"
+  },
 
     "tools": {       
     },
