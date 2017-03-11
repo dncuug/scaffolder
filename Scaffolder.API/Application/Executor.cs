@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Scaffolder.Core.Base;
-using Scaffolder.Core.Data;
-using Scaffolder.Core.Engine.MySql;
-using Scaffolder.Core.Engine.Sql;
-using Scaffolder.Core.Meta;
 using NLog;
 
-namespace Scaffolder.Core.Engine
+namespace Scaffolder.API.Application
 {
     public class Executor
     {
