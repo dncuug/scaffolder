@@ -183,7 +183,7 @@ namespace Scaffolder.Core.Data
             }
             else
             {
-                var properties = type.GetProperties();
+                var properties = type.GetRuntimeProperties();
 
                 foreach (var p in properties)
                 {
