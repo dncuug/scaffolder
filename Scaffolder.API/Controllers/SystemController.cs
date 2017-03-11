@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
-using System.Diagnostics;
-using System.IO;
 using Scaffolder.Core.Engine;
+using System.IO;
 
 namespace Scaffolder.API.Controllers
 {
