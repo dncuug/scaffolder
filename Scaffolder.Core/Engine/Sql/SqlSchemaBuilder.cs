@@ -1,10 +1,9 @@
+using Scaffolder.Core.Data;
+using Scaffolder.Core.Meta;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Scaffolder.Core.Base;
-using Scaffolder.Core.Data;
-using Scaffolder.Core.Meta;
 
 namespace Scaffolder.Core.Engine.Sql
 {

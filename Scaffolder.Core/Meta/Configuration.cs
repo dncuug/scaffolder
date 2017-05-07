@@ -67,6 +67,10 @@ namespace Scaffolder.Core.Meta
 	        return configuration;
         }
 
+        /// <summary>
+        /// Createy empty config
+        /// </summary>
+        /// <returns></returns>
         public static Configuration Create()
         {
             return new Configuration

@@ -21,7 +21,7 @@ namespace Scaffolder.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get()
         {
-            return ApplicationContext.Schema.Tables.Select(o => new
+            return ApplicationContext.Schema.Select(o => new
             {
                 o.Name,
                 o.Title,

@@ -11,6 +11,7 @@ namespace Scaffolder.Core.Storage
         }
 
         public abstract StorageType Type { get; }
+
         public string Url { get; set; }
 
         public abstract string Upload(byte[] bytes, string extension = "");

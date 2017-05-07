@@ -10,7 +10,7 @@ namespace Scaffolder.API.Application.Security
     {
         private readonly Dictionary<Configuration, string> _configurations;
 
-        public AuthorizationManager(String workingDirectory)
+        public AuthorizationManager(string workingDirectory)
         {
             var configurationDirectories = Directory.GetDirectories(workingDirectory);
 
@@ -28,7 +28,7 @@ namespace Scaffolder.API.Application.Security
             }
         }
 
-        private Tuple<Configuration, String> LoadConfiguration(String configurationDirectory)
+        private Tuple<Configuration, string> LoadConfiguration(String configurationDirectory)
         {
             var path = Path.Combine(configurationDirectory, "configuration.json");
 

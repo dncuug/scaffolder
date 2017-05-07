@@ -69,7 +69,6 @@ namespace Scaffolder.API.Application.Security
                 new Claim(JwtRegisteredClaimNames.Iat, offset, ClaimValueTypes.Integer64)
             };
 
-
             // Create the JWT and write it to a string
             var jwt = new JwtSecurityToken(
                 issuer: _options.Issuer,

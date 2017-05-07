@@ -10,24 +10,24 @@ namespace Scaffolder.Core.Engine
     {
         protected readonly IDatabase _db;
 
-        public SchemeBuilderBase(IDatabase db)
+        protected SchemeBuilderBase(IDatabase db)
         {
             _db = db;
         }
 
-        public Schema Build()
+        public IEnumerable<Table> Build()
         {
-            var schema = new Schema();
+            var tables = new Schema();
 
             var tableList = GetDatabaseTables();
 
             foreach (var name in tableList)
             {
                 var table = GetDataTable(name);
-                schema.Tables.Add(table);
+                tables.Add(table);
             }
 
-            return schema;
+            return tables;
         }
 
         protected abstract Table GetDataTable(string name);

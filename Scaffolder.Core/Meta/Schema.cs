@@ -6,71 +6,74 @@ using System.Linq;
 
 namespace Scaffolder.Core.Meta
 {
-    public class Schema
+    public class Schema : List<Table>
     {
         public Schema()
         {
-            Tables = new List<Table>();
-            Generated = DateTime.Now;
         }
 
-        public List<Table> Tables { get; set; }
-
-        public DateTime Generated { get; set; }
-
-        public bool ExtendedConfigurationLoaded { get; private set; }
-
-        public bool Save(String path)
+        public Schema(IEnumerable<Table> list)
         {
-            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            File.WriteAllText(path, json);
-            return true;
-        }
-
-        public static Schema Load(String configurationFilePath, String extendedConfigurationFilePath = "")
-        {
-            var json = File.ReadAllText(configurationFilePath);
-            var schema = JsonConvert.DeserializeObject<Schema>(json);
-            schema.LoadextendedConfiguration(extendedConfigurationFilePath);
-            return schema;
+            AddRange(list);
         }
 
         public Table GetTable(string name)
         {
-            return Tables.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
+            return this.SingleOrDefault(o => String.Equals(o.Name, name, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool LoadextendedConfiguration(string extendedConfigurationFilePath)
+        public bool Save(string directory)
         {
-            if (File.Exists(extendedConfigurationFilePath))
+            foreach (var table in this)
             {
-                var json = File.ReadAllText(extendedConfigurationFilePath);
-                var database = JsonConvert.DeserializeObject<Schema>(json);
-
-                foreach (var t in database.Tables)
-                {
-                    var table = this.GetTable(t.Name);
-
-                    if (table != null)
-                    {
-                        ObjectExtender.MapExtendInformation(t, table);
-
-                        foreach (var c in t.Columns)
-                        {
-                            var column = table.GetColumn(c.Name);
-
-                            if (column != null)
-                            {
-                                ObjectExtender.MapExtendInformation(c, column);
-                            }
-                        }
-                    }
-                }
-
-                ExtendedConfigurationLoaded = true;
+                var path = $"{directory}{table.Name}.entity.json";
+                var json = JsonConvert.SerializeObject(table, Formatting.Indented);
+                File.WriteAllText(path, json);
             }
 
-            return ExtendedConfigurationLoaded;
+            return true;
+        }
+
+        public static IEnumerable<Table> Load(string directory)
+        {
+            var tables = new List<Table>();
+
+            var files = Directory.GetFiles(directory, "*.entity.json");
+
+            foreach (var path in files)
+            {
+                var json = File.ReadAllText(path);
+                var table = JsonConvert.DeserializeObject<Table>(json);
+                var extendedConfigurationFilePath = $"{directory}{Path.GetFileNameWithoutExtension(path)}.extended.json";
+                table = LoadextendedConfiguration(table, extendedConfigurationFilePath);
+
+                tables.Add(table);
+            }
+
+            return tables;
+        }
+
+        private static Table LoadextendedConfiguration(Table table, string path)
+        {
+            if (File.Exists(path))
+            {
+                var json = File.ReadAllText(path);
+                var extendedTable = JsonConvert.DeserializeObject<Table>(json);
+
+                ObjectExtender.MapExtendInformation(table, extendedTable);
+
+                foreach (var c in table.Columns)
+                {
+                    var column = extendedTable.GetColumn(c.Name);
+
+                    if (column != null)
+                    {
+                        ObjectExtender.MapExtendInformation(c, column);
+                    }
+                }
+            }
+
+            return table;
         }
     }
 }

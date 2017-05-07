@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Scaffolder.API.Application;
 using Scaffolder.Core.Engine;
 using System.IO;
+using Scaffolder.Core.Meta;
 
 namespace Scaffolder.API.Controllers
 {
@@ -24,9 +25,7 @@ namespace Scaffolder.API.Controllers
             {
                 ApplicationContext.Configuration.Name,
                 ApplicationContext.Configuration.Title,
-                ApplicationContext.Configuration.Description,
-                ApplicationContext.Schema.Generated,
-                ApplicationContext.Schema.ExtendedConfigurationLoaded
+                ApplicationContext.Configuration.Description                
             };
         }
 
@@ -35,9 +34,9 @@ namespace Scaffolder.API.Controllers
         {
             var engine = new Engine(ApplicationContext.Configuration.ConnectionString, ApplicationContext.Configuration.Engine);
             var builder = engine.CreateSchemaBuilder();
-            var schema = builder.Build();
+            var schema = new Schema(builder.Build());
 
-            schema.Save(Path.Combine(ApplicationContext.Location, "db.json"));
+            schema.Save(ApplicationContext.Location);
 
             return true;
         }

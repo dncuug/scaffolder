@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Scaffolder.Core.Meta
 {
@@ -7,12 +6,10 @@ namespace Scaffolder.Core.Meta
     {
         public Configuration Configuration { get; set; }
         public Schema Schema { get; set; }
-        public String Location { get; set; }
+        public string Location { get; set; }
 
-        public static ApplicationContext Load(String workingDirectory)
+        public static ApplicationContext Load(string workingDirectory)
         {
-            var schemaPath = Path.Combine(workingDirectory, "db.json");
-            var extendedSchemaPath = Path.Combine(workingDirectory, "db_ex.json");
             var configurationPath = Path.Combine(workingDirectory, "configuration.json");
 
             if (!File.Exists(configurationPath))
@@ -20,20 +17,22 @@ namespace Scaffolder.Core.Meta
                 Configuration.Create().Save(configurationPath);
             }
 
-            if (!File.Exists(schemaPath))
-            {
-                new Schema().Save(schemaPath);
-            }
-
             var applicationContext = new ApplicationContext
             {
                 Configuration = Configuration.Load(configurationPath),
-                Schema = Schema.Load(schemaPath, extendedSchemaPath),
+                Schema = new Schema(Schema.Load(workingDirectory)),
                 Location = workingDirectory
             };
 
             return applicationContext;
+        }
 
+        public void Save(string workingDirectory)
+        {
+            var configurationPath = Path.Combine(workingDirectory, "configuration.json");
+
+            Configuration.Save(configurationPath);
+            Schema.Save(workingDirectory);
         }
     }
 }

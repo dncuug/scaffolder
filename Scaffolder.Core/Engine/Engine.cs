@@ -1,17 +1,17 @@
-﻿using System;
-using Scaffolder.Core.Base;
+﻿using Scaffolder.Core.Base;
 using Scaffolder.Core.Data;
 using Scaffolder.Core.Engine.MySql;
 using Scaffolder.Core.Engine.Sql;
 using Scaffolder.Core.Meta;
+using System;
 
 namespace Scaffolder.Core.Engine
 {
-	public class Engine
+    public class Engine
 	{
 		private readonly DatabaseEngine _databaseEngine;
 
-		private readonly String _connectionString;
+		private readonly string _connectionString;
 
 		public Engine(string connectionString, DatabaseEngine databaseEngine)
 		{
@@ -29,7 +29,9 @@ namespace Scaffolder.Core.Engine
 				case DatabaseEngine.MySQL: return new MySqlSchemaBuilder(db);
 				case DatabaseEngine.Oracle: throw new NotImplementedException();
 				case DatabaseEngine.PostgreSql: throw new NotImplementedException();
-				default:
+			    case DatabaseEngine.MariaDB: throw new NotImplementedException();
+			    case DatabaseEngine.SQLite: throw new NotImplementedException();
+                default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
@@ -47,9 +49,11 @@ namespace Scaffolder.Core.Engine
 			{
 				case DatabaseEngine.SqlServer: return new SqlQueryBuilder();
 				case DatabaseEngine.MySQL: return new MySqlQueryBuilder();
-				case DatabaseEngine.Oracle: throw new NotImplementedException();
-				case DatabaseEngine.PostgreSql: throw new NotImplementedException();
-				default:
+			    case DatabaseEngine.Oracle: throw new NotImplementedException();
+			    case DatabaseEngine.PostgreSql: throw new NotImplementedException();
+			    case DatabaseEngine.MariaDB: throw new NotImplementedException();
+			    case DatabaseEngine.SQLite: throw new NotImplementedException();
+                default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
@@ -60,9 +64,11 @@ namespace Scaffolder.Core.Engine
 			{
 				case DatabaseEngine.SqlServer: return new SqlDatabase(_connectionString);
 				case DatabaseEngine.MySQL: return new MySqlDatabase(_connectionString);
-				case DatabaseEngine.Oracle: throw new NotImplementedException();
-				case DatabaseEngine.PostgreSql: throw new NotImplementedException();
-				default:
+			    case DatabaseEngine.Oracle: throw new NotImplementedException();
+			    case DatabaseEngine.PostgreSql: throw new NotImplementedException();
+			    case DatabaseEngine.MariaDB: throw new NotImplementedException();
+			    case DatabaseEngine.SQLite: throw new NotImplementedException();
+                default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
