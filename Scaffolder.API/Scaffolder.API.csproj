@@ -5,9 +5,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Scaffolder.API</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Scaffolder.API</PackageId>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    <PackageId>Scaffolder.API</PackageId>    
   </PropertyGroup>
 
   <ItemGroup>

@@ -10,6 +10,7 @@ using Scaffolder.API.Application;
 using Scaffolder.API.Application.Security;
 using System;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NLog;
 using NLog.Extensions.Logging;
 
@@ -50,7 +51,7 @@ namespace Scaffolder.API
             });
 
             var settings = Configuration.GetSection("AppSettings");
-            
+
             _workingDirectory = settings["WorkingDirectory"];
             _secretKey = settings["SecretKey"];
 
@@ -63,6 +64,12 @@ namespace Scaffolder.API
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
         }
 
         /// <summary>
@@ -75,7 +82,7 @@ namespace Scaffolder.API
         {
             //add NLog to ASP.NET Core
             loggerFactory.AddNLog();
-            
+
             //needed for non-NETSTANDARD platforms: configure nlog.config in your project root
             //env.ConfigureNLog("nlog.config");
 
@@ -87,7 +94,7 @@ namespace Scaffolder.API
 
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
-            
+
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -111,13 +118,13 @@ namespace Scaffolder.API
                 ClockSkew = TimeSpan.Zero
             };
 
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters,
-                SaveToken = true
-            });
+            //app.UseJwtBearerAuthentication(new JwtBearerOptions
+            //{
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    TokenValidationParameters = tokenValidationParameters,
+            //    SaveToken = true
+            //});
 
             var options = new TokenProviderOptions
             {
