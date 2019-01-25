@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,12 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using NLog.Extensions.Logging;
 using Scaffolder.API.Application;
 using Scaffolder.API.Application.Security;
-using System;
-using System.Text;
-using NLog;
-using NLog.Extensions.Logging;
 
 namespace Scaffolder.API
 {
@@ -20,28 +23,25 @@ namespace Scaffolder.API
         private static String _workingDirectory;
         private static String _secretKey;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            Configuration = configuration;
 
-            Configuration = builder.Build();
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(env.ContentRootPath)
+            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            //    .AddEnvironmentVariables();
+
+            //Configuration = builder.Build();
+
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services"></param>
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting();
-
-            // Add framework services.
             var mvc = services.AddMvc();
 
             mvc.AddJsonOptions(opt =>
@@ -50,7 +50,7 @@ namespace Scaffolder.API
             });
 
             var settings = Configuration.GetSection("AppSettings");
-            
+
             _workingDirectory = settings["WorkingDirectory"];
             _secretKey = settings["SecretKey"];
 
@@ -63,19 +63,25 @@ namespace Scaffolder.API
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
-        /// <param name="loggerFactory"></param>
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             //add NLog to ASP.NET Core
             loggerFactory.AddNLog();
-            
+
             //needed for non-NETSTANDARD platforms: configure nlog.config in your project root
             //env.ConfigureNLog("nlog.config");
 
@@ -87,7 +93,7 @@ namespace Scaffolder.API
 
             //Add CORS middleware before MVC
             app.UseCors("CorsPolicy");
-            
+
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -111,13 +117,13 @@ namespace Scaffolder.API
                 ClockSkew = TimeSpan.Zero
             };
 
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters,
-                SaveToken = true
-            });
+            //app.UseJwtBearerAuthentication(new JwtBearerOptions
+            //{
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    TokenValidationParameters = tokenValidationParameters,
+            //    SaveToken = true
+            //});
 
             var options = new TokenProviderOptions
             {
@@ -126,7 +132,7 @@ namespace Scaffolder.API
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
                 WorkingDirectory = _workingDirectory
             };
-
+           
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
 
             app.UseMvc();
